@@ -6,6 +6,8 @@ import poster from './Media/pupper_cool.jpeg'
 
 import { StoreProvider } from './store'
 import { VideoPlayerView } from './VideoPlayer'
+import Header from './components/header'
+import Sidebar from './components/sidebar'
 
 const theme = createTheme({
   palette: {
@@ -18,7 +20,13 @@ function App() {
     <div className='App'>
       <StoreProvider>
         <ThemeProvider theme={theme}>
-          <VideoPlayerView poster={poster} controls={false} />
+          <Header />
+          <main className='main'>              
+            <div className='main-content'>
+              <VideoPlayerView poster={poster} controls={false} />
+            </div>
+            <Sidebar />
+          </main>
         </ThemeProvider>
       </StoreProvider>
     </div>

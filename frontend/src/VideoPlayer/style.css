@@ -6,11 +6,20 @@
 
 .video-wrapper {
   position: relative;
-  display: flex;
-  width: 100%;
-  height: 100%;
+  height: 0;
+  padding-top: 56.25%;
+  overflow: hidden;
+  border: 1px solid #333333;
+  border-radius: 4px;
 }
 
 video {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
