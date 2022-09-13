@@ -267,9 +267,12 @@ class VideoPlayer {
     this.rosController.disconnect()
   }
 
-  handleKeyboardShortcuts = throttle((e) => {
-    const keyName = e.key
+  handleKeyboardShortcuts = (e) => {
+    this.publishKey(e.key)
+  }
 
+  @action
+  publishKey = throttle((keyName) => {
     if ([' ', 'spacebar'].includes(keyName)) {
       this.onClick()
     } else {
