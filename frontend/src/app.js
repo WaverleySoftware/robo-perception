@@ -8,6 +8,7 @@ import { StoreProvider } from './store'
 import { VideoPlayerView } from './VideoPlayer'
 import Header from './components/header'
 import Sidebar from './components/sidebar'
+import Keyboard from './components/keyboard'
 
 const theme = createTheme({
   palette: {
@@ -24,6 +25,7 @@ function App() {
           <main className='main'>              
             <div className='main-content'>
               <VideoPlayerView poster={poster} controls={false} />
+              <Keyboard />
             </div>
             <Sidebar />
           </main>
