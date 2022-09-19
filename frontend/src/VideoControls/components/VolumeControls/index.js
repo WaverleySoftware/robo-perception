@@ -8,7 +8,7 @@ import './style.css'
 import { useStore } from '../../../store'
 
 const VolumeControls = observer(() => {
-  const { volume, setVolume, muted, setMuted } = useStore()
+  const {videoPlayerStore: { volume, setVolume, muted, setMuted }} = useStore()
 
   const anchorRef = useRef(null)
   const [volumeValue, setVolumeValue] = useState(volume)

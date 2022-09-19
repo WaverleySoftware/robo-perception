@@ -8,7 +8,7 @@ import './style.css'
 import { useStore } from '../store'
 
 const VideoOverlay = observer(() => {
-  const { buffering, isPlaying } = useStore()
+  const {videoPlayerStore: { buffering, isPlaying }} = useStore()
   const iconRef = useRef(null)
 
   useEffect(() => {

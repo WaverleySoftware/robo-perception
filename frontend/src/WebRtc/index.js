@@ -1,11 +1,87 @@
+import { observable, action, makeObservable } from 'mobx'
 import {BE_URL, CameraType, NNType} from '../constants'
 import rgb from './mobilenet-ssd.json'
 import depth from './depth.json'
 import simulator from './simulator.json'
 
-export class WebRTC {
-  constructor(setWebRTCStatus) {
-    this.setWebRTCStatus = setWebRTCStatus
+export default class WebRTC {
+  @observable selectedMode = CameraType.RGB
+  @observable useNN = false
+  @observable isWebRtcConnected = false
+  @observable dataChannel = null
+
+  constructor(rootStore) {
+    makeObservable(this)
+    this.rootStore = rootStore
+  }
+
+  @action
+  setMode = (value) => {
+    this.selectedMode = value
+  }
+
+  @action
+  setNN = (value) => {
+    this.useNN = value
+  }
+
+  @action
+  setWebRTCStatus = (value) => {
+    this.isWebRtcConnected = value
+  }
+
+  @action
+  onMessage = (evt) => {
+    const action = JSON.parse(evt.data)
+    console.log(action)
+  }
+
+  @action
+  startWebRtc = async () => {
+    this.initConnection()
+    const dataChannel = this.createDataChannel(
+      'pingChannel',
+      () => console.log('[DC] closed'),
+      () => console.log('[DC] opened'),
+      this.onMessage
+    )
+    this.setDataChannel(dataChannel)
+
+    this.addMediaHandles((evt) => {
+      if (evt.track.kind === 'video') {
+        this.rootStore.videoPlayerStore.setVideoSource(evt.streams[0])
+        this.rootStore.videoPlayerStore.setPlaying()
+      }
+    })
+
+    try {
+      await this.negotiate()
+    } catch (error) {
+      console.error(error.message)
+      await this.rootStore.videoPlayerStore.onClick()
+    }
+  }
+
+  @action
+  stopWebRtc = () => {
+    if (this.dataChannel && this.dataChannel.readyState === 'open') {
+      this.dataChannel.send(
+        JSON.stringify({
+          type: 'STREAM_CLOSED',
+        })
+      )
+    }
+    setTimeout(() => {
+      this.closeConnection()
+    }, 100)
+  }
+
+  @action
+  setDataChannel = (value) => {
+    this.dataChannel = value
+  }
+
+  initConnection = () => {
     this.pc = new RTCPeerConnection()
 
     // register some listeners to help debugging
@@ -19,7 +95,7 @@ export class WebRTC {
     console.log('[PC] Signaling state: ', this.pc.signalingState)
   }
 
-  async negotiate(selectedMode, nn) {
+  async negotiate() {
     const offer = await this.pc.createOffer()
     await this.pc.setLocalDescription(offer)
     await new Promise((resolve) => {
@@ -40,9 +116,9 @@ export class WebRTC {
       body: JSON.stringify({
         sdp: this.pc.localDescription.sdp,
         type: this.pc.localDescription.type,
-        options: selectedMode === CameraType.RGB
-            ? { ...rgb, nn_model: nn ? NNType.MOBILENET_SSD : NNType.NONE }
-            : selectedMode === CameraType.DEPTH ? depth : simulator
+        options: this.selectedMode === CameraType.RGB
+            ? { ...rgb, nn_model: this.useNN ? NNType.MOBILENET_SSD : NNType.NONE }
+            : this.selectedMode === CameraType.DEPTH ? depth : simulator
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -52,15 +128,11 @@ export class WebRTC {
 
     const answer = await response.json()
     if (response.ok) {
-      this.setWebRTCStatus && this.setWebRTCStatus(true)
+      this.setWebRTCStatus(true)
       return this.pc.setRemoteDescription(answer)
     }
 
     throw new Error(`Unable to start a stream: ${JSON.stringify(answer.detail)}`)
-  }
-
-  async start(selectedMode, nn) {
-    return this.negotiate(selectedMode, nn)
   }
 
   createDataChannel(name, onClose, onOpen, onMessage) {
@@ -93,7 +165,7 @@ export class WebRTC {
     if (evt.track.kind === 'video' && onVideo) return onVideo(evt)
   }
 
-  stop() {
+  closeConnection() {
     if (this.pc.getTransceivers) {
       this.pc.getTransceivers().forEach((transceiver) => transceiver.stop && transceiver.stop())
     }
@@ -105,7 +177,8 @@ export class WebRTC {
     this.pc.removeEventListener('signalingstatechange', this.onSignal, false)
     this.pc.removeEventListener('track', this.onTrack(this.onVideo))
     this.pc.close()
-    this.setWebRTCStatus && this.setWebRTCStatus(false)
+    this.setWebRTCStatus(false)
+    this.setDataChannel(null)
   }
 
   addMediaHandles(onVideo) {

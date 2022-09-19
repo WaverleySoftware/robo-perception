@@ -9,7 +9,7 @@ import PlaybackControls from '../../components/PlaybackControls'
 import StatusControls from '../../components/StatusControls'
 
 const Left = observer(() => {
-  const { isStreamStarted } = useStore()
+  const {videoPlayerStore: { isStreamStarted }} = useStore()
 
   return (
     <Fragment>

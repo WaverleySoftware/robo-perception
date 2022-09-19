@@ -32,14 +32,14 @@ const display = {
 }
 
 const Keyboard = () => {
-    const {publishKey} = useStore()
+    const {rosStore: { publishKeyAction }} = useStore()
     const [layoutName, setLayoutName] = useState('default')
 
     const onKeyPress = (button) => {
         if (button === '{capslock}') {
             setLayoutName(layoutName === 'default' ? 'shift' : 'default')
         }
-        publishKey(button)
+        publishKeyAction(button)
     }
 
     return (

@@ -8,7 +8,10 @@ import React from 'react'
 import { red, green } from '@mui/material/colors'
 
 const StatusControls = observer(() => {
-  const { isWSConnected, isWebRtcConnected, isTeleopReady } = useStore()
+  const {
+    webRTCStore: { isWebRtcConnected },
+    rosStore: { isWSConnected, isTeleopReady }
+  } = useStore()
   const colorIntensity = 500
 
   const color = (condition) => {

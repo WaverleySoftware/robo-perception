@@ -6,7 +6,7 @@ import { Fullscreen, FullscreenExit } from '@mui/icons-material'
 import { useStore } from '../../../store'
 
 const Right = observer(() => {
-  const { isFullscreen, toggleFullscreen } = useStore()
+  const {videoPlayerStore: { isFullscreen, toggleFullscreen }} = useStore()
 
   const fullscreenIcon = () => {
     return isFullscreen ? FullscreenExit : Fullscreen
