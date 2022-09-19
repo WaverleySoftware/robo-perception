@@ -5,7 +5,7 @@ import { lightBlue } from '@mui/material/colors'
 import { Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material'
 
 const CameraControls = observer(() => {
-  const { setMode, selectedMode, setNN } = useStore()
+  const {webRTCStore: { setMode, selectedMode, setNN }} = useStore()
 
   const handleCameraModeChange = (event) => {
     setMode(event.target.value)

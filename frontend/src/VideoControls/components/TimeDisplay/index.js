@@ -7,7 +7,7 @@ import { formatTime } from '../../../util'
 import './style.css'
 
 const TimeDisplay = observer(() => {
-  const { currentTime, timeFormat, duration } = useStore()
+  const {videoPlayerStore: { currentTime, timeFormat, duration }} = useStore()
 
   return duration ? (
     <Grid item className='time-display'>

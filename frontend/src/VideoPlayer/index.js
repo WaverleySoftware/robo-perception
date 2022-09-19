@@ -2,7 +2,7 @@ import React, { createRef, Fragment, useEffect } from 'react'
 import { observable, computed, action, makeObservable } from 'mobx'
 import { observer } from 'mobx-react'
 import throttle from 'lodash.throttle'
-import { BUFFERING_LEEWAY, AUTO_HIDE_CONTROLS_TIME } from '../constants'
+import { BUFFERING_LEEWAY } from '../constants'
 import { formatTime } from '../util'
 
 import './style.css'
@@ -10,48 +10,25 @@ import './style.css'
 import { useStore } from '../store'
 import VideoControls from '../VideoControls'
 import VideoOverlay from '../VideoOverlay'
-import { WebRTC } from '../WebRtc'
-import RosController from '../RosController'
-
-const CameraType = {
-  RGB: 'rgb',
-  DEPTH: 'depth',
-}
 
 class VideoPlayer {
   @observable videoEl = createRef()
-  @observable dataChannel = null
-  @observable webrtcInstance = null
-  @observable srcObject = null
-  @observable displayTeleop = false
-  @observable selectedMode = CameraType.RGB
-  @observable useNN = false
-  @observable showControls = false
-  @observable isPlaying = false
-  @observable isFullscreen = false
-  @observable muted = false
   @observable volume = 100
-  @observable duration = null
-  @observable currentTime = 0
-  @observable buffering = false
-  @observable loadProgress = 0
-  @observable buffered = 0
+  @observable muted = false
+  @observable isFullscreen = false
   @observable timeFormat = {
     hours: true,
     minutes: true,
     seconds: true,
   }
-  @observable mouseX = 0
-  @observable mouseY = 0
-  @observable currentAction = ''
-  @observable isWSConnected = false
-  @observable isWebRtcConnected = false
-  @observable isTeleopReady = false
+  @observable currentTime = 0
+  @observable isPlaying = false
+  @observable duration = null
+  @observable buffering = false
 
-  constructor() {
+  constructor(rootStore) {
     makeObservable(this)
-    this.rosController = new RosController(this.setIsWSConnected, this.setIsTeleopReady)
-    this.autoHideControlsTimer = null
+    this.rootStore = rootStore
   }
 
   @computed
@@ -62,16 +39,6 @@ class VideoPlayer {
   @computed
   get isStreamStarted() {
     return this.isPlaying || this.buffering
-  }
-
-  @action
-  setIsWSConnected = (value) => {
-    this.isWSConnected = value
-  }
-
-  @action
-  setIsTeleopReady = (value) => {
-    this.isTeleopReady = value
   }
 
   onLoadedData = (e) => {
@@ -117,78 +84,21 @@ class VideoPlayer {
   }
 
   @action
-  onMessage = (evt) => {
-    const action = JSON.parse(evt.data)
-    console.log(action)
-  }
-
-  @action
-  setWebRTCStatus = (value) => {
-    this.isWebRtcConnected = value
-  }
-
-  @action
-  start = async () => {
-    const webrtc = new WebRTC(this.setWebRTCStatus)
-    this.setWebrtcInstance(webrtc)
-
-    const dataChannel = webrtc.createDataChannel(
-      'pingChannel',
-      () => console.log('[DC] closed'),
-      () => console.log('[DC] opened'),
-      this.onMessage
-    )
-    this.setDataChannel(dataChannel)
-
-    webrtc.addMediaHandles((evt) => {
-      if (evt.track.kind === 'video') {
-        this.setVideoSource(evt.streams[0])
-        this.setPlaying()
-      }
-    })
-
-    try {
-      await webrtc.start(this.selectedMode, this.useNN)
-    } catch (error) {
-      console.error(error.message)
-      await this.onClick()
-    }
+  start = () => {
+    console.log('Videoplayer start')
+    this.rootStore.webRTCStore.startWebRtc()
   }
 
   @action
   stop = () => {
-    if (this.dataChannel && this.dataChannel.readyState === 'open') {
-      this.dataChannel.send(
-        JSON.stringify({
-          type: 'STREAM_CLOSED',
-        })
-      )
-    }
-    this.stopWebRtc()
-  }
-
-  @action
-  stopWebRtc = () => {
+    this.rootStore.webRTCStore.stopWebRtc()
     setTimeout(() => {
-      this.webrtcInstance.stop()
       this.handleStopBuffering()
       this.setPause()
       this.handleEnded()
       this.setVideoSource(null)
       this.setDuration(null)
-      this.setWebrtcInstance(null)
-      this.setDataChannel(null)
     }, 100)
-  }
-
-  @action
-  setDataChannel = (value) => {
-    this.dataChannel = value
-  }
-
-  @action
-  setWebrtcInstance = (value) => {
-    this.webrtcInstance = value
   }
 
   @action
@@ -202,38 +112,8 @@ class VideoPlayer {
   }
 
   @action
-  setDisplayTeleop = (value) => {
-    this.displayTeleop = value
-  }
-
-  @action
-  setMode = (value) => {
-    this.selectedMode = value
-  }
-
-  @action
-  setNN = (value) => {
-    this.useNN = value
-  }
-
-  @action
   setPaused = () => {
     this.videoEl.current.paused = true
-  }
-
-  @action
-  setMouseX = (value) => {
-    this.mouseX = value
-  }
-
-  @action
-  setMouseY = (value) => {
-    this.mouseY = value
-  }
-
-  @action
-  setCurrentAction = (value) => {
-    this.currentAction = value
   }
 
   attachEvents = () => {
@@ -247,9 +127,7 @@ class VideoPlayer {
     videoElement.addEventListener('waiting', this.handleStartBuffering)
     videoElement.addEventListener('playing', this.handleStopBuffering)
     videoElement.addEventListener('ended', this.handleEnded)
-    videoElement.parentNode.addEventListener('keydown', this.handleKeyboardShortcuts)
     videoElement.parentNode.addEventListener('fullscreenchange', this.setIsFullscreen)
-    this.rosController.connect()
   }
 
   detachEvents = () => {
@@ -262,25 +140,8 @@ class VideoPlayer {
     videoElement.removeEventListener('waiting', this.handleStartBuffering)
     videoElement.removeEventListener('playing', this.handleStopBuffering)
     videoElement.removeEventListener('ended', this.handleEnded)
-    videoElement.parentNode.removeEventListener('keydown', this.handleKeyboardShortcuts)
     videoElement.parentNode.removeEventListener('fullscreenchange', this.setIsFullscreen)
-    this.rosController.disconnect()
   }
-
-  handleKeyboardShortcuts = (e) => {
-    this.publishKey(e.key)
-  }
-
-  @action
-  publishKey = throttle((keyName) => {
-    if ([' ', 'spacebar'].includes(keyName)) {
-      this.onClick()
-    } else {
-      if (this.isTeleopReady) {
-        this.rosController.publishKey(keyName)
-      }
-    }
-  }, 50)
 
   @action
   handleEnded = () => {
@@ -329,26 +190,7 @@ class VideoPlayer {
   }
 
   @action
-  handleControlsAutoHide = () => {
-    clearTimeout(this.autoHideControlsTimer)
-
-    this.showControls = true
-    this.autoHideControlsTimer = setTimeout(() => {
-      if (!this.videoEl.current.paused) {
-        this.onMouseLeave()
-      }
-    }, AUTO_HIDE_CONTROLS_TIME)
-  }
-
-  onMouseMove = throttle(this.handleControlsAutoHide, 200, {
-    leading: true,
-    trailing: false,
-  })
-
-  @action
   onClick = async () => {
-    this.handleControlsAutoHide()
-
     try {
       if (this.videoEl.current.paused) {
         await this.videoEl.current.play()
@@ -371,29 +213,10 @@ class VideoPlayer {
       await this.videoEl.current.parentNode.requestFullscreen()
     }
   }
-
-  @action
-  onMouseEnter = () => {
-    this.handleControlsAutoHide()
-  }
-
-  @action
-  onMouseOver = () => {
-    this.handleControlsAutoHide()
-  }
-
-  @action
-  onMouseLeave = () => {
-    clearTimeout(this.autoHideControlsTimer)
-    if (this.isPlaying) {
-      this.showControls = false
-    }
-  }
 }
 
 const VideoPlayerView = observer((props) => {
-  const { videoEl, onMouseEnter, onMouseLeave, onMouseOver, onMouseMove, showControls, attachEvents, detachEvents } =
-    useStore()
+  const {videoPlayerStore: { videoEl, attachEvents, detachEvents }} = useStore()
 
   useEffect(() => {
     attachEvents()
@@ -413,12 +236,11 @@ const VideoPlayerView = observer((props) => {
         tabIndex={-1}
         className='video-wrapper'
         style={{
-          cursor: showControls ? 'default' : 'none',
+          cursor: 'default'
         }}
-        {...{ onMouseLeave, onMouseMove }}
       >
         <VideoOverlay />
-        <video ref={videoEl} className='video' playsInline {...{ onMouseEnter, onMouseOver }} {...props} />
+        <video ref={videoEl} className='video' playsInline {...props} />
         <VideoControls />
       </div>
     </Fragment>

@@ -45,7 +45,7 @@ const ObjectDetectionSwitch = styled(Switch)(({ theme }) => ({
 }))
 
 const ObjectDetectionControls = observer(() => {
-  const { selectedMode, useNN, setNN } = useStore()
+  const {rosStore: { selectedMode, useNN, setNN }} = useStore()
 
   const handleNNChange = () => {
     setNN(!useNN)

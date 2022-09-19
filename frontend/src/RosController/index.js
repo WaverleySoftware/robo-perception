@@ -1,21 +1,32 @@
 import ROSLIB from 'roslib'
+import { action, makeObservable, observable } from 'mobx'
 import { KEY_MESSAGE_TYPE, TELEOP_MESSAGE_TYPE, KEY_TOPIC, RECONNECTION_TIMER, ROSBRIDGE_CONNECTION_URL, TELEOP_TOPIC } from '../constants'
+import throttle from 'lodash.throttle'
 
 const Ros = ROSLIB.Ros
 const RosTopic = ROSLIB.Topic
 const RosMessage = ROSLIB.Message
 
 class RosController {
+  @observable isTeleopReady = false
+  @observable isWSConnected = false
 
-  constructor(setIsWSConnected, setIsTeleopReady) {
-    this.setIsWSConnected = setIsWSConnected
-    this.setIsTeleopReady = setIsTeleopReady
+  constructor(rootStore) {
+    makeObservable(this)
+    this.rootStore = rootStore
     this.keyTopic = null
     this.teleopTopic = null
     this.ros = new Ros()
+
+    this.setupListeners()
+    this.connect()
+  }
+
+  setupListeners = () => {
+    document.addEventListener('keydown', this.handleKeyboardShortcuts)
     this.ros.on('connection', () => {
       console.info('Connected to ROS bridge')
-      this.setIsWSConnected && this.setIsWSConnected(true)
+      this.setIsWSConnected(true)
       this.keyTopic = new RosTopic({
         ros: this.ros,
         name: KEY_TOPIC,
@@ -26,12 +37,12 @@ class RosController {
         name: TELEOP_TOPIC,
         messageType: TELEOP_MESSAGE_TYPE,
       })
-      this.teleopTopic.subscribe((msg) => this.setIsTeleopReady && this.setIsTeleopReady(msg.data))
+      this.teleopTopic.subscribe((msg) => this.setIsTeleopReady(msg.data))
     })
     this.ros.on('close', () => {
       console.warn('Disconnected from ROS bridge')
-      this.setIsWSConnected && this.setIsWSConnected(false)
-      this.setIsTeleopReady && this.setIsTeleopReady(false)
+      this.setIsWSConnected(false)
+      this.setIsTeleopReady(false)
       setTimeout(() => this.connect(), RECONNECTION_TIMER)
       this.keyTopic = null
       this.teleopTopic = null
@@ -49,8 +60,8 @@ class RosController {
 
   disconnect = () => {
     this.ros.close()
-    this.setIsWSConnected && this.setIsWSConnected(false)
-    this.setIsTeleopReady && this.setIsTeleopReady(false)
+    this.setIsWSConnected(false)
+    this.setIsTeleopReady(false)
   }
 
   isConnected = () => {
@@ -63,6 +74,28 @@ class RosController {
       this.keyTopic.publish(keyMessage)
     }
   }
+
+  handleKeyboardShortcuts = throttle((e) => {
+    const keyName = e.key
+    if ([' ', 'spacebar'].includes(keyName)) {
+      this.rootStore.videoPlayerStore.onClick()
+    } else {
+      if (this.isTeleopReady) {
+        this.publishKey(keyName)
+      }
+    }
+  }, 50)
+
+  @action
+  setIsWSConnected = (value) => {
+    this.isWSConnected = value
+  }
+
+  @action
+  setIsTeleopReady = (value) => {
+    this.isTeleopReady = value
+  }
+
 }
 
 export default RosController

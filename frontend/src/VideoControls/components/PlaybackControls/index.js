@@ -5,7 +5,7 @@ import { Pause, PlayArrow } from '@mui/icons-material'
 import React from 'react'
 
 const PlaybackControls = observer(() => {
-  const { isStreamStarted, onClick } = useStore()
+  const {videoPlayerStore: { isStreamStarted, onClick }} = useStore()
 
   const playIcon = () => {
     return isStreamStarted ? Pause : PlayArrow
