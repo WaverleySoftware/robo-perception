@@ -24,16 +24,3 @@ html, body {
   display: flex;
   flex-direction: column;
 }
-
-.main {
-  display: flex;
-  flex-grow: 1;
-  padding: 42px;
-  margin: 0 auto;
-  max-width: 1440px;
-  width: 100%;
-}
-
-.main-content {
-  flex-grow: 1;
-}
