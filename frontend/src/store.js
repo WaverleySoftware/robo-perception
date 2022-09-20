@@ -2,12 +2,14 @@ import React from 'react'
 import { VideoPlayer } from './VideoPlayer'
 import RosController from './RosController'
 import WebRTC from './WebRtc'
+import Navigation from './Navigation'
 
 class RootStore {
   constructor() {
       this.videoPlayerStore = new VideoPlayer(this)
       this.rosStore = new RosController(this)
       this.webRTCStore = new WebRTC(this)
+      this.navigationStore = new Navigation(this)
   }
 }
 
