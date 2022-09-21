@@ -1,0 +1,27 @@
+.robo-designation {
+    background: #333333;
+    border: 1px solid #333333;
+    border-radius: 6px;
+    height: 40px;
+    color: #fff;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    font-size: 14px;
+}
+
+.robo-designation::before {
+    content: '';
+    position: absolute;
+    left: 18px;
+    width: 4px;
+    height: 32px;
+    background: linear-gradient(180deg, #C4C4C4 0%, #333333 100%);
+    border-radius: 4px;
+}
+
+.robo-designation__logo {
+    margin-right: 20px;
+    width: 29px;
+}

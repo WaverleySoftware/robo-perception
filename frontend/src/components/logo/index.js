@@ -1,8 +1,9 @@
 import React from 'react'
+import {ReactComponent as CompanyLogo} from './logo.svg'
 
 const Logo = () => {
   return (
-    <div>Logo</div>
+    <CompanyLogo />
   )
 }
 
