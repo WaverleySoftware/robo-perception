@@ -1,5 +1,5 @@
 import { observable, action, makeObservable } from 'mobx'
-import {BE_URL, CameraType, NNType} from '../constants'
+import {BE_URL, CameraType, NNType} from '../../constants'
 import rgb from './mobilenet-ssd.json'
 import depth from './depth.json'
 import simulator from './simulator.json'
