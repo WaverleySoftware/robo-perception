@@ -1,5 +1,5 @@
 import React from 'react'
-import { VideoPlayer } from './VideoPlayer'
+import VideoPlayer from './VideoPlayer'
 import RosController from './RosController'
 import WebRTC from './WebRtc'
 import Navigation from './Navigation'

@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import { VideoPlayerView } from '../../VideoPlayer'
+import VideoPlayerView from '../../VideoPlayer'
 import Keyboard from '../keyboard'
 import Sidebar from '../sidebar'
 import { useStore } from '../../store'
