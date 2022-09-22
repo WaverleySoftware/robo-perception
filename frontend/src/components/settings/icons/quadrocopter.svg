@@ -1,0 +1,17 @@
+<svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="13.355" cy="13.355" r="5.22581" fill="#CACACA"/>
+<circle cx="5.22581" cy="5.22581" r="4.72581" stroke="#CACACA"/>
+<circle cx="21.7741" cy="5.22581" r="4.72581" stroke="#CACACA"/>
+<circle cx="21.7741" cy="21.7741" r="4.72581" stroke="#CACACA"/>
+<rect x="4.35474" y="5.17603" width="1.16129" height="24.3836" transform="rotate(-45 4.35474 5.17603)" fill="#CACACA"/>
+<rect x="5.17603" y="22.4177" width="1.16129" height="24.3836" transform="rotate(-135 5.17603 22.4177)" fill="#CACACA"/>
+<circle cx="5.22581" cy="21.7741" r="4.72581" stroke="#CACACA"/>
+<rect x="6.10278" y="2.61279" width="0.580645" height="4.93548" transform="rotate(45 6.10278 2.61279)" fill="#CACACA"/>
+<rect x="23.5222" y="20.3225" width="0.580645" height="4.93548" transform="rotate(45 23.5222 20.3225)" fill="#CACACA"/>
+<rect x="20" y="3.41064" width="0.580645" height="4.93548" transform="rotate(-45 20 3.41064)" fill="#CACACA"/>
+<rect x="2.90332" y="20.4429" width="0.580645" height="4.93548" transform="rotate(-45 2.90332 20.4429)" fill="#CACACA"/>
+<path d="M5.20114 5.2012L11.0459 8.96556L8.9655 11.046L5.20114 5.2012Z" fill="#CACACA"/>
+<path d="M21.6072 21.6072L15.7624 17.8428L17.8428 15.7623L21.6072 21.6072Z" fill="#CACACA"/>
+<path d="M5.2012 21.6072L8.96556 15.7624L11.046 17.8428L5.2012 21.6072Z" fill="#CACACA"/>
+<path d="M21.6072 5.20114L17.8428 11.0459L15.7623 8.9655L21.6072 5.20114Z" fill="#CACACA"/>
+</svg>
