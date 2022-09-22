@@ -3,6 +3,7 @@ import VideoPlayer from './VideoPlayer'
 import RosController from './RosController'
 import WebRTC from './WebRtc'
 import Navigation from './Navigation'
+import Settings from './components/settings/store'
 
 class RootStore {
   constructor() {
@@ -10,6 +11,7 @@ class RootStore {
       this.rosStore = new RosController(this)
       this.webRTCStore = new WebRTC(this)
       this.navigationStore = new Navigation(this)
+      this.settingsStore = new Settings(this)
   }
 }
 
