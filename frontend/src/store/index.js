@@ -3,7 +3,7 @@ import VideoPlayer from './VideoPlayer'
 import RosController from './RosController'
 import WebRTC from './WebRtc'
 import Navigation from './Navigation'
-import Settings from './components/settings/store'
+import Settings from './Settings'
 
 class RootStore {
   constructor() {
