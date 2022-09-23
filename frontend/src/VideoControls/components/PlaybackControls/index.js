@@ -12,9 +12,9 @@ const PlaybackControls = observer(() => {
   }
 
   return (
-    <Grid item>
+    <Grid item sx={{ marginLeft: '38px' }}>
       <Tooltip title={`${isStreamStarted ? 'Pause' : 'Play'}`} placement='top'>
-        <Icon component={playIcon()} onClick={onClick} />
+        <Icon component={playIcon()} onClick={onClick} sx={{ display: 'block' }} />
       </Tooltip>
     </Grid>
   )

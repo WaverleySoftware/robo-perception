@@ -23,7 +23,7 @@ const ObjectDetectionSwitch = styled(Switch)(({ theme }) => ({
       color: '#fff',
       '& + .MuiSwitch-track': {
         opacity: 1,
-        backgroundColor: theme.palette.mode === 'dark' ? '#177ddc' : '#1890ff',
+        backgroundColor: theme.palette.mode === 'dark' ? '#177ddc' : '#667080',
       },
     },
   },
@@ -53,8 +53,8 @@ const ObjectDetectionControls = observer(() => {
 
   return (
     <Fragment>
-      <Stack direction='row' spacing={1} alignItems='center'>
-        <Typography paddingLeft={2}>Detect Objects</Typography>
+      <Stack direction='row' spacing={1} alignItems='center' marginLeft={'22px'}>
+        <Typography sx={{fontSize: '12px'}}>Detect Objects</Typography>
         <ObjectDetectionSwitch
           checked={useNN && selectedMode !== 'depth'}
           disabled={selectedMode === 'depth'}

@@ -5,19 +5,16 @@ import CellWifiIcon from '@mui/icons-material/CellWifi'
 import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack'
 import GamepadIcon from '@mui/icons-material/Gamepad'
 import React from 'react'
-import { red, green } from '@mui/material/colors'
 
 const StatusControls = observer(() => {
   const {
     webRTCStore: { isWebRtcConnected },
     rosStore: { isWSConnected, isTeleopReady }
   } = useStore()
-  const colorIntensity = 500
 
   const color = (condition) => {
     return {
-      color: condition ? green[colorIntensity] : red[colorIntensity],
-      paddingLeft: '5px',
+      color: condition ? '#ffffff' : '#979797',
     }
   }
 
@@ -26,15 +23,15 @@ const StatusControls = observer(() => {
   }
 
   return (
-    <Grid item>
+    <Grid sx={{ display: 'flex' }}>
       <Tooltip title={label(isWSConnected, 'ROS')} placement='top'>
-        <CellWifiIcon sx={color(isWSConnected)} />
+        <CellWifiIcon sx={{...color(isWSConnected)}} fontSize={'medium'} />
       </Tooltip>
       <Tooltip title={label(isWebRtcConnected, 'Camera')} placement='top'>
-        <VideoCameraBackIcon sx={color(isWebRtcConnected)} />
+        <VideoCameraBackIcon sx={{...color(isWebRtcConnected), marginLeft: '10px'}} fontSize={'medium'} />
       </Tooltip>
       <Tooltip title={label(isTeleopReady, 'Teleop')} placement='top'>
-        <GamepadIcon sx={color(isTeleopReady)} />
+        <GamepadIcon sx={{...color(isTeleopReady), marginLeft: '10px'}} fontSize={'medium'} />
       </Tooltip>
     </Grid>
   )

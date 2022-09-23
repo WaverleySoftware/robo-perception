@@ -1,8 +1,8 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Grid, Tooltip, Icon } from '@mui/material'
-import { Fullscreen, FullscreenExit } from '@mui/icons-material'
-
+import {ReactComponent as Fullscreen} from './fullscreen.svg'
+import {ReactComponent as FullscreenExit} from './fullscreenexit.svg'
 import { useStore } from '../../../store'
 
 const Right = observer(() => {
@@ -13,9 +13,9 @@ const Right = observer(() => {
   }
 
   return (
-    <Grid item className='right-side-icons'>
+    <Grid item sx={{ marginLeft: 'auto' }}>
       <Tooltip title='Full screen' placement='top'>
-        <Icon component={fullscreenIcon()} onClick={toggleFullscreen} />
+        <Icon component={fullscreenIcon()} onClick={toggleFullscreen} sx={{ display: 'block' }}/>
       </Tooltip>
     </Grid>
   )

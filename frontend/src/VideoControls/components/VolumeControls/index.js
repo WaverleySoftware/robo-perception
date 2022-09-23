@@ -80,6 +80,7 @@ const VolumeControls = observer(() => {
         setIsOpen(true)
       }}
       onMouseLeave={handleOnMouseLeave}
+      sx={{ marginLeft: '12px' }}
     >
       <Tooltip title='Mute' placement='top'>
         <Icon component={volumeIcon(volume, muted)} onClick={handleOnVolumeIconClick} />
