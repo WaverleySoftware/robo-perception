@@ -14,15 +14,11 @@ import ListItem from '@mui/material/ListItem'
 import List from '@mui/material/List'
 import CheckIcon from '@mui/icons-material/Check'
 import ListItemText from '@mui/material/ListItemText'
-import { ReactComponent as LeggedIcon } from './icons/legged.svg'
-import { ReactComponent as ManipulatorsIcon } from './icons/manipulators.svg'
-import { ReactComponent as QuadrocopterIcon } from './icons/quadrocopter.svg'
-import { ReactComponent as WheeledIcon } from './icons/wheeled.svg'
-import { ReactComponent as WheeledLeggedManipulIcon } from './icons/wheeled_legged_manipul.svg'
 
 import { useStore } from '../../store'
-import TabPanel from '../tabPanel';
+import TabPanel from '../tabPanel'
 import TitledBox from '../TitledBox'
+import { WheeledLeggedManipulIcon, WheeledIcon, QuadrocopterIcon, LeggedIcon, ManipulatorsIcon } from './icons'
 
 const generateList = (array, propNames, element, children) => {
   const propsObj = propNames.reduce((acc, name) => {
