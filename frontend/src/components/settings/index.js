@@ -11,29 +11,16 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
 import List from '@mui/material/List'
 import CheckIcon from '@mui/icons-material/Check'
 import ListItemText from '@mui/material/ListItemText'
+import Checkbox from '@mui/material/Checkbox'
 
 import { useStore } from '../../store'
 import TabPanel from '../tabPanel'
 import TitledBox from '../TitledBox'
 import { WheeledLeggedManipulIcon, WheeledIcon, QuadrocopterIcon, LeggedIcon, ManipulatorsIcon } from './icons'
-
-const generateList = (array, propNames, element, children) => {
-  const propsObj = propNames.reduce((acc, name) => {
-    acc[name] = undefined
-    return acc
-  }, {})
-
-  return array.map((value) => {
-    for (const key in propsObj) {
-      propsObj[key] = value
-    }
-
-    return React.cloneElement(element, propsObj, children || value)
-  })
-}
 
 const RobotTypeIcon = ({type, className}) => {
   let Icon;
@@ -70,12 +57,15 @@ const Settings = observer(() => {
       currentAppTheme,
       robotTypes,
       appThemes,
+      widgets,
       setAppTheme,
-      setRobotType
+      setRobotType,
+      toggleWidget
     }
   } = useStore()
   const onThemeChange = (e) => setAppTheme(e.target.value)
   const onRobotTypeChange = (e) => setRobotType(e.target.value)
+  const onToggleWidget = (id) => toggleWidget(id)
 
   return (
     <TabPanel value={activeTab} index={1}>
@@ -96,14 +86,16 @@ const Settings = observer(() => {
                           <Select
                             labelId="robot-type-select"
                             id="robot-type"
-                            value={currentRobotType}
+                            value={currentRobotType?.id || ''}
                             label="Choose the type"
                             onChange={onRobotTypeChange}
-                            renderValue={(selected) => selected}
+                            renderValue={() => currentRobotType?.label}
                           >
                             {robotTypes.map(type => (
-                              <MenuItem key={type} value={type}>
-                                <RobotTypeIconStyled type={type} /><ListItemText sx={{paddingLeft: '0.5rem'}} primary={type} />{type === currentRobotType && <CheckIcon/>}
+                              <MenuItem key={type.id} value={type.id}>
+                                <RobotTypeIconStyled type={type.label} />
+                                <ListItemText sx={{paddingLeft: '0.5rem'}} primary={type.label} />
+                                {type.id === currentRobotType?.id && <CheckIcon/>}
                               </MenuItem>
                             ))}
                           </Select>
@@ -139,11 +131,16 @@ const Settings = observer(() => {
                       <Select
                         labelId="theme-select"
                         id="theme-select-id"
-                        value={currentAppTheme}
+                        value={currentAppTheme?.id || ''}
                         label="Choose the theme"
                         onChange={onThemeChange}
                       >
-                        {generateList(appThemes, ['key', 'value'], <MenuItem></MenuItem>)}
+                        {
+                          appThemes.map(theme => (
+                              <MenuItem key={theme.id} value={theme.id}>{theme.label}</MenuItem>
+                            )
+                          )
+                        }
                       </Select>
                     </FormControl>
                   </TitledBox>
@@ -153,7 +150,15 @@ const Settings = observer(() => {
             <Grid item xs={4}>
               <TitledBox title="Widgets">
                 <List>
-                  <ListItem></ListItem>
+                  {widgets.map(widget => (
+                    <ListItem disablePadding key={widget.id}>
+                      <ListItemButton selected={widget.selected}
+                                      onClick={() => onToggleWidget(widget.id)}>
+                        <ListItemText primary={widget.label} />
+                        <Checkbox checked={widget.selected} />
+                      </ListItemButton>
+                    </ListItem>
+                  ))}
                 </List>
               </TitledBox>
             </Grid>
