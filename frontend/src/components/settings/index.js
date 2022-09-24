@@ -15,11 +15,11 @@ import ListItemButton from '@mui/material/ListItemButton'
 import List from '@mui/material/List'
 import CheckIcon from '@mui/icons-material/Check'
 import ListItemText from '@mui/material/ListItemText'
-import Checkbox from '@mui/material/Checkbox'
 
 import { useStore } from '../../store'
 import TabPanel from '../tabPanel'
 import TitledBox from '../TitledBox'
+import Toggle from '../Toggle'
 import { WheeledLeggedManipulIcon, WheeledIcon, QuadrocopterIcon, LeggedIcon, ManipulatorsIcon } from './icons'
 
 const RobotTypeIcon = ({type, className}) => {
@@ -155,7 +155,7 @@ const Settings = observer(() => {
                       <ListItemButton selected={widget.selected}
                                       onClick={() => onToggleWidget(widget.id)}>
                         <ListItemText primary={widget.label} />
-                        <Checkbox checked={widget.selected} />
+                        <Toggle checked={widget.selected} />
                       </ListItemButton>
                     </ListItem>
                   ))}
