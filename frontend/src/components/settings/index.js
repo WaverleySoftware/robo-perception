@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { observer } from 'mobx-react'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
@@ -27,17 +27,25 @@ const Settings = observer(() => {
     settingsStore: {
       currentRobotType,
       currentAppTheme,
+      currentRobotName,
       robotTypes,
       appThemes,
       widgets,
       setAppTheme,
       setRobotType,
-      toggleWidget
+      toggleWidget,
+      setRobotName
     }
   } = useStore()
+  const [tempRobotName, setTempRobotName] = useState(currentRobotName)
   const onThemeChange = (e) => setAppTheme(e.target.value)
   const onRobotTypeChange = (e) => setRobotType(e.target.value)
   const onToggleWidget = (id) => toggleWidget(id)
+  const onRobotNameBlur = () => {
+    if (tempRobotName === currentRobotName) return
+    setRobotName(tempRobotName)
+  }
+  const onRobotNameChange = (e) => setTempRobotName(e.target.value)
 
   return (
     <TabPanel value={activeTab} index={1}>
@@ -50,7 +58,12 @@ const Settings = observer(() => {
                   <TitledBox title="Name of robot">
                     <Grid container spacing={2}>
                       <Grid item xs={6}>
-                        <TextField fullWidth label="Name" variant="outlined" />
+                        <TextField onBlur={onRobotNameBlur}
+                                   onChange={onRobotNameChange}
+                                   value={tempRobotName}
+                                   fullWidth
+                                   label="Name"
+                                   variant="outlined" />
                       </Grid>
                       <Grid item xs={6}>
                         <FormControl fullWidth>
@@ -106,10 +119,14 @@ const Settings = observer(() => {
                         value={currentAppTheme?.id || ''}
                         label="Choose the theme"
                         onChange={onThemeChange}
+                        renderValue={() => currentAppTheme?.label}
                       >
                         {
                           appThemes.map(theme => (
-                              <MenuItem key={theme.id} value={theme.id}>{theme.label}</MenuItem>
+                              <MenuItem sx={{ justifyContent: 'space-between'}} key={theme.id} value={theme.id}>
+                                {theme.label}
+                                {theme.id === currentAppTheme?.id && <CheckIcon/>}
+                              </MenuItem>
                             )
                           )
                         }
