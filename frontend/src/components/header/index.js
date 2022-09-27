@@ -13,7 +13,7 @@ import Button from '../button'
 import './style.css'
 
 const TabStyled = styled(Tab)`
-  color: #333333;
+  color: ${props => props.theme.palette.mode === 'light' ? '#fff' : '#333'};
   padding: 0;
   margin-left: 35px;
   font-weight: 500;
@@ -24,8 +24,8 @@ const TabStyled = styled(Tab)`
   padding: 4px 0;
 
   &.${tabUnstyledClasses.selected} {
-    color: #333333;
-    border-bottom: 1px solid #333333;
+    color: ${props => props.theme.palette.mode === 'light' ? '#fff' : '#333'};
+    border-bottom: 1px solid ${props => props.theme.palette.mode === 'light' ? '#fff' : '#333'};
   }
 `;
 
@@ -51,7 +51,7 @@ const Header = observer(() => {
 
   return (
     <ThemeProvider theme={headerTheme}>
-      <header className='header'>
+      <header className={`header ${globalTheme.palette.mode}`}>
         <Logo />
         <Tabs
           value={activeTab}
