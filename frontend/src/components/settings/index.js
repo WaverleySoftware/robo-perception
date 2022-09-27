@@ -1,6 +1,5 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import styled from '@emotion/styled'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
@@ -18,36 +17,9 @@ import ListItemText from '@mui/material/ListItemText'
 
 import { useStore } from '../../store'
 import TabPanel from '../tabPanel'
-import TitledBox from '../TitledBox'
-import Toggle from '../Toggle'
-import { WheeledLeggedManipulIcon, WheeledIcon, QuadrocopterIcon, LeggedIcon, ManipulatorsIcon } from './icons'
-
-const RobotTypeIcon = ({type, className}) => {
-  let Icon;
-
-  switch (type) {
-    case 'Legged':
-      Icon = <LeggedIcon className={className} />
-      break
-    case 'Wheeled':
-      Icon = <WheeledIcon className={className} />
-      break
-    case 'Manipulators':
-      Icon = <ManipulatorsIcon className={className} />
-      break
-    case 'Wheeled/Legged+manipul':
-      Icon = <WheeledLeggedManipulIcon className={className} />
-      break
-    default:
-      Icon = <QuadrocopterIcon className={className} />
-  }
-
-  return Icon
-}
-
-const RobotTypeIconStyled = styled(RobotTypeIcon)`
-  max-height: 21px
-`
+import TitledBox from '../titledBox'
+import Toggle from '../toggle'
+import RoboTypeIcon from '../roboTypeIcon'
 
 const Settings = observer(() => {
   const {
@@ -93,7 +65,7 @@ const Settings = observer(() => {
                           >
                             {robotTypes.map(type => (
                               <MenuItem key={type.id} value={type.id}>
-                                <RobotTypeIconStyled type={type.label} />
+                                <RoboTypeIcon selected={type.id === currentRobotType?.id} type={type.label} maxHeight='21px' />
                                 <ListItemText sx={{paddingLeft: '0.5rem'}} primary={type.label} />
                                 {type.id === currentRobotType?.id && <CheckIcon/>}
                               </MenuItem>

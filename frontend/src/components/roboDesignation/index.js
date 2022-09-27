@@ -1,10 +1,13 @@
 import React from 'react'
-import {ReactComponent as Robologo} from './spot.svg'
 import './style.css'
+import RoboTypeIcon from '../roboTypeIcon'
 
-const RoboDesignation = () => {
+const RoboDesignation = ({name, type}) => {
   return (
-    <div className='robo-designation'><Robologo className='robo-designation__logo'/>Spot 1234 869 Full Name</div>
+    <div className='robo-designation'>
+      <RoboTypeIcon className='robo-designation__logo' type={type?.label} />
+      {name}
+    </div>
   )
 }
 

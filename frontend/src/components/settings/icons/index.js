@@ -1,5 +1,0 @@
-export { ReactComponent as LeggedIcon } from './legged.svg'
-export { ReactComponent as ManipulatorsIcon } from './manipulators.svg'
-export { ReactComponent as QuadrocopterIcon } from './quadrocopter.svg'
-export { ReactComponent as WheeledIcon } from './wheeled.svg'
-export { ReactComponent as WheeledLeggedManipulIcon } from './wheeled_legged_manipul.svg'
