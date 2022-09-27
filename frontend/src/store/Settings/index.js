@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 export default class Settings {
   @observable currentRobotTypeID = ''
   @observable currentAppThemeID = ''
+  @observable currentRobotName = ''
 
   @observable widgets = [
     { label: 'Screen', id: uuidv4(), selected: false },
@@ -19,9 +20,14 @@ export default class Settings {
     { label: 'Flying', id: uuidv4() }
   ]
   @observable appThemes = [
-    { label: 'Light', id: uuidv4() },
-    { label: 'Dark', id: uuidv4() }
+    { label: 'Light', id: uuidv4(), value: 'light' },
+    { label: 'Dark', id: uuidv4(), value: 'dark' }
   ]
+
+  constructor(rootStore, initialColorTheme) {
+    makeObservable(this)
+    this.setAppThemeByValue(initialColorTheme)
+  }
 
   @computed get currentRobotType() {
     return this.robotTypes.find(type => type.id === this.currentRobotTypeID)
@@ -31,8 +37,8 @@ export default class Settings {
     return this.appThemes.find(theme => theme.id === this.currentAppThemeID)
   }
 
-  constructor() {
-    makeObservable(this)
+  @action setRobotName = (name) => {
+    this.currentRobotName = name
   }
 
   @action setRobotType = (id) => {
@@ -41,6 +47,10 @@ export default class Settings {
 
   @action setAppTheme = (id) => {
     this.currentAppThemeID = id
+  }
+
+  @action setAppThemeByValue = (value) => {
+    this.currentAppThemeID = this.appThemes.find(theme => theme.value === value)?.id
   }
 
   @action toggleWidget = (id) => {
