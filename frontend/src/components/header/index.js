@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { observer } from 'mobx-react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import { styled } from '@mui/system'
 import { tabUnstyledClasses } from '@mui/base/TabUnstyled';
 import Grid from '@mui/material/Grid'
+import { ThemeProvider, createTheme, useTheme } from '@mui/material/styles'
 import { useStore } from '../../store'
 import Logo from '../logo'
 import RoboDesignation from '../roboDesignation'
@@ -29,7 +30,16 @@ const TabStyled = styled(Tab)`
 `;
 
 const Header = observer(() => {
-  const {navigationStore: { activeTab, setActiveTab }} = useStore()
+  const {
+    navigationStore: { activeTab, setActiveTab },
+    settingsStore: { currentRobotName, currentRobotType }
+  } = useStore()
+  const globalTheme = useTheme()
+  const headerTheme = useMemo(() => createTheme(globalTheme, {
+    palette: {
+      mode: globalTheme.palette.mode === 'light' ? 'dark' : 'light'
+    }
+  }), [globalTheme.palette.mode]);
 
   const handleChange = (_event, newValue) => {
     setActiveTab(newValue);
@@ -40,33 +50,35 @@ const Header = observer(() => {
   }
 
   return (
-    <header className='header'>
-      <Logo />
-      <Tabs
-        value={activeTab}
-        onChange={handleChange}
-        TabIndicatorProps={{
-          hidden: true
-        }}
-        sx={{
-          marginLeft: '35px',
-          minHeight: 'auto'
-        }}
-      >
-        <TabStyled label='Dashboard' />
-        <TabStyled label='Settings' />
-      </Tabs>
-      <Grid sx={{marginLeft: 'auto', width: 'auto'}} container>
-        <Button
-          variant='contained'
-          sx={{ marginRight: '16px' }}
-          onClick={handleGuideClick}
+    <ThemeProvider theme={headerTheme}>
+      <header className='header'>
+        <Logo />
+        <Tabs
+          value={activeTab}
+          onChange={handleChange}
+          TabIndicatorProps={{
+            hidden: true
+          }}
+          sx={{
+            marginLeft: '35px',
+            minHeight: 'auto'
+          }}
         >
-          Guide
-        </Button>
-        <RoboDesignation />
-      </Grid>
-    </header>
+          <TabStyled label='Dashboard' />
+          <TabStyled label='Settings' />
+        </Tabs>
+        <Grid sx={{marginLeft: 'auto', width: 'auto'}} container>
+          <Button
+            variant='contained'
+            sx={{ marginRight: '16px' }}
+            onClick={handleGuideClick}
+          >
+            Guide
+          </Button>
+          <RoboDesignation name={currentRobotName || 'Robot name'} type={currentRobotType} />
+        </Grid>
+      </header>
+    </ThemeProvider>
   )
 })
 
