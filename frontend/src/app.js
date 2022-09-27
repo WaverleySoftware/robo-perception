@@ -9,7 +9,7 @@ import Dashboard from './components/dashboard'
 import Settings from './components/settings'
 import { observer } from 'mobx-react'
 
-const Root = observer(() => {
+const App = observer(() => {
   const {settingsStore: { currentAppTheme }} = useStore()
   const theme = useMemo(() => createTheme({
       palette: {
@@ -20,22 +20,22 @@ const Root = observer(() => {
   )
 
   return (
-    <ThemeProvider theme={theme}>
-      <Header />
-      <Dashboard />
-      <Settings />
-    </ThemeProvider>
+    <div className={`App ${theme.palette.mode}`}>
+      <ThemeProvider theme={theme}>
+        <Header />
+        <Dashboard />
+        <Settings />
+      </ThemeProvider>
+    </div>
   )
 })
 
-function App() {
+function Root() {
   return (
-    <div className='App'>
-      <StoreProvider colorTheme={'light'}>
-        <Root />
-      </StoreProvider>
-    </div>
+    <StoreProvider colorTheme={'light'}>
+      <App />
+    </StoreProvider>
   )
 }
 
-export default App
+export default Root

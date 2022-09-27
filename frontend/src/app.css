@@ -24,3 +24,7 @@ html, body {
   display: flex;
   flex-direction: column;
 }
+
+.App.dark {
+  background-color: #1a1a1a;
+}
