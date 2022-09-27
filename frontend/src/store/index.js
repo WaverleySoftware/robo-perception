@@ -6,19 +6,19 @@ import Navigation from './Navigation'
 import Settings from './Settings'
 
 class RootStore {
-  constructor() {
+  constructor(initialColorTheme) {
       this.videoPlayerStore = new VideoPlayer(this)
       this.rosStore = new RosController(this)
       this.webRTCStore = new WebRTC(this)
       this.navigationStore = new Navigation(this)
-      this.settingsStore = new Settings(this)
+      this.settingsStore = new Settings(this, initialColorTheme)
   }
 }
 
 const storeContext = React.createContext(null)
 
-export const StoreProvider = ({ children }) => {
-  const store = new RootStore()
+export const StoreProvider = ({ children, colorTheme }) => {
+  const store = new RootStore(colorTheme)
   return <storeContext.Provider value={store}>{children}</storeContext.Provider>
 }
 
