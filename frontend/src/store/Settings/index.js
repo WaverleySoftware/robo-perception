@@ -54,9 +54,15 @@ export default class Settings {
   }
 
   @action toggleWidget = (id) => {
-    for (const widget of this.widgets) {
-      if (id !== widget.id) continue
-      widget.selected = !widget.selected
-    }
+    this.widgets = this.widgets.map((widget) => {
+      if (id !== widget.id) {
+        return widget
+      }
+
+      return {
+        ...widget,
+        selected: !widget.selected,
+      }
+    })
   }
 }
