@@ -11,7 +11,7 @@ import TabPanel from '../tabPanel'
 import TitledBox from '../titledBox'
 import { useLocalStorage } from '../../hooks'
 
-import WidgetsList from './WidgetsList'
+import Widgets from './Widgets'
 import RobotName from './RobotName'
 import AppTheme from './AppTheme'
 
@@ -59,7 +59,7 @@ const Settings = observer(() => {
               </Grid>
             </Grid>
             <Grid item xs={4}>
-              <WidgetsList />
+              <Widgets />
             </Grid>
           </Grid>
         </Container>

@@ -8,7 +8,7 @@ import Toggle from '../toggle'
 import TitledBox from '../titledBox'
 import { useStore } from '../../store'
 
-const WidgetsList = observer(() => {
+const Widgets = observer(() => {
   const {
     settingsStore: { widgets, toggleWidget },
   } = useStore()
@@ -30,4 +30,4 @@ const WidgetsList = observer(() => {
   )
 })
 
-export default WidgetsList
+export default Widgets
