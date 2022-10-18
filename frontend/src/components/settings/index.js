@@ -2,18 +2,16 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 
 import { useStore } from '../../store'
 import TabPanel from '../tabPanel'
-import TitledBox from '../titledBox'
 import { useLocalStorage } from '../../hooks'
 
 import Widgets from './Widgets'
 import RobotName from './RobotName'
 import AppTheme from './AppTheme'
+import Speed from './Speed'
 
 const Settings = observer(() => {
   const {
@@ -32,26 +30,7 @@ const Settings = observer(() => {
                   <RobotName />
                 </Grid>
                 <Grid item xs={12}>
-                  <TitledBox title='Speed'>
-                    <Grid container direction='column' spacing={2}>
-                      <Grid item>
-                        <TextField fullWidth label='Step of speed in %' variant='outlined' />
-                      </Grid>
-                      <Grid item>
-                        <Grid container spacing={2}>
-                          <Grid item xs={12}>
-                            <Typography variant='subtitle1'>Set speed values</Typography>
-                          </Grid>
-                          <Grid item xs={6}>
-                            <TextField fullWidth label='Min' variant='outlined' />
-                          </Grid>
-                          <Grid item xs={6}>
-                            <TextField fullWidth label='Max' variant='outlined' />
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </TitledBox>
+                  <Speed />
                 </Grid>
                 <Grid item xs={12}>
                   <AppTheme />
