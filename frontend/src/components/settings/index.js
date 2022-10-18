@@ -21,7 +21,7 @@ const Settings = observer(() => {
 
   return (
     <TabPanel value={activeTab} index={1}>
-      <Box sx={{ paddingTop: '1rem' }}>
+      <Box sx={{ paddingTop: '1rem' }} component='form' noValidate autoComplete='off'>
         <Container>
           <Grid container spacing={2}>
             <Grid item xs={8}>
