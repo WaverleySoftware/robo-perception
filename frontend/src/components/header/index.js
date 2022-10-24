@@ -34,6 +34,7 @@ const Header = observer(() => {
     navigationStore: { activeTab, setActiveTab },
     settingsStore: { currentRobotName, currentRobotType }
   } = useStore()
+  // TODO: remove this unnecessary theme hook
   const globalTheme = useTheme()
   const headerTheme = useMemo(() => createTheme(globalTheme, {
     palette: {
@@ -50,6 +51,7 @@ const Header = observer(() => {
   }
 
   return (
+    // TODO: remove this ThemeProvider also
     <ThemeProvider theme={headerTheme}>
       <header className={`header ${globalTheme.palette.mode}`}>
         <Logo />
