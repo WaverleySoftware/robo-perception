@@ -25,6 +25,9 @@ const darkTheme = createTheme({
       primary: '#ffffff',
       secondary: '#B7C0D9'
     },
+    hr: {
+      main: '#E1E6F4'
+    },
     button: {
       disabled: '#565873'
     },
@@ -32,6 +35,11 @@ const darkTheme = createTheme({
       main: '#17162D',
       paper: 'rgba(51, 53, 83, 0.8)'
     },
+    robotSelect: {
+      iconBg: '#38395C',
+      selectedOptionBg: '#3E405E',
+      dropdownBg: '#4F5171'
+    }
   },
   shape: {
     cardBorderRadius: '16px',

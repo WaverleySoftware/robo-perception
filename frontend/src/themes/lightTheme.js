@@ -25,6 +25,9 @@ const lightTheme = createTheme({
       primary: '#262748',
       secondary: '#B7C0D9',
     },
+    hr: {
+      main: '#E1E6F4'
+    },
     button: {
       disabled: '#E1E6F4'
     },
@@ -32,6 +35,11 @@ const lightTheme = createTheme({
       main: '#F2F4FC',
       paper: 'rgba(253, 253, 255, 0.8)'
     },
+    robotSelect: {
+      iconBg: '#E2E7F5',
+      selectedOptionBg: '#F7F8FC',
+      dropdownBg: '#FFFFFF'
+    }
   },
   shape: {
     cardBorderRadius: '16px',
