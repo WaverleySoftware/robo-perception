@@ -26,12 +26,17 @@ class Settings {
     speed_step: 10
   }, {
     id: 2,
-    name: '',
-    type: '',
+    name: 'robot 2',
+    type: '2',
     speed_min: 0,
     speed_max: 1,
     speed_step: 20
   },]
+
+  @observable currentRobotId = 1
+
+  @action
+  updateCurrentRobotId = (robotId) => this.currentRobotId = robotId
 
   @action
   updateRobotSettings = (robot_data) => {
