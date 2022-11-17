@@ -6,7 +6,7 @@ const SelectOption = styled(MenuItem)(({ theme }) => ({
   fontSize: '14px',
   color: theme.palette.primary.main,
   '&.Mui-selected': {
-    color: '#28BDEB',
+    color: theme.palette.info.main,
     background: theme.palette.robotSelect.selectedOptionBg
   },
 }))

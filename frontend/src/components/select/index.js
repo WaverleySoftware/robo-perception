@@ -1,14 +1,14 @@
+import { useTheme } from '@emotion/react';
 import ExpandMore from '@mui/icons-material/ExpandMore'
 import {default as DefaultSelect} from '@mui/material/Select'
 import { styled } from '@mui/material/styles'
 
-const Select = styled(
-  (props) => <DefaultSelect {...props} IconComponent={(props) => <ExpandMore {...props}/>} />
-)(({ theme }) => ({
-  borderRadius: '6px',
+const CustomSelect = styled(DefaultSelect)(({ theme }) => ({
+  borderRadius: theme.shape.formFieldBorderRadius,
+  background: theme.palette.background.formItemBg,
   height: '44px',
   '& .MuiSelect-select': {
-    padding: '0 12px',
+    padding: '10px 12px',
     display: 'flex',
     alignItems: 'center'
   },
@@ -27,5 +27,21 @@ const Select = styled(
     },
   },
 }))
+
+const Select = (props) => {
+  const theme = useTheme()
+
+  return <CustomSelect
+    {...props}
+    IconComponent={(iconProps) => <ExpandMore {...iconProps}/>}
+    MenuProps={{
+      PaperProps: {
+        sx: {
+          bgcolor: theme.palette.robotSelect.dropdownBg,
+        },
+      },
+    }}
+  />
+}
 
 export default Select

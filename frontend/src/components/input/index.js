@@ -6,9 +6,9 @@ const Input = styled(InputBase)(({ theme }) => ({
   '& .MuiInputBase-input': {
     boxSizing: 'border-box',
     height: '44px',
-    border: '1px solid #B7C0D9',
-    borderRadius: '6px',
-    background: 'transparent',
+    border: `1px solid ${theme.palette.border.formItem}`,
+    borderRadius: theme.shape.formFieldBorderRadius,
+    background: theme.palette.background.formItemBg,
     fontSize: '14px',
     padding: '12px',
     transition: theme.transitions.create([

@@ -33,7 +33,12 @@ const lightTheme = createTheme({
     },
     background: {
       main: '#F2F4FC',
-      paper: 'rgba(253, 253, 255, 0.8)'
+      paper: 'rgba(253, 253, 255, 0.8)',
+      formItemBg: '#FFFFFF',
+      switchOffBg: '#B7C0D9',
+    },
+    border: {
+      formItem: '#B7C0D9',
     },
     robotSelect: {
       iconBg: '#E2E7F5',

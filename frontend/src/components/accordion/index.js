@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Divider, Grid } from '@mui/material'
 import FormControl from '@mui/material/FormControl'
+import { useTheme } from '@emotion/react'
 import FormHelperLabel from '../formHelperLabel'
 import Input from '../input'
 import RoboTypeIcon from '../roboTypeIcon'
@@ -16,15 +17,14 @@ import Button from '../button'
 import BoxTitle from '../boxTitle'
 
 const AccordionWrapper = styled((props) => (<MuiAccordion {...props}/>))(({ theme }) => ({
-  borderRadius: '16px',
-  boxShadow: '-10px 10px 20px rgba(212, 212, 225, 0.2), 10px -10px 20px rgba(182, 182, 210, 0.2)',
-  background: 'rgba(253, 253, 255, 0.8)',
+  borderRadius: theme.shape.cardBorderRadius,
+  background: theme.palette.background.paper,
   marginBottom: '16px',
   '&:first-of-type': {
-    borderRadius: '16px'
+    borderRadius: theme.shape.cardBorderRadius
   },
   '&:last-of-type': {
-    borderRadius: '16px'
+    borderRadius: theme.shape.cardBorderRadius
   },
   '&:before': {
     display: 'none'
@@ -46,6 +46,7 @@ const Accordion = ({
   robotTypes,
   onRobotUpdate
 }) => {
+  const theme = useTheme()
   const [robotName, setRobotName] = useState(name)
   const [selectedRobotType, setSelectedRobotType] = useState(type)
   const [speedStep, setSpeedStep] = useState(speed_step)
@@ -81,7 +82,7 @@ const Accordion = ({
   return (
     <AccordionWrapper expanded={expanded === index} onChange={onChange(index)}>
       <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
+          expandIcon={<ExpandMoreIcon color='primary'/>}
         >
           <BoxTitle>{`Robot ${index}`}</BoxTitle>
         </AccordionSummary>
@@ -123,7 +124,7 @@ const Accordion = ({
             </Grid>
             
             <Grid item xs={12}>
-              <Divider sx={{ margin: '12px 0' }}/>
+              <Divider sx={{ margin: '12px 0', borderColor: theme.palette.hr.main }}/>
             </Grid>
             <Grid item xs={12}>
               <Typography sx={{ fontWeight: 'bold', fontSize: '16px' }}>Speed Settings</Typography>

@@ -15,7 +15,7 @@ const Display = observer(() => {
 
   return (
     <Paper>
-      <BoxTitle sx={{}}>Display</BoxTitle>
+      <BoxTitle sx={{marginBottom: '24px'}}>Display</BoxTitle>
       <FormControl fullWidth>
         <FormHelperLabel id='theme-select'>Theme</FormHelperLabel>
         <Select
