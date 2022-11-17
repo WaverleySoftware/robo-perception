@@ -26,14 +26,19 @@ const darkTheme = createTheme({
       secondary: '#B7C0D9'
     },
     hr: {
-      main: '#E1E6F4'
+      main: '#80819A'
     },
     button: {
       disabled: '#565873'
     },
     background: {
       main: '#17162D',
-      paper: 'rgba(51, 53, 83, 0.8)'
+      paper: 'rgba(51, 53, 83, 0.8)',
+      formItemBg: '#484A69',
+      switchOffBg: '#4F5171',
+    },
+    border: {
+      formItem: '#777C94',
     },
     robotSelect: {
       iconBg: '#38395C',

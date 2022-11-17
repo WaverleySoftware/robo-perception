@@ -5,6 +5,7 @@ import ListItem from '@mui/material/ListItem'
 import { styled } from '@mui/material/styles'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
+import { useTheme } from '@emotion/react'
 import { useStore } from '../../store'
 import Paper from '../paper'
 import BoxTitle from '../boxTitle'
@@ -25,21 +26,22 @@ const ListItemButtonCustom = styled(ListItemButton)(({ theme }) => ({
 }));
 
 const Widgets = observer(() => {
+  const theme = useTheme()
   const {
     settingsStore: { widgets, toggleWidget }
   } = useStore()
 
   return (
     <Paper sx={{marginBottom: '16px'}}>
-      <BoxTitle sx={{}}>Widgets</BoxTitle>
-      <List>
+      <BoxTitle sx={{marginBottom: '24px'}}>Widgets</BoxTitle>
+      <List sx={{padding: 0}}>
         {widgets.map((widget) => (
           <ListItem disablePadding key={widget.id}>
             <ListItemButtonCustom
               selected={widget.selected}
               onClick={() => toggleWidget(widget.id)}
             >
-              <ListItemText primary={widget.label} sx={{color: '#262748'}} />
+              <ListItemText primary={widget.label} sx={{color: theme.palette.text.primary}} />
               <Switch checked={widget.selected} />
             </ListItemButtonCustom>
           </ListItem>

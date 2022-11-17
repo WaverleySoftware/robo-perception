@@ -13,7 +13,7 @@ const Switch = styled(Toggle)(({ theme }) => ({
       color: '#fff',
       '& + .MuiSwitch-track': {
         opacity: 1,
-        backgroundColor: '#28BDEB',
+        backgroundColor: theme.palette.info.main,
       },
     },
   },
@@ -28,7 +28,7 @@ const Switch = styled(Toggle)(({ theme }) => ({
   '& .MuiSwitch-track': {
     borderRadius: 16 / 2,
     opacity: 1,
-    backgroundColor: '#B7C0D9',
+    backgroundColor: theme.palette.background.switchOffBg,
     boxSizing: 'border-box',
   },
 }));
