@@ -36,6 +36,8 @@ const darkTheme = createTheme({
       paper: 'rgba(51, 53, 83, 0.8)',
       formItemBg: '#484A69',
       switchOffBg: '#4F5171',
+      closeWidget: '#FFFFFF',
+      closeWidgetHover: '#4F5171',
     },
     border: {
       formItem: '#777C94',

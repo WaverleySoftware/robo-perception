@@ -36,6 +36,8 @@ const lightTheme = createTheme({
       paper: 'rgba(253, 253, 255, 0.8)',
       formItemBg: '#FFFFFF',
       switchOffBg: '#B7C0D9',
+      closeWidget: '#B7C0D9',
+      closeWidgetHover: '#EAEDF7',
     },
     border: {
       formItem: '#B7C0D9',

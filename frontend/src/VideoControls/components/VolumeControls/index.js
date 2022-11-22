@@ -1,20 +1,15 @@
-import React, { useCallback, useState, useEffect, useRef } from 'react'
+import React, { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
-import cx from 'classnames'
 import { Icon, Slider, Grid, Tooltip } from '@mui/material'
 import { VolumeUp, VolumeDown, VolumeMute } from '@mui/icons-material'
-import './style.css'
-
+import { useTheme } from '@emotion/react'
 import { useStore } from '../../../store'
 
 const VolumeControls = observer(() => {
-  const {videoPlayerStore: { volume, setVolume, muted, setMuted }} = useStore()
+  const {videoPlayerStore: { volume, setVolume, muted, setMuted, isFullscreen }} = useStore()
 
-  const anchorRef = useRef(null)
   const [volumeValue, setVolumeValue] = useState(volume)
-  const [isOpen, setIsOpen] = useState(false)
-  const [isMouseDown, setMouseDown] = useState(false)
-
+  const theme = useTheme()
   const handleChange = useCallback(
     (e, newValue) => {
       if (Number.isNaN(newValue)) return
@@ -24,30 +19,8 @@ const VolumeControls = observer(() => {
     [setVolume]
   )
 
-  const handleClick = useCallback(
-    (e) => {
-      if (anchorRef.current.contains(e.target)) {
-        return
-      }
-
-      setIsOpen(false)
-    },
-    [anchorRef, setIsOpen]
-  )
-
-  const handleOnMouseLeave = useCallback(() => {
-    if (!isMouseDown) {
-      setIsOpen(false)
-    }
-  }, [isMouseDown])
-
-  const handleOnMouseUp = useCallback(() => {
-    setMouseDown(false)
-  }, [])
-
   const handleOnVolumeIconClick = useCallback(() => {
     setMuted(!muted)
-    setMouseDown(false)
   }, [muted, setMuted])
 
   const volumeIcon = (volume, muted) => {
@@ -62,36 +35,42 @@ const VolumeControls = observer(() => {
     return VolumeUp
   }
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClick)
-    document.addEventListener('mouseup', handleOnMouseUp)
-
-    return () => {
-      document.removeEventListener('mousedown', handleClick)
-      document.removeEventListener('mouseup', handleOnMouseUp)
-    }
-  }, [handleClick, handleOnMouseUp])
-
   return (
     <Grid
-      ref={anchorRef}
       item
-      onMouseEnter={() => {
-        setIsOpen(true)
-      }}
-      onMouseLeave={handleOnMouseLeave}
-      sx={{ marginLeft: '12px' }}
+      container
+      alignItems='center'
+      width='auto'
     >
       <Tooltip title='Mute' placement='top'>
-        <Icon component={volumeIcon(volume, muted)} onClick={handleOnVolumeIconClick} />
+        <Icon component={volumeIcon(volume, muted)} sx={{color: isFullscreen ? theme.palette.common.white : theme.palette.text.primary}} onClick={handleOnVolumeIconClick} />
       </Tooltip>
-      <div
-        className={cx('volume-slider', { open: isOpen })}
-        onMouseDown={() => setMouseDown(true)}
-        onMouseUp={handleOnMouseUp}
-      >
-        <Slider min={0} max={100} value={muted ? 0 : volumeValue} onChange={handleChange} />
-      </div>
+      <Slider
+        min={0}
+        max={100}
+        value={muted ? 0 : volumeValue}
+        sx={{
+          width: '80px',
+          height: '2px',
+          marginLeft: '16px',
+          '& .MuiSlider-thumb': {
+            backgroundColor: isFullscreen ? theme.palette.common.white : '#18DDFC',
+            width: '12px',
+            height: '12px',
+            '&:hover': {
+              boxShadow: 'none'
+            }
+          },
+          '& .MuiSlider-rail': {
+            backgroundColor: isFullscreen ? 'rgba(255, 255, 255, 0.2)' : theme.palette.primary.main,
+            opacity: 1,
+          },
+          '& .MuiSlider-track': {
+            color: isFullscreen ? 'rgba(255, 255, 255, 0.7)' : theme.palette.info.main,
+          }
+        }}
+        onChange={handleChange}
+      />
     </Grid>
   )
 })

@@ -1,12 +1,12 @@
 .main {
     display: flex;
     flex-grow: 1;
-    padding: 42px;
+    padding: 0 42px;
     margin: 0 auto;
     max-width: 1440px;
     width: 100%;
 }
   
 .main-content {
-    flex-grow: 1;
+  width: 787px;
 }
