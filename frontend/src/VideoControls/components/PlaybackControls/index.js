@@ -4,7 +4,7 @@ import { Grid, Icon, IconButton, Tooltip } from '@mui/material'
 import { Pause, PlayArrow } from '@mui/icons-material'
 import React from 'react'
 import { alpha } from '@mui/material/styles'
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@mui/material/styles'
 
 const PlaybackControls = observer(() => {
   const {videoPlayerStore: { isFullscreen, isStreamStarted, onClick }} = useStore()

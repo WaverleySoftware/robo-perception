@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Tooltip, SvgIcon, IconButton } from '@mui/material'
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@mui/material/styles'
 import {ReactComponent as FullscreenIcon} from './fullscreen.svg'
 import {ReactComponent as FullscreenExitIcon} from './fullscreenexit.svg'
 import { useStore } from '../../../store'

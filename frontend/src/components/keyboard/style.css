@@ -4,24 +4,5 @@
 }
 
 .simple-keyboard.custom-theme-dark  {
-    background: #1A1A1A;
     padding: 32px 8px 16px;
-}
-
-.simple-keyboard.custom-theme-dark .hg-button {
-    background: #2E2E2E;
-    height: 35px;
-    color: #F8F8F8;
-    border-radius: 0;
-    border-bottom: 0;
-}
-
-.simple-keyboard.custom-theme-dark .hg-button.hg-activeButton {
-    background: rgb(218, 220, 228);
-    color: black;
-}
-
-.simple-keyboard.custom-theme-dark .hg-button[data-skbtn="{altleft}"],
-.simple-keyboard.custom-theme-dark .hg-button[data-skbtn="{controlleft}"] {
-    max-width: 50px;
 }
