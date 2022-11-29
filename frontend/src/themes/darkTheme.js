@@ -38,6 +38,12 @@ const darkTheme = createTheme({
       switchOffBg: '#4F5171',
       closeWidget: '#FFFFFF',
       closeWidgetHover: '#4F5171',
+      keyboardButtonBg: '#4F5171',
+      keyboardButtonBgHover: '#28BDEB',
+      keyboardButtonBgPressed: '#2097BC',
+      keyboardIconBg: '#B7C0D9',
+      keyboardIconBgHover: '#FFFFFF',
+      keyboardIconBgPressed: '#FFFFFF'
     },
     border: {
       formItem: '#777C94',

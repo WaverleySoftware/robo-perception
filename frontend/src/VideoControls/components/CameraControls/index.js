@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material'
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@mui/material/styles'
 import { useStore } from '../../../store'
 
 const CameraLabel = observer(({name, marginLeft = 0}) => {

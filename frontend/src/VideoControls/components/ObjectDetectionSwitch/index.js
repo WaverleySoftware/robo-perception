@@ -1,4 +1,4 @@
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@mui/material/styles'
 import { Grid, Typography } from '@mui/material'
 import { observer } from 'mobx-react'
 import Switch from '../../../components/switch'

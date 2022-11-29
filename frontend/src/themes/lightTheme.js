@@ -38,6 +38,12 @@ const lightTheme = createTheme({
       switchOffBg: '#B7C0D9',
       closeWidget: '#B7C0D9',
       closeWidgetHover: '#EAEDF7',
+      keyboardButtonBg: '#DFE5F7',
+      keyboardButtonBgHover: '#28BDEB',
+      keyboardButtonBgPressed: '#2097BC',
+      keyboardIconBg: '#B7C0D9',
+      keyboardIconBgHover: '#FFFFFF',
+      keyboardIconBgPressed: '#FFFFFF'
     },
     border: {
       formItem: '#B7C0D9',

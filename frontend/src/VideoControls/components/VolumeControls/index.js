@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
 import { Icon, Slider, Grid, Tooltip } from '@mui/material'
 import { VolumeUp, VolumeDown, VolumeMute } from '@mui/icons-material'
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@mui/material/styles'
 import { useStore } from '../../../store'
 
 const VolumeControls = observer(() => {

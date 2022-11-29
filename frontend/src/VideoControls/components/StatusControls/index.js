@@ -5,7 +5,7 @@ import CellWifiIcon from '@mui/icons-material/CellWifi'
 import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack'
 import GamepadIcon from '@mui/icons-material/Gamepad'
 import React from 'react'
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@mui/material/styles'
 
 const StatusControls = observer(() => {
   const {

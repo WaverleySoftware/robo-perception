@@ -1,4 +1,4 @@
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@mui/material/styles'
 import { IconButton, Paper, Tooltip } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { observer } from 'mobx-react'
