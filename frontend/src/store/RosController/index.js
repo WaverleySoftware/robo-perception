@@ -7,9 +7,15 @@ const Ros = ROSLIB.Ros
 const RosTopic = ROSLIB.Topic
 const RosMessage = ROSLIB.Message
 
+export const robotPosition = {
+  sit: 'sit',
+  stand: 'stand',
+}
+
 class RosController {
   @observable isTeleopReady = false
   @observable isWSConnected = false
+  @observable currentPosition = robotPosition.sit
 
   constructor(rootStore) {
     makeObservable(this)
@@ -96,6 +102,10 @@ class RosController {
     this.isTeleopReady = value
   }
 
+  @action
+  setCurrentPosition = (position) => {
+    this.currentPosition = position
+  }
 }
 
 export default RosController

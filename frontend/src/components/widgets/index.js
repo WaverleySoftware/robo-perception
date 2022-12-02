@@ -39,7 +39,7 @@ const Widgets = observer(() => {
           <ListItem disablePadding key={widget.id}>
             <ListItemButtonCustom
               selected={widget.selected}
-              onClick={() => toggleWidget(widget.id)}
+              onClick={() => toggleWidget(widget.name)}
             >
               <ListItemText primary={widget.label} sx={{color: theme.palette.text.primary}} />
               <Switch checked={widget.selected} />

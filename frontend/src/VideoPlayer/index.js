@@ -17,12 +17,8 @@ const VideoPlayerView = observer((props) => {
     }
   }, [attachEvents, detachEvents])
 
-  useEffect(() => {
-    videoEl.current.parentNode.focus()
-  }, [videoEl])
-
   return (
-    <Widget widgetId='1' padding='0'>
+    <Widget widgetName='screen' styles={{padding: 0, width: '787px'}}>
       <div
         tabIndex={-1}
         className='video-wrapper'

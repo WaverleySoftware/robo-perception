@@ -1,19 +1,42 @@
 import { useTheme } from '@mui/material/styles'
-import { IconButton, Paper, Tooltip } from '@mui/material'
+import { IconButton, Paper, Tooltip, Typography } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { observer } from 'mobx-react'
 import { useStore } from '../../store'
 
-const Widget = observer(({ children, widgetId, transparent = false, padding = '24px' }) => {
+export const WidgetTitle = ({ children, styles }) => {
+  const theme = useTheme()
+
+  return (
+    <Typography
+      component='h6'
+      sx={{
+        fontSize: '16px',
+        color: theme.palette.primary.main,
+        textAlign: 'center',
+        marginBottom: '24px',
+        ...styles,
+      }}>
+      {children}
+    </Typography>
+  )
+}
+
+const Widget = observer(({
+  children,
+  widgetName,
+  transparent = false,
+  styles,
+}) => {
   const theme = useTheme()
   const { settingsStore: { toggleWidget, widgets }} = useStore()
 
   const handleWidgetClose = (e) => {
     e.preventDefault()
-    toggleWidget(widgetId)
+    toggleWidget(widgetName)
   }
 
-  const showWidget = widgets.find((widget) => widget.id === widgetId).selected
+  const showWidget = widgets.find((widget) => widget.name === widgetName).selected
 
   return (
     showWidget
@@ -22,7 +45,8 @@ const Widget = observer(({ children, widgetId, transparent = false, padding = '2
             position: 'relative',
             background: transparent ? 'transparent' : theme.palette.background.paper,
             borderRadius: theme.shape.cardBorderRadius,
-            padding,
+            padding: '24px',
+            ...styles,
           }}
         >
           <Tooltip title={'Close Widget'} placement='bottom'>
@@ -44,7 +68,6 @@ const Widget = observer(({ children, widgetId, transparent = false, padding = '2
              <CloseIcon sx={{ color: theme.palette.background.closeWidget }}/>
             </IconButton>
           </Tooltip>
-
           {children}
         </Paper>
       : null
