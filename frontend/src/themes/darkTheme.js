@@ -23,10 +23,13 @@ const darkTheme = createTheme({
     },
     text: {
       primary: '#ffffff',
-      secondary: '#B7C0D9'
+      secondary: '#B7C0D9',
+      robotPositionTitle: '#B7C0D9',
+      robotSpeedValue: '#28BDEB'
     },
     hr: {
-      main: '#80819A'
+      main: '#80819A',
+      batteryLevel: '#777C94',
     },
     button: {
       disabled: '#565873'
@@ -43,7 +46,11 @@ const darkTheme = createTheme({
       keyboardButtonBgPressed: '#2097BC',
       keyboardIconBg: '#B7C0D9',
       keyboardIconBgHover: '#FFFFFF',
-      keyboardIconBgPressed: '#FFFFFF'
+      keyboardIconBgPressed: '#FFFFFF',
+      robotPositionButton: '#4F5171',
+      robotSpeedButtonDisabled: '#565873',
+      circleProgressTrail: '#4F5171', 
+      batteryLevel: '#4F5171',
     },
     border: {
       formItem: '#777C94',
@@ -52,6 +59,9 @@ const darkTheme = createTheme({
       iconBg: '#38395C',
       selectedOptionBg: '#3E405E',
       dropdownBg: '#4F5171'
+    },
+    boxShadow: {
+      robotSpeedButton: 'none',
     }
   },
   shape: {

@@ -24,9 +24,12 @@ const lightTheme = createTheme({
     text: {
       primary: '#262748',
       secondary: '#B7C0D9',
+      robotPositionTitle: '#262748',
+      robotSpeedValue: '#262748'
     },
     hr: {
-      main: '#E1E6F4'
+      main: '#E1E6F4',
+      batteryLevel: '#B7C0D9',
     },
     button: {
       disabled: '#E1E6F4'
@@ -43,7 +46,11 @@ const lightTheme = createTheme({
       keyboardButtonBgPressed: '#2097BC',
       keyboardIconBg: '#B7C0D9',
       keyboardIconBgHover: '#FFFFFF',
-      keyboardIconBgPressed: '#FFFFFF'
+      keyboardIconBgPressed: '#FFFFFF',
+      robotPositionButton: '#E1E6F4',
+      robotSpeedButtonDisabled: '#E1E6F4',
+      circleProgressTrail: '#E1E6F4',
+      batteryLevel: '#E1E6F4',
     },
     border: {
       formItem: '#B7C0D9',
@@ -52,6 +59,9 @@ const lightTheme = createTheme({
       iconBg: '#E2E7F5',
       selectedOptionBg: '#F7F8FC',
       dropdownBg: '#FFFFFF'
+    },
+    boxShadow: {
+      robotSpeedButton: '0px 6px 22px rgba(222, 226, 237, 0.51)',
     }
   },
   shape: {
