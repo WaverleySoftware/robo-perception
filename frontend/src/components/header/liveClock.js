@@ -35,7 +35,7 @@ const LiveClock = () => {
   const formattedHours = hours % 12
 
   const time = `${formattedHours % 12 ? formattedHours : 12}:${ minutes < 10 ? '0' + minutes : minutes} ${dayTime}`
-  const dateTitle = `${monthNames[date.getMonth()]} ${date.getDay()}, ${date.getFullYear()}`
+  const dateTitle = `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
 
   return (
     <Grid sx={{display: 'flex'}}>
