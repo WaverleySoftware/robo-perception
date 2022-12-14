@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react'
-import { useStore } from '../../../store'
+import { useStore } from '../../../../store'
 import { Grid, Tooltip } from '@mui/material'
 import CellWifiIcon from '@mui/icons-material/CellWifi'
 import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack'
@@ -15,7 +15,10 @@ const StatusControls = observer(() => {
   } = useStore()
 
   const theme = useTheme()
-  const iconColor = isFullscreen ? theme.palette.common.white : theme.palette.text.primary
+
+  const getIconColor = (condition) => condition
+    ? isFullscreen ? theme.palette.common.white : theme.palette.text.primary
+    : theme.palette.text.disabledVideoPlayerIcon
 
   const label = (condition, prefix) => {
     return condition ? `${prefix} Connected` : `${prefix} Disconnected`
@@ -24,13 +27,13 @@ const StatusControls = observer(() => {
   return (
     <Grid sx={{ display: 'flex' }}>
       <Tooltip title={label(isWSConnected, 'ROS')} placement='top'>
-        <CellWifiIcon sx={{color: iconColor}} fontSize={'medium'} />
+        <CellWifiIcon sx={{color: getIconColor(isWSConnected)}} fontSize={'medium'} />
       </Tooltip>
       <Tooltip title={label(isWebRtcConnected, 'Camera')} placement='top'>
-        <VideoCameraBackIcon sx={{color: iconColor, marginLeft: '10px'}} fontSize={'medium'} />
+        <VideoCameraBackIcon sx={{color: getIconColor(isWebRtcConnected), marginLeft: '10px'}} fontSize={'medium'} />
       </Tooltip>
       <Tooltip title={label(isTeleopReady, 'Teleop')} placement='top'>
-        <GamepadIcon sx={{color: iconColor, marginLeft: '10px'}} fontSize={'medium'} />
+        <GamepadIcon sx={{color: getIconColor(isTeleopReady), marginLeft: '10px'}} fontSize={'medium'} />
       </Tooltip>
     </Grid>
   )

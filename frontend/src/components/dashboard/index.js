@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Grid } from '@mui/material'
-import VideoPlayerView from '../../VideoPlayer'
+import VideoPlayerView from '../videoPlayer'
 import { useStore } from '../../store'
 import poster from '../../Media/pupper_cool.jpeg'
 import TabPanel from '../tabPanel'
@@ -13,9 +13,11 @@ import RobotHardware from '../robotHardware'
 const Dashboard = observer(() => {
   const {
     navigationStore: { activeTab },
-    settingsStore: { widgets }
+    settingsStore: { widgets },
+    rosStore: { isWSConnected, isTeleopReady },
   } = useStore()
 
+  const connected = isWSConnected && isTeleopReady
   const isBatteryWidgetSelected = widgets.find((widget) => widget.name === 'battery').selected
   const isRobotSpeedWidgetSelected = widgets.find((widget) => widget.name === 'speed').selected
   const isAdditionalActionsWidgetSelected = widgets.find((widget) => widget.name === 'actions').selected
@@ -34,16 +36,18 @@ const Dashboard = observer(() => {
       >
         <VideoPlayerView poster={poster} controls={false} />
         <Grid item sx={{flexGrow: 1, marginLeft: '16px', maxWidth: '557px'}}>
-          <Grid container spacing={2} marginBottom='16px' justifyContent='center'>
-            {isBatteryWidgetSelected && <Grid item xs={6} >
-              <RobotHardware />
-            </Grid>}
-            {(isRobotSpeedWidgetSelected || isAdditionalActionsWidgetSelected) && <Grid item xs={6} >
-              <RobotSpeed />
-              <AdditionalActions/>
-            </Grid>}
-          </Grid>
-          <InputController />
+          {connected && <>          
+            <Grid container spacing={2} marginBottom='16px' justifyContent='center'>
+              {isBatteryWidgetSelected && <Grid item xs={6} >
+                <RobotHardware />
+              </Grid>}
+              {(isRobotSpeedWidgetSelected || isAdditionalActionsWidgetSelected) && <Grid item xs={6} >
+                <RobotSpeed />
+                <AdditionalActions/>
+              </Grid>}
+            </Grid>
+            <InputController />
+          </>}
         </Grid>
       </Grid>
     </TabPanel>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Grid } from '@mui/material'
-import { useStore } from '../store'
+import { useStore } from '../../store'
 import StatusControls from './components/StatusControls'
 import CameraControls from './components/CameraControls'
 import PlaybackControls from './components/PlaybackControls'
@@ -11,7 +11,12 @@ import ObjectDetectionControls from './components/ObjectDetectionSwitch'
 import Fullscreen from './components/Fullscreen'
 
 const VideoControls = observer(() => {
-  const {videoPlayerStore: { isFullscreen }} = useStore()
+  const {
+    videoPlayerStore: { isFullscreen, duration },
+    rosStore: { isWSConnected, isTeleopReady },
+  } = useStore()
+
+  const connected = isWSConnected && isTeleopReady
 
   return (
       <Grid
@@ -31,16 +36,16 @@ const VideoControls = observer(() => {
       >
         <Grid xs={5} container item alignItems='center'>
           <StatusControls />
-          <CameraControls />
+          <CameraControls connected={connected} />
         </Grid>
-        <Grid xs={2} container item alignItems='center'>
-          <PlaybackControls />
+        <Grid xs={2} container item alignItems='center' justifyContent={duration ? 'center' : 'flex-start'}>
+          <PlaybackControls connected={connected} />
           <TimeDisplay />
         </Grid>
         <Grid xs={5} container item alignItems='center' justifyContent='flex-end'>
-          <VolumeControls />
-          <ObjectDetectionControls />
-          <Fullscreen />
+          <VolumeControls connected={connected} />
+          <ObjectDetectionControls connected={connected} />
+          <Fullscreen connected={connected} />
         </Grid>
       </Grid>
   )

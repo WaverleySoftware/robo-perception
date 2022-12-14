@@ -5,7 +5,7 @@ import { observer } from 'mobx-react'
 
 import './style.css'
 
-import { useStore } from '../store'
+import { useStore } from '../../store'
 
 const VideoOverlay = observer(() => {
   const {videoPlayerStore: { buffering, isPlaying }} = useStore()

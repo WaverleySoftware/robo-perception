@@ -2,8 +2,8 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { Grid } from '@mui/material'
 
-import { useStore } from '../../../store'
-import { formatTime } from '../../../util'
+import { useStore } from '../../../../store'
+import { formatTime } from '../../../../util'
 import './style.css'
 
 const TimeDisplay = observer(() => {

@@ -25,7 +25,9 @@ const lightTheme = createTheme({
       primary: '#262748',
       secondary: '#B7C0D9',
       robotPositionTitle: '#262748',
-      robotSpeedValue: '#262748'
+      robotSpeedValue: '#262748',
+      disabledVideoPlayerIcon: '#B7C0D9',
+      disabledPlayButtonIcon: '#B7C0D9',
     },
     hr: {
       main: '#E1E6F4',
@@ -51,6 +53,7 @@ const lightTheme = createTheme({
       robotSpeedButtonDisabled: '#E1E6F4',
       circleProgressTrail: '#E1E6F4',
       batteryLevel: '#E1E6F4',
+      disabledPlayButton: '#E1E6F4',
     },
     border: {
       formItem: '#B7C0D9',

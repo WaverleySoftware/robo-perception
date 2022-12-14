@@ -25,7 +25,6 @@ export const WidgetTitle = ({ children, styles }) => {
 const Widget = observer(({
   children,
   widgetName,
-  transparent = false,
   styles,
 }) => {
   const theme = useTheme()
@@ -43,7 +42,7 @@ const Widget = observer(({
       ? <Paper
           sx={{
             position: 'relative',
-            background: transparent ? 'transparent' : theme.palette.background.paper,
+            background: theme.palette.background.paper,
             borderRadius: theme.shape.cardBorderRadius,
             padding: '24px',
             ...styles,
@@ -56,7 +55,7 @@ const Widget = observer(({
                 top: '16px',
                 right: '16px',
                 cursor: 'pointer',
-                zIndex: 1,
+                zIndex: 10,
                 width: '24px',
                 height: '24px',
                 '&:hover': {

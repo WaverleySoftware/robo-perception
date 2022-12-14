@@ -2,12 +2,14 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import { useStore } from '../../../store'
+import { useStore } from '../../../../store'
 
-const CameraLabel = observer(({name, marginLeft = 0}) => {
+const CameraLabel = observer(({name, marginLeft = 0, connected}) => {
   const theme = useTheme()
   const {videoPlayerStore: { isFullscreen }} = useStore()
-  const color = isFullscreen ? theme.palette.common.white : theme.palette.text.primary
+  const color = connected
+    ? isFullscreen ? theme.palette.common.white : theme.palette.text.primary
+    : theme.palette.text.disabledVideoPlayerIcon
 
   return (
     <FormControlLabel
@@ -20,10 +22,14 @@ const CameraLabel = observer(({name, marginLeft = 0}) => {
             color,
             '&.Mui-checked': {
               color
-            }
+            },
+            '&.Mui-disabled': {
+              color
+            },
           }}
         />
       }
+      disabled={!connected}
       label={name.toUpperCase()}
       sx={{
         marginLeft,
@@ -31,6 +37,9 @@ const CameraLabel = observer(({name, marginLeft = 0}) => {
           fontSize: '12px',
           color,
           fontWeight: theme.typography.fontWeightRegular,
+          '&.Mui-disabled': {
+            color,
+          }
         }
       }}
       fontSize='12px'
@@ -38,7 +47,7 @@ const CameraLabel = observer(({name, marginLeft = 0}) => {
   )
 })
 
-const CameraControls = observer(() => {
+const CameraControls = observer(({ connected }) => {
   const {webRTCStore: { setMode, selectedMode, setNN }} = useStore()
 
   const handleCameraModeChange = (event) => {
@@ -60,9 +69,9 @@ const CameraControls = observer(() => {
         value={selectedMode}
         onChange={handleCameraModeChange}
       >
-        <CameraLabel name='rgb' />
-        <CameraLabel name='depth' marginLeft='16px' />
-        <CameraLabel name='sim' marginLeft='16px' />
+        <CameraLabel name='rgb' connected={connected} />
+        <CameraLabel name='depth' marginLeft='16px' connected={connected} />
+        <CameraLabel name='sim' marginLeft='16px' connected={connected} />
       </RadioGroup>
     </FormControl>
   )
