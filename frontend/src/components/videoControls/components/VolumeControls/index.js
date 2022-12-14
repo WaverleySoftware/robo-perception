@@ -3,11 +3,10 @@ import { observer } from 'mobx-react'
 import { Icon, Slider, Grid, Tooltip } from '@mui/material'
 import { VolumeUp, VolumeDown, VolumeMute } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
-import { useStore } from '../../../store'
+import { useStore } from '../../../../store'
 
-const VolumeControls = observer(() => {
+const VolumeControls = observer(({ connected }) => {
   const {videoPlayerStore: { volume, setVolume, muted, setMuted, isFullscreen }} = useStore()
-
   const [volumeValue, setVolumeValue] = useState(volume)
   const theme = useTheme()
   const handleChange = useCallback(
@@ -43,18 +42,29 @@ const VolumeControls = observer(() => {
       width='auto'
     >
       <Tooltip title='Mute' placement='top'>
-        <Icon component={volumeIcon(volume, muted)} sx={{color: isFullscreen ? theme.palette.common.white : theme.palette.text.primary}} onClick={handleOnVolumeIconClick} />
+        <Icon
+          component={volumeIcon(volume, muted)}
+          sx={{
+            color: connected
+              ? isFullscreen ? theme.palette.common.white : theme.palette.text.primary
+              : theme.palette.text.disabledVideoPlayerIcon
+          }}
+          onClick={handleOnVolumeIconClick}
+        />
       </Tooltip>
       <Slider
         min={0}
         max={100}
         value={muted ? 0 : volumeValue}
+        disabled={!connected}
         sx={{
           width: '80px',
           height: '2px',
           marginLeft: '16px',
           '& .MuiSlider-thumb': {
-            backgroundColor: isFullscreen ? theme.palette.common.white : '#18DDFC',
+            backgroundColor: connected
+              ? isFullscreen ? theme.palette.common.white : '#18DDFC'
+              : theme.palette.text.disabledVideoPlayerIcon,
             width: '12px',
             height: '12px',
             '&:hover': {
@@ -66,7 +76,9 @@ const VolumeControls = observer(() => {
             opacity: 1,
           },
           '& .MuiSlider-track': {
-            color: isFullscreen ? 'rgba(255, 255, 255, 0.7)' : theme.palette.info.main,
+            color: connected
+              ? isFullscreen ? 'rgba(255, 255, 255, 0.7)' : theme.palette.info.main
+              : theme.palette.text.disabledVideoPlayerIcon,
           }
         }}
         onChange={handleChange}

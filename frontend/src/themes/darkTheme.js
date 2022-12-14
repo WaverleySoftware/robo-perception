@@ -25,7 +25,9 @@ const darkTheme = createTheme({
       primary: '#ffffff',
       secondary: '#B7C0D9',
       robotPositionTitle: '#B7C0D9',
-      robotSpeedValue: '#28BDEB'
+      robotSpeedValue: '#28BDEB',
+      disabledVideoPlayerIcon: '#777C94',
+      disabledPlayButtonIcon: '#B7C0D9',
     },
     hr: {
       main: '#80819A',
@@ -51,6 +53,7 @@ const darkTheme = createTheme({
       robotSpeedButtonDisabled: '#565873',
       circleProgressTrail: '#4F5171', 
       batteryLevel: '#4F5171',
+      disabledPlayButton: 'rgba(225, 230, 244, 0.2)',
     },
     border: {
       formItem: '#777C94',
