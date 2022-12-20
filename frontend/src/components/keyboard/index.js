@@ -1,13 +1,14 @@
 import React, {useState} from 'react'
+import { observer } from 'mobx-react'
 import { useStore } from '../../store'
 import {default as SimpleKeyboard} from 'react-simple-keyboard'
 import 'react-simple-keyboard/build/css/index.css'
 import { useTheme } from '@mui/material/styles'
 import './style.css'
-import { display, layout, buttonTheme, buttonAttributes, useStyles } from './keyboardSettings'
+import { display, layout, buttonTheme, buttonAttributes, useStyles, syntethicKeysMap } from './keyboardSettings'
 
-const Keyboard = () => {
-    const {rosStore: { publishKeyAction }} = useStore()
+const Keyboard = observer(() => {
+    const {rosStore: { handleKeyboardShortcuts }} = useStore()
     const [layoutName, setLayoutName] = useState('default')
     const { classes } = useStyles();
 
@@ -15,7 +16,8 @@ const Keyboard = () => {
         if (button === '{capslock}') {
             setLayoutName(layoutName === 'default' ? 'shift' : 'default')
         }
-        publishKeyAction(button)
+        const key = syntethicKeysMap[button] || button
+        handleKeyboardShortcuts(key)
     }
 
     const theme = useTheme()
@@ -40,6 +42,6 @@ const Keyboard = () => {
             />
         </div>
     )
-}
+})
 
 export default Keyboard

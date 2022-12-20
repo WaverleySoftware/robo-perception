@@ -1,7 +1,6 @@
 import ROSLIB from 'roslib'
 import { action, makeObservable, observable } from 'mobx'
 import { KEY_MESSAGE_TYPE, TELEOP_MESSAGE_TYPE, KEY_TOPIC, RECONNECTION_TIMER, ROSBRIDGE_CONNECTION_URL, TELEOP_TOPIC } from '../../constants'
-import throttle from 'lodash.throttle'
 
 const Ros = ROSLIB.Ros
 const RosTopic = ROSLIB.Topic
@@ -29,7 +28,6 @@ class RosController {
   }
 
   setupListeners = () => {
-    document.addEventListener('keydown', this.handleKeyboardShortcuts)
     this.ros.on('connection', () => {
       console.info('Connected to ROS bridge')
       this.setIsWSConnected(true)
@@ -81,16 +79,15 @@ class RosController {
     }
   }
 
-  handleKeyboardShortcuts = throttle((e) => {
-    const keyName = e.key
-    if ([' ', 'spacebar'].includes(keyName)) {
-      this.rootStore.videoPlayerStore.onClick()
-    } else {
-      if (this.isTeleopReady) {
+  handleKeyboardShortcuts = (keyName) => {
+    if(this.rootStore.navigationStore.activeTab === 0 && this.isTeleopReady && this.isWSConnected) {
+      if ([' ', 'spacebar'].includes(keyName)) {
+        this.rootStore.videoPlayerStore.onClick()
+      } else {
         this.publishKey(keyName)
       }
     }
-  }, 50)
+  }
 
   @action
   setIsWSConnected = (value) => {

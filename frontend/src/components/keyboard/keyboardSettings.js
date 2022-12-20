@@ -365,10 +365,11 @@ export const useStyles = makeStyles()((theme) => ({
       },
       '&[data-img="body-elevation-down"]': {
         '&:before': {
-          content: keyboardIcon.getIcon('bodyElevationUp'),
+          content: keyboardIcon.getIcon('bodyElevationDown'),
+          bottom: '2px',
         },
         '&:hover:before': {
-          content: keyboardIcon.getIcon('bodyElevationUp', theme.palette.common.white),
+          content: keyboardIcon.getIcon('bodyElevationDown', theme.palette.common.white),
         },
       },
       '&[data-img="arrow-up"]': {
@@ -583,3 +584,22 @@ export const useStyles = makeStyles()((theme) => ({
     },
   },
 }))
+
+export const syntethicKeysMap = {
+  '{escape}': 'Escape',
+  '{backspace}': 'Backspace',
+  '{enter}': 'Enter',
+  '{tab}': 'Tab',
+  '{shiftleft}': 'Shift',
+  '{shiftright}': 'Shift',
+  '{controlleft}': 'Control',
+  '{controlright}': 'Control',
+  '{altleft}': 'Alt',
+  '{altright}': 'Alt',
+  '{capslock}': 'CapsLock',
+  '{arrowup}': 'ArrowUp',
+  '{arrowleft}': 'ArrowLeft',
+  '{arrowdown}': 'ArrowDown',
+  '{arrowright}': 'ArrowRight',
+  '{space}': ' ',
+}
