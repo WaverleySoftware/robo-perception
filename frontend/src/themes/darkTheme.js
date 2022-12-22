@@ -28,6 +28,7 @@ const darkTheme = createTheme({
       robotSpeedValue: '#28BDEB',
       disabledVideoPlayerIcon: '#777C94',
       disabledPlayButtonIcon: '#B7C0D9',
+      logo: '#ffffff',
     },
     hr: {
       main: '#80819A',
