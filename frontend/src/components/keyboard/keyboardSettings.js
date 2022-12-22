@@ -56,7 +56,7 @@ export const buttonTheme = [
   },
   {
     class: 'incline-buttons',
-    buttons: 'd f',
+    buttons: 'a s',
   },
   {
     class: 'math-buttons',
@@ -176,12 +176,12 @@ export const buttonAttributes = [
   {
     attribute: 'data-img',
     value: 'incline-left',
-    buttons: 'd',
+    buttons: 'a',
   },
   {
     attribute: 'data-img',
     value: 'incline-right',
-    buttons: 'f',
+    buttons: 's',
   },
   {
     attribute: 'data-img',

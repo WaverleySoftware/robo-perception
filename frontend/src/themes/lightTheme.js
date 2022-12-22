@@ -28,6 +28,7 @@ const lightTheme = createTheme({
       robotSpeedValue: '#262748',
       disabledVideoPlayerIcon: '#B7C0D9',
       disabledPlayButtonIcon: '#B7C0D9',
+      logo: '#0F0E9F',
     },
     hr: {
       main: '#E1E6F4',
