@@ -150,9 +150,7 @@ class RosController {
       if ([' ', 'spacebar'].includes(keyName)) {
         this.rootStore.videoPlayerStore.onClick()
       } else {
-        if (this.isTeleopReady) {
-          this.publishKey(keyName)
-        }
+        this.publishKey(keyName)
       }
     }
   }

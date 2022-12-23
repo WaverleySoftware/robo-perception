@@ -8,7 +8,7 @@ import './style.css'
 import { display, layout, buttonTheme, buttonAttributes, useStyles, syntethicKeysMap } from './keyboardSettings'
 
 const Keyboard = observer(() => {
-    const {rosStore: { publishKey }} = useStore()
+    const {rosStore: { handleKeyboardShortcuts }} = useStore()
     const [layoutName, setLayoutName] = useState('default')
     const { classes } = useStyles();
 
@@ -17,7 +17,7 @@ const Keyboard = observer(() => {
             setLayoutName(layoutName === 'default' ? 'shift' : 'default')
         }
         const key = syntethicKeysMap[button] || button
-        publishKey(key)
+        handleKeyboardShortcuts(key)
     }
 
     const theme = useTheme()
