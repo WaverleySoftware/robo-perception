@@ -6,8 +6,8 @@ import { useStore } from '../../../../store'
 
 const ObjectDetectionControls = observer(({ connected }) => {
   const {
-    rosStore: { selectedMode, useNN, setNN },
-    videoPlayerStore: { isFullscreen },
+    webRTCStore: { selectedMode, useNN, setNN },
+    videoPlayerStore: { isFullscreen }
   } = useStore()
 
   const theme = useTheme()

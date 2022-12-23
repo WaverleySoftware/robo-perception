@@ -55,8 +55,12 @@ export const buttonTheme = [
     buttons: 'g h',
   },
   {
-    class: 'incline-buttons',
+    class: 'incline-side-buttons',
     buttons: 'a s',
+  },
+  {
+    class: 'incline-straight-buttons',
+    buttons: 'd f',
   },
   {
     class: 'math-buttons',
@@ -185,6 +189,16 @@ export const buttonAttributes = [
   },
   {
     attribute: 'data-img',
+    value: 'incline-front',
+    buttons: 'd',
+  },
+  {
+    attribute: 'data-img',
+    value: 'incline-back',
+    buttons: 'f',
+  },
+  {
+    attribute: 'data-img',
     value: 'underscore',
     buttons: '-',
   },
@@ -294,11 +308,16 @@ export const useStyles = makeStyles()((theme) => ({
           transform: 'translate(-50%, 0)',
         }
       },
-      '&.incline-buttons': {
+      '&.incline-straight-buttons': {
         '&:before': {
-          left: '50%',
-          bottom: '4px',
-          transform: 'translate(-50%, 0)',
+          bottom: '0',
+          right: '1px',
+        }
+      },
+      '&.incline-side-buttons': {
+        '&:before': {
+          right: '7px',
+          bottom: '2px',
         }
       },
       '&.brackets-buttons': {
@@ -498,6 +517,22 @@ export const useStyles = makeStyles()((theme) => ({
         },
         '&:hover:before': {
           content: keyboardIcon.getIcon('inclineRight', theme.palette.common.white),
+        }
+      },
+      '&[data-img="incline-front"]': {
+        '&:before': {
+          content: keyboardIcon.getIcon('inclineFront'),
+        },
+        '&:hover:before': {
+          content: keyboardIcon.getIcon('inclineFront', theme.palette.common.white),
+        },
+      },
+      '&[data-img="incline-back"]': {
+        '&:before': {
+          content: keyboardIcon.getIcon('inclineBack'),
+        },
+        '&:hover:before': {
+          content: keyboardIcon.getIcon('inclineBack', theme.palette.common.white),
         },
       },
       '&[data-img="underscore"]': {

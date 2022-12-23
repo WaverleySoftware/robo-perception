@@ -126,14 +126,16 @@ class VideoPlayer {
   detachEvents = () => {
     const { current: videoElement } = this.videoEl
 
-    videoElement.removeEventListener('play', this.start)
-    videoElement.removeEventListener('pause', this.stop)
-    videoElement.removeEventListener('timeupdate', this.handleTimeUpdate)
-    videoElement.removeEventListener('volumechange', this.handleVolumeChange)
-    videoElement.removeEventListener('waiting', this.handleStartBuffering)
-    videoElement.removeEventListener('playing', this.handleStopBuffering)
-    videoElement.removeEventListener('ended', this.handleEnded)
-    videoElement.parentNode.removeEventListener('fullscreenchange', this.setIsFullscreen)
+    if (videoElement) {
+      videoElement.removeEventListener('play', this.start)
+      videoElement.removeEventListener('pause', this.stop)
+      videoElement.removeEventListener('timeupdate', this.handleTimeUpdate)
+      videoElement.removeEventListener('volumechange', this.handleVolumeChange)
+      videoElement.removeEventListener('waiting', this.handleStartBuffering)
+      videoElement.removeEventListener('playing', this.handleStopBuffering)
+      videoElement.removeEventListener('ended', this.handleEnded)
+      videoElement.parentNode && videoElement.parentNode.removeEventListener('fullscreenchange', this.setIsFullscreen)
+    }
   }
 
   @action

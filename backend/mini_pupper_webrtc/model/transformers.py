@@ -3,6 +3,7 @@ import cv2
 import depthai as dai
 import blobconverter
 import numpy as np
+import time
 
 from aiortc import VideoStreamTrack
 from av import VideoFrame
@@ -12,6 +13,18 @@ from .camera_resolution import CameraResolution
 from .median_filter import MedianFilter
 from .options import Options
 from .uvicorn_logger import logger
+
+
+class FPSHandler:
+    def __init__(self):
+        self.timestamp = time.time() + 1
+        self.start = time.time()
+        self.frame_cnt = 0
+    def next_iter(self):
+        self.timestamp = time.time()
+        self.frame_cnt += 1
+    def fps(self):
+        return self.frame_cnt / (self.timestamp - self.start)
 
 
 class VideoTransformTrack(VideoStreamTrack):
@@ -142,10 +155,12 @@ class DepthAIVideoTransformTrack(VideoTransformTrack):
         # Properties
         self.camRgb.setPreviewSize(self.options.cam_width, self.options.cam_height)
         self.camRgb.setInterleaved(False)
+        self.camRgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_1080_P)
+        self.camRgb.setFps(40)
         self.camRgb.setColorOrder(dai.ColorCameraProperties.ColorOrder.RGB)
 
         # Linking
-        self.camRgb.preview.link(self.xoutRgb.input)
+        self.camRgb.video.link(self.xoutRgb.input)
         self.nn = None
 
         if options.nn_model != "":
@@ -159,7 +174,7 @@ class DepthAIVideoTransformTrack(VideoTransformTrack):
             self.camRgb.preview.link(self.nn.input)
             self.nn.out.link(self.nnOut.input)
         self.device = dai.Device(self.pipeline)
-        self.qRgb = self.device.getOutputQueue(name="rgb", maxSize=1, blocking=False)
+        self.qRgb = self.device.getOutputQueue(name="rgb", maxSize=4, blocking=False)
 
         if self.nn is not None:
             self.qDet = self.device.getOutputQueue(name="nn", maxSize=4, blocking=False)
@@ -259,6 +274,10 @@ class DepthAIDepthVideoTransformTrack(VideoTransformTrack):
             self.monoLeft.setResolution(dai.MonoCameraProperties.SensorResolution.THE_800_P)
             self.monoRight.setResolution(dai.MonoCameraProperties.SensorResolution.THE_800_P)
             self.frame = np.zeros((800, 1280, 3), np.uint8)
+        elif mono_camera_resolution == CameraResolution.THE_1080_P:
+            self.monoLeft.setResolution(dai.MonoCameraProperties.SensorResolution.THE_1080_P)
+            self.monoRight.setResolution(dai.MonoCameraProperties.SensorResolution.THE_1080_P)
+            self.frame = np.zeros((1080, 1920, 3), np.uint8)
         self.monoLeft.setBoardSocket(dai.CameraBoardSocket.LEFT)
         self.monoRight.setBoardSocket(dai.CameraBoardSocket.RIGHT)
 

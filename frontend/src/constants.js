@@ -6,8 +6,17 @@ export const BE_URL = import.meta.env.REACT_APP_BE_URL || '127.0.0.1'
 export const RECONNECTION_TIMER = +(import.meta.env.REACT_APP_RECONNECTION_TIMER || 1000)
 export const KEY_TOPIC = import.meta.env.REACT_APP_KEY_TOPIC || '/key'
 export const TELEOP_TOPIC = import.meta.env.REACT_APP_TELEOP_TOPIC || '/teleop_status'
+export const BATTERY_TOPIC = import.meta.env.REACT_APP_BATTERY_TOPIC || '/battery/state'
+export const MEMORY_TOPIC = import.meta.env.REACT_APP_MEMORY_TOPIC || '/memory/state'
+export const CPU_TOPIC = import.meta.env.REACT_APP_CPU_TOPIC || '/cpu/state'
+export const POSE_CHANGE_TOPIC = import.meta.env.REACT_APP_POSE_CHANGE_TOPIC || '/robot_pose/change'
+export const POSE_STATE_TOPIC = import.meta.env.REACT_APP_POSE_STATE_TOPIC || '/robot_pose/is_standing'
 export const KEY_MESSAGE_TYPE = 'std_msgs/String'
-export const TELEOP_MESSAGE_TYPE = 'std_msgs/Bool'
+export const BOOL_MESSAGE_TYPE = 'std_msgs/Bool'
+export const HARDWARE_MESSAGE_TYPE = 'std_msgs/Float32'
+export const BATTERY_MESSAGE_TYPE = 'sensor_msgs/BatteryState'
+export const POSE_MESSAGE_TYPE = 'std_msgs/String'
+export const IS_SIMULATING = import.meta.env.REACT_APP_IS_SIMULATING === 'true'
 export const CameraType = {
     DEPTH: 'depth',
     RGB: 'rgb',
