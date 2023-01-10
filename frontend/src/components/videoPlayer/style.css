@@ -23,3 +23,7 @@ video {
   height: 100%;
   object-fit: contain;
 }
+
+.video-wrapper.fullscreen {
+  padding-top: 0;
+}

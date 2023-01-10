@@ -6,9 +6,10 @@ import VideoControls from '../videoControls'
 import VideoOverlay from '../videoOverlay'
 import Widget from '../widget'
 import ConnectionInfo from '../videoConnectionInfo'
+import classNames from 'classnames'
 
 const VideoPlayerView = observer((props) => {
-  const {videoPlayerStore: { videoEl, attachEvents, detachEvents }} = useStore()
+  const {videoPlayerStore: { videoEl, attachEvents, detachEvents, isFullscreen }} = useStore()
 
   useEffect(() => {
     attachEvents()
@@ -22,7 +23,7 @@ const VideoPlayerView = observer((props) => {
     <Widget widgetName='screen' styles={{padding: 0, width: '787px', backgroundColor: 'transparent', boxShadow: 'none'}}>
       <div
         tabIndex={-1}
-        className='video-wrapper'
+        className={classNames('video-wrapper', { 'fullscreen': isFullscreen })}
         style={{
           cursor: 'default'
         }}
