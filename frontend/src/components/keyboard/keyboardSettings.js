@@ -305,7 +305,7 @@ export const useStyles = makeStyles()((theme) => ({
       },
       '&.incline-straight-buttons': {
         '&:before': {
-          bottom: '0',
+          bottom: 0,
           right: '1px',
         }
       },
@@ -539,6 +539,22 @@ export const useStyles = makeStyles()((theme) => ({
         },
         '&:hover:before': {
           content: keyboardIcon.getIcon('inclineBack', theme.palette.common.white),
+        },
+      },
+      '&[data-img="incline-front"]': {
+        '&:before': {
+          content: keyboardIcon.getIcon('inclineFront'),
+        },
+        '&:hover:before': {
+          content: keyboardIcon.getIcon('inclineFront', theme.palette.common.white),
+        },
+      },
+      '&[data-img="incline-back"]': {
+        '&:before': {
+          content: keyboardIcon.getIcon('inclineback'),
+        },
+        '&:hover:before': {
+          content: keyboardIcon.getIcon('inclineback', theme.palette.common.white),
         },
       },
       '&[data-img="underscore"]': {
