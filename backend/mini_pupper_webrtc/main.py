@@ -1,18 +1,21 @@
 import asyncio
 
-from typing import Dict
+from typing import Dict, List
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from mini_pupper_webrtc.dto.offer_payload import OfferPayload
+from .dto.offer_payload import OfferPayload
+from .dto.webrtc_response import WebRTCResponse
+from .dto.robot_type import RobotTypeDTO
 
 from .model.ros_bridge import RosBridge
 from .model.camera_type import CameraType
-
-from mini_pupper_webrtc.model.peer_connection import PeerConnection
-from mini_pupper_webrtc.model.uvicorn_logger import logger
-from mini_pupper_webrtc.dto.webrtc_response import WebRTCResponse
+from .model.peer_connection import PeerConnection
+from .model.uvicorn_logger import logger
+from .model.robot_type import RobotType
+from .model.robot_settings import RobotSettings
+from .model.widget import Widget
 
 ros_bridge: RosBridge = RosBridge()
 peer_connections: Dict[str, PeerConnection] = {}
@@ -24,6 +27,30 @@ app.add_middleware(
     allow_headers=["*"],
     allow_credentials=True
 )
+
+
+# ToDo: add DB support and replace hardcoded values
+@app.get('/robot_settings')
+def get_robots() -> List[RobotSettings]:
+    return [
+        RobotSettings(id=1, name='MiniPupper', type=1),
+        RobotSettings(id=2, name='Husky', type=2, speed_step=20)
+    ]
+
+
+@app.get('/robot_types')
+def get_robot_types() -> List[RobotTypeDTO]:
+    return [RobotTypeDTO(id=id, label=robot_type.value) for id, robot_type in enumerate(RobotType)]
+
+
+@app.get('/widgets')
+def get_widgets() -> List[Widget]:
+    return [
+        Widget(id=1, label='Screen', name='screen'),
+        Widget(id=2, label='Battery', name='battery'),
+        Widget(id=3, label='Robot\'s Speed', name='speed'),
+        Widget(id=4, label='Additional actions', name='actions')
+    ]
 
 
 @app.post('/offer', description='Establish WebRTC connection', response_model=WebRTCResponse)

@@ -26,3 +26,12 @@ export const NNType = {
     MOBILENET_SSD: 'mobilenet-ssd',
     NONE: ''
 }
+export const RobotPose = {
+    SIT: 'sit',
+    STAND: 'stand'
+}
+export const BatteryLevel = {
+    HIGH: 'High',
+    AVG: 'Average',
+    LOW: 'Low'
+  }

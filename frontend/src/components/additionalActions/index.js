@@ -6,6 +6,7 @@ import Widget, { WidgetTitle } from '../widget'
 import { ReactComponent as RobotStandIcon } from './robot_stand.svg'
 import { ReactComponent as RobotSitIcon } from './robot_sit.svg'
 import { useStore } from '../../store'
+import { RobotPose } from '../../constants'
 
 const RobotPositionButton = observer(({heading = '', position, currentPosition, children, handleClick}) => {
   const theme = useTheme()
@@ -46,11 +47,6 @@ const RobotPositionButton = observer(({heading = '', position, currentPosition, 
 const AdditionalActions = observer(() => {
   const theme = useTheme()
   const { rosStore: { isStanding, changePose } } = useStore()
-
-  const RobotPose = {
-    SIT: 'sit',
-    STAND: 'stand'
-  }
 
   const pose = () => {
     return isStanding ? RobotPose.STAND : RobotPose.SIT

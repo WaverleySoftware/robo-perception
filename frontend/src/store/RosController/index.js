@@ -21,11 +21,6 @@ const Ros = ROSLIB.Ros
 const RosTopic = ROSLIB.Topic
 const RosMessage = ROSLIB.Message
 
-export const robotPosition = {
-  sit: 'sit',
-  stand: 'stand',
-}
-
 class RosController {
   @observable isTeleopReady = false
   @observable isWSConnected = false
@@ -156,32 +151,32 @@ class RosController {
   }
 
   @action
-  setIsWSConnected = (value) => {
+  setIsWSConnected = (value = false) => {
     this.isWSConnected = value
   }
 
   @action
-  setIsTeleopReady = (value) => {
+  setIsTeleopReady = (value = false) => {
     this.isTeleopReady = value
   }
 
   @action
-  setBatteryState = (value) => {
+  setBatteryState = (value = 100) => {
     this.batteryState = (value | 0)
   }
 
   @action
-  setCpuState = (value) => {
+  setCpuState = (value = 0) => {
     this.cpuState = (value | 0)
   }
 
   @action
-  setMemoryState = (value) => {
+  setMemoryState = (value = 0) => {
     this.memoryState = (value | 0)
   }
 
   @action
-  setIsStanding = (value) => {
+  setIsStanding = (value = false) => {
     this.isStanding = value
   }
 }

@@ -10,6 +10,7 @@ import {
   buildStyles
 } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
+import { BatteryLevel } from '../../constants'
 
 const BatteryLevelDivider = observer(({left = '0'}) => {
   const theme = useTheme()
@@ -33,18 +34,13 @@ const BatteryLevelDivider = observer(({left = '0'}) => {
 const Battery = observer(() => {
   const theme = useTheme()
   const {rosStore: { batteryState }} = useStore()
-  const Level = {
-    HIGH: 'High',
-    AVG: 'Average',
-    LOW: 'Low'
-  }
 
   const paletteColorOf = (level) => {
-    return (level === Level.LOW ? theme.palette.error : level === Level.AVG ? theme.palette.warning : theme.palette.success).main
+    return (level === BatteryLevel.LOW ? theme.palette.error : level === BatteryLevel.AVG ? theme.palette.warning : theme.palette.success).main
   }
 
   const getCapacity = () => {
-    return batteryState < 20 ? Level.LOW : batteryState < 60 ? Level.AVG : Level.HIGH
+    return batteryState < 20 ? BatteryLevel.LOW : batteryState < 60 ? BatteryLevel.AVG : BatteryLevel.HIGH
   }
 
   const getColor = () => {
