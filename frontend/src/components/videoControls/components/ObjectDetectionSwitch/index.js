@@ -6,8 +6,8 @@ import { useStore } from '../../../../store'
 
 const ObjectDetectionControls = observer(({ connected }) => {
   const {
-    webRTCStore: { selectedMode, useNN, setNN },
-    videoPlayerStore: { isFullscreen, restart }
+    webRTCStore: { selectedMode, useNN, setNN, isDataChannelOpened },
+    videoPlayerStore: { isFullscreen, restart, isStreamStarted }
   } = useStore()
 
   const theme = useTheme()
@@ -20,6 +20,10 @@ const ObjectDetectionControls = observer(({ connected }) => {
     await restart()
   }
 
+  const isDisabled = () => {
+    return !connected || selectedMode === 'depth' || (connected && isStreamStarted && !isDataChannelOpened)
+  }
+
   return (
       <Grid direction='row' container item alignItems='center' marginLeft='22px' width='auto'>
         <Typography sx={{
@@ -29,7 +33,7 @@ const ObjectDetectionControls = observer(({ connected }) => {
         }}>Detect Objects</Typography>
         <Switch
           checked={useNN && selectedMode !== 'depth'}
-          disabled={!connected || selectedMode === 'depth'}
+          disabled={isDisabled()}
           onChange={handleNNChange}
           inputProps={{ 'aria-label': 'ant design' }}
           sx={{

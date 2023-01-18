@@ -40,7 +40,7 @@ def get_robots() -> List[RobotSettings]:
 
 @app.get('/robot_types')
 def get_robot_types() -> List[RobotTypeDTO]:
-    return [RobotTypeDTO(id=id, label=robot_type.value) for id, robot_type in enumerate(RobotType)]
+    return [RobotTypeDTO(id=id + 1, label=robot_type.value) for id, robot_type in enumerate(RobotType)]
 
 
 @app.get('/widgets')

@@ -9,6 +9,7 @@ export default class WebRTC {
   @observable useNN = false
   @observable isWebRtcConnected = false
   @observable dataChannel = null
+  @observable isDataChannelOpened = false
 
   constructor(rootStore) {
     makeObservable(this)
@@ -37,12 +38,24 @@ export default class WebRTC {
   }
 
   @action
+  onDataChannelOpened = () => {
+    this.isDataChannelOpened = true
+    console.log('[DC] opened')
+  }
+
+  @action
+  onDataChannelClosed = () => {
+    this.isDataChannelOpened = false
+    console.log('[DC] closed')
+  }
+
+  @action
   startWebRtc = async () => {
     this.initConnection()
     const dataChannel = this.createDataChannel(
       'pingChannel',
-      () => console.log('[DC] closed'),
-      () => console.log('[DC] opened'),
+      this.onDataChannelClosed,
+      this.onDataChannelOpened,
       this.onMessage
     )
     this.setDataChannel(dataChannel)

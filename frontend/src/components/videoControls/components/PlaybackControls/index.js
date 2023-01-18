@@ -7,11 +7,18 @@ import { alpha } from '@mui/material/styles'
 import { useTheme } from '@mui/material/styles'
 
 const PlaybackControls = observer(({ connected }) => {
-  const {videoPlayerStore: { isFullscreen, isStreamStarted, onClick, duration }} = useStore()
+  const {
+    videoPlayerStore: { isFullscreen, isStreamStarted, onClick, duration },
+    webRTCStore: { isDataChannelOpened },
+  } = useStore()
   const theme = useTheme()
 
   const playIcon = () => {
     return isStreamStarted ? Pause : PlayArrow
+  }
+
+  const isDisabled = () => {
+    return !connected || (connected && isStreamStarted && !isDataChannelOpened)
   }
 
   return (
@@ -20,7 +27,7 @@ const PlaybackControls = observer(({ connected }) => {
         <span>
           <IconButton
             onClick={onClick}
-            disabled={!connected}
+            disabled={isDisabled()}
             sx={{
               width: '44px',
               height: '44px',

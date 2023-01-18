@@ -7,10 +7,17 @@ import { IS_SIMULATING } from '../../../../constants'
 
 const CameraLabel = observer(({name, marginLeft = 0, connected}) => {
   const theme = useTheme()
-  const {videoPlayerStore: { isFullscreen }} = useStore()
+  const {
+    videoPlayerStore: { isFullscreen, isStreamStarted },
+    webRTCStore: { isDataChannelOpened },
+  } = useStore()
   const color = connected
     ? isFullscreen ? theme.palette.common.white : theme.palette.text.primary
     : theme.palette.text.disabledVideoPlayerIcon
+
+  const isDisabled = () => {
+    return !connected || (connected && isStreamStarted && !isDataChannelOpened)
+  }
 
   return (
     <FormControlLabel
@@ -30,7 +37,7 @@ const CameraLabel = observer(({name, marginLeft = 0, connected}) => {
           }}
         />
       }
-      disabled={!connected}
+      disabled={isDisabled()}
       label={name.toUpperCase()}
       sx={{
         marginLeft,
