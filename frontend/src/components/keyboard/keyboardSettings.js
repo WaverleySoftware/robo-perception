@@ -541,22 +541,6 @@ export const useStyles = makeStyles()((theme) => ({
           content: keyboardIcon.getIcon('inclineBack', theme.palette.common.white),
         },
       },
-      '&[data-img="incline-front"]': {
-        '&:before': {
-          content: keyboardIcon.getIcon('inclineFront'),
-        },
-        '&:hover:before': {
-          content: keyboardIcon.getIcon('inclineFront', theme.palette.common.white),
-        },
-      },
-      '&[data-img="incline-back"]': {
-        '&:before': {
-          content: keyboardIcon.getIcon('inclineback'),
-        },
-        '&:hover:before': {
-          content: keyboardIcon.getIcon('inclineback', theme.palette.common.white),
-        },
-      },
       '&[data-img="underscore"]': {
         alignItems: 'center',
         justifyContent: 'center',
