@@ -49,13 +49,17 @@ const CameraLabel = observer(({name, marginLeft = 0, connected}) => {
 })
 
 const CameraControls = observer(({ connected }) => {
-  const {webRTCStore: { setMode, selectedMode, setNN }} = useStore()
+  const {
+    webRTCStore: { setMode, selectedMode, setNN },
+    videoPlayerStore: { restart }
+  } = useStore()
 
-  const handleCameraModeChange = (event) => {
+  const handleCameraModeChange = async (event) => {
     setMode(event.target.value)
     if (selectedMode === 'depth') {
       setNN(false)
     }
+    await restart()
   }
 
   return (

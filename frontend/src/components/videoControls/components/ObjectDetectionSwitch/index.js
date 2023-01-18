@@ -7,7 +7,7 @@ import { useStore } from '../../../../store'
 const ObjectDetectionControls = observer(({ connected }) => {
   const {
     webRTCStore: { selectedMode, useNN, setNN },
-    videoPlayerStore: { isFullscreen }
+    videoPlayerStore: { isFullscreen, restart }
   } = useStore()
 
   const theme = useTheme()
@@ -15,8 +15,9 @@ const ObjectDetectionControls = observer(({ connected }) => {
     ? isFullscreen ? theme.palette.common.white : theme.palette.text.primary
     : theme.palette.text.disabledVideoPlayerIcon
 
-  const handleNNChange = () => {
+  const handleNNChange = async () => {
     setNN(!useNN)
+    await restart()
   }
 
   return (

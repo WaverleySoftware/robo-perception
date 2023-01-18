@@ -1,11 +1,11 @@
 import { observable, action, makeObservable } from 'mobx'
-import {BE_URL, CameraType, NNType} from '../../constants'
+import {BE_URL, CameraType, NNType, IS_SIMULATING} from '../../constants'
 import rgb from './mobilenet-ssd.json'
 import depth from './depth.json'
 import simulator from './simulator.json'
 
 export default class WebRTC {
-  @observable selectedMode = CameraType.RGB
+  @observable selectedMode = IS_SIMULATING ? CameraType.SIMULATOR : CameraType.RGB
   @observable useNN = false
   @observable isWebRtcConnected = false
   @observable dataChannel = null

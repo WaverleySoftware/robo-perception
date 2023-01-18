@@ -95,6 +95,15 @@ class VideoPlayer {
   }
 
   @action
+  restart = async () => {
+    const isConnected = this.rootStore.webRTCStore.isWebRtcConnected
+    if (isConnected) {
+      await this.onClick()
+    }
+    setTimeout(this.onClick, isConnected ? 500 : 0)
+  }
+
+  @action
   setVideoSource = (value) => {
     this.videoEl.current.srcObject = value
   }

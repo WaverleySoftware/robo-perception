@@ -90,14 +90,14 @@ class RosController {
       this.memoryTopic.subscribe((msg) => this.setMemoryState(msg.data))
       this.poseStateTopic.subscribe((msg) => this.setIsStanding(msg.data))
     })
-    this.ros.on('close', () => {
+    .on('close', () => {
       console.warn('Disconnected from ROS bridge')
       this.cleanup()
       setTimeout(() => this.connect(), RECONNECTION_TIMER)
       this.keyTopic = null
       this.teleopTopic = null
     })
-    this.ros.on('error', (error) => console.log(error))
+    .on('error', (error) => console.log(error))
   }
 
   connect = () => {

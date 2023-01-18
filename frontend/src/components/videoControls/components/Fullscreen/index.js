@@ -21,20 +21,22 @@ const Fullscreen = observer(({ connected }) => {
 
   return (
     <Tooltip title='Full screen' placement='top'>
-      <IconButton
-        onClick={toggleFullscreen}
-        disabled={!connected}
-        sx={{ borderRadius: '50%', width: '36px', height: '36px', marginLeft: '16px' }}
-      >
-        <SvgIcon
-          component={fullscreenIcon()}
-          sx={{
-            width: '22px',
-            height: '22px',
-            color,
-          }}
-        />
-      </IconButton>
+      <span>
+        <IconButton
+          onClick={toggleFullscreen}
+          disabled={!connected}
+          sx={{ borderRadius: '50%', width: '36px', height: '36px', marginLeft: '6px' }}
+        >
+          <SvgIcon
+            component={fullscreenIcon()}
+            sx={{
+              width: '22px',
+              height: '22px',
+              color,
+            }}
+          />
+        </IconButton>
+      </span>
     </Tooltip>
   )
 })
