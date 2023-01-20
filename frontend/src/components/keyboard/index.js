@@ -8,7 +8,10 @@ import './style.css'
 import { display, layout, buttonTheme, buttonAttributes, useStyles, syntethicKeysMap } from './keyboardSettings'
 
 const Keyboard = observer(() => {
-    const {rosStore: { handleKeyboardShortcuts }} = useStore()
+    const {
+      rosStore: { handleKeyboardShortcuts },
+      navigationStore: { activeTab },
+    } = useStore()
     const [layoutName, setLayoutName] = useState('default')
     const { classes } = useStyles();
     const keyboardRef = useRef(null);
@@ -44,7 +47,7 @@ const Keyboard = observer(() => {
                 baseClass={'simple-keyboard-main'}
                 physicalKeyboardHighlight={true}
                 physicalKeyboardHighlightPress={true}
-                physicalKeyboardHighlightPreventDefault={true}
+                physicalKeyboardHighlightPreventDefault={activeTab === 0}
                 physicalKeyboardHighlightTextColor={theme.palette.common.white}
                 physicalKeyboardHighlightBgColor={theme.palette.background.keyboardButtonBgPressed}
                 syncInstanceInputs={true}
