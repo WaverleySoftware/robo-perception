@@ -88,7 +88,7 @@ class PeerConnection(RTCPeerConnection):
         if self.track:
             self.track.stop()
         await self.close()
-        self.on_close(self)
+        self.on_close()
 
     @property
     def sdp(self):

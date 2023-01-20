@@ -6,8 +6,8 @@ import { useStore } from '../../../../store'
 
 const ObjectDetectionControls = observer(({ connected }) => {
   const {
-    rosStore: { selectedMode, useNN, setNN },
-    videoPlayerStore: { isFullscreen },
+    webRTCStore: { selectedMode, useNN, setNN, isDataChannelOpened },
+    videoPlayerStore: { isFullscreen, restart, isStreamStarted }
   } = useStore()
 
   const theme = useTheme()
@@ -15,8 +15,13 @@ const ObjectDetectionControls = observer(({ connected }) => {
     ? isFullscreen ? theme.palette.common.white : theme.palette.text.primary
     : theme.palette.text.disabledVideoPlayerIcon
 
-  const handleNNChange = () => {
+  const handleNNChange = async () => {
     setNN(!useNN)
+    await restart()
+  }
+
+  const isDisabled = () => {
+    return !connected || selectedMode === 'depth' || (connected && isStreamStarted && !isDataChannelOpened)
   }
 
   return (
@@ -28,7 +33,7 @@ const ObjectDetectionControls = observer(({ connected }) => {
         }}>Detect Objects</Typography>
         <Switch
           checked={useNN && selectedMode !== 'depth'}
-          disabled={!connected || selectedMode === 'depth'}
+          disabled={isDisabled()}
           onChange={handleNNChange}
           inputProps={{ 'aria-label': 'ant design' }}
           sx={{

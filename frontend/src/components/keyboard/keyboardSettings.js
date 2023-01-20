@@ -275,11 +275,6 @@ export const useStyles = makeStyles()((theme) => ({
       // groups of buttons
       '&.number-buttons': {
         fontSize: '10px',
-        '&:before': {
-          left: '50%',
-          transform: 'translate(-50%, 0)',
-          bottom: '6px',
-        }
       },
       '&.functional-buttons': {
         fontSize: '8px',
@@ -316,8 +311,8 @@ export const useStyles = makeStyles()((theme) => ({
       },
       '&.incline-side-buttons': {
         '&:before': {
-          right: '7px',
-          bottom: '2px',
+          bottom: 0,
+          right: '4px',
         }
       },
       '&.brackets-buttons': {
@@ -343,6 +338,8 @@ export const useStyles = makeStyles()((theme) => ({
       '&[data-img="body-roll-front"]': {
         '&:before': {
           content: keyboardIcon.getIcon('bodyRollFront'),
+          bottom: 0,
+          right: '3px',
         },
         '&:hover:before': {
           content: keyboardIcon.getIcon('bodyRollFront', theme.palette.common.white),
@@ -351,6 +348,8 @@ export const useStyles = makeStyles()((theme) => ({
       '&[data-img="body-roll-back"]': {
         '&:before': {
           content: keyboardIcon.getIcon('bodyRollBack'),
+          bottom: 0,
+          right: '3px',
         },
         '&:hover:before': {
           content: keyboardIcon.getIcon('bodyRollBack', theme.palette.common.white),
@@ -359,7 +358,9 @@ export const useStyles = makeStyles()((theme) => ({
       '&[data-img="body-roll-left"]': {
         '&:before': {
           content: keyboardIcon.getIcon('bodyRollLeft'),
-          height: '19px'
+          height: '19px',
+          bottom: '6px',
+          right: '5px',
         },
         '&:hover:before': {
           content: keyboardIcon.getIcon('bodyRollLeft', theme.palette.common.white),
@@ -368,7 +369,9 @@ export const useStyles = makeStyles()((theme) => ({
       '&[data-img="body-roll-right"]': {
         '&:before': {
           content: keyboardIcon.getIcon('bodyRollRight'),
-          height: '19px'
+          height: '19px',
+          bottom: '6px',
+          right: '5px',
         },
         '&:hover:before': {
           content: keyboardIcon.getIcon('bodyRollRight', theme.palette.common.white),
@@ -377,6 +380,8 @@ export const useStyles = makeStyles()((theme) => ({
       '&[data-img="body-elevation-up"]': {
         '&:before': {
           content: keyboardIcon.getIcon('bodyElevationUp'),
+          bottom: 0,
+          right: '4px',
         },
         '&:hover:before': {
           content: keyboardIcon.getIcon('bodyElevationUp', theme.palette.common.white),
@@ -385,7 +390,8 @@ export const useStyles = makeStyles()((theme) => ({
       '&[data-img="body-elevation-down"]': {
         '&:before': {
           content: keyboardIcon.getIcon('bodyElevationDown'),
-          bottom: '2px',
+          bottom: 0,
+          right: '4px',
         },
         '&:hover:before': {
           content: keyboardIcon.getIcon('bodyElevationDown', theme.palette.common.white),
@@ -517,7 +523,7 @@ export const useStyles = makeStyles()((theme) => ({
         },
         '&:hover:before': {
           content: keyboardIcon.getIcon('inclineRight', theme.palette.common.white),
-        },
+        }
       },
       '&[data-img="incline-front"]': {
         '&:before': {
@@ -529,10 +535,10 @@ export const useStyles = makeStyles()((theme) => ({
       },
       '&[data-img="incline-back"]': {
         '&:before': {
-          content: keyboardIcon.getIcon('inclineback'),
+          content: keyboardIcon.getIcon('inclineBack'),
         },
         '&:hover:before': {
-          content: keyboardIcon.getIcon('inclineback', theme.palette.common.white),
+          content: keyboardIcon.getIcon('inclineBack', theme.palette.common.white),
         },
       },
       '&[data-img="underscore"]': {

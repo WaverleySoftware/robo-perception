@@ -22,21 +22,21 @@ class Settings {
     id: 1,
     name: 'Spot 1234 869',
     type: '1',
-    speed_min: 0,
+    speed_min: 1,
     speed_max: 100,
     speed_step: 10
   }, {
     id: 2,
     name: 'robot 2',
     type: '2',
-    speed_min: 0,
-    speed_max: 50,
+    speed_min: 1,
+    speed_max: 100,
     speed_step: 20
   },]
 
   @observable currentRobotId = 1
 
-  @observable robotSpeed = 1
+  @observable robotSpeed = 100
 
   @action
   decreeseRobotSpeed = () => this.robotSpeed -= 1

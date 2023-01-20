@@ -2,6 +2,7 @@
 import { Divider, Grid, SvgIcon, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { observer } from 'mobx-react'
+import { useStore } from '../../store'
 import Widget, { WidgetTitle } from '../widget'
 import { ReactComponent as LightningIcon } from './lightning.svg'
 import {
@@ -9,6 +10,7 @@ import {
   buildStyles
 } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
+import { BatteryLevel } from '../../constants'
 
 const BatteryLevelDivider = observer(({left = '0'}) => {
   const theme = useTheme()
@@ -31,28 +33,25 @@ const BatteryLevelDivider = observer(({left = '0'}) => {
 
 const Battery = observer(() => {
   const theme = useTheme()
-  // TODO: define logic for percentage in a store (data, requests to DB, etc.)
-  const percentage = 80
-  
-  let color = theme.palette.success.main
-  let capacity = 'High'
+  const {rosStore: { batteryState }} = useStore()
 
-  if (percentage < 20) {
-    color = theme.palette.error.main
-    capacity = 'Low'
-  } else if (percentage < 40) {
-    color = theme.palette.warning.main
-    capacity = 'Middle'
-  } else if (percentage < 80) {
-    color = theme.palette.info.main
-    capacity = 'Average'
+  const paletteColorOf = (level) => {
+    return (level === BatteryLevel.LOW ? theme.palette.error : level === BatteryLevel.AVG ? theme.palette.warning : theme.palette.success).main
+  }
+
+  const getCapacity = () => {
+    return batteryState < 20 ? BatteryLevel.LOW : batteryState < 60 ? BatteryLevel.AVG : BatteryLevel.HIGH
+  }
+
+  const getColor = () => {
+    return paletteColorOf(getCapacity())
   }
 
   return (
     <Grid>
-      <Grid container justifyContent='space-between' >
-        <WidgetTitle styles={{marginBottom: '14px', fontWeight: theme.typography.fontWeightMedium}}>{capacity}</WidgetTitle>
-        <WidgetTitle styles={{marginBottom: '14px', fontWeight: theme.typography.fontWeightMedium}}>{percentage}%</WidgetTitle>
+      <Grid container justifyContent='space-between'>
+        <WidgetTitle styles={{marginBottom: '14px', fontWeight: theme.typography.fontWeightMedium}}>{getCapacity()}</WidgetTitle>
+        <WidgetTitle styles={{marginBottom: '14px', fontWeight: theme.typography.fontWeightMedium}}>{batteryState}%</WidgetTitle>
       </Grid>
       <Grid
         sx={{
@@ -73,8 +72,8 @@ const Battery = observer(() => {
           top: 0,
           left: 0,
           height: '100%',
-          width: `${percentage}%`,
-          backgroundColor: color,
+          width: `${batteryState}%`,
+          backgroundColor: getColor(),
           borderRadius: '6px',
         }}/>
       </Grid>
@@ -82,7 +81,7 @@ const Battery = observer(() => {
   )
 })
 
-const CircleProgress = observer(({percentage, title}) => {
+const CircleProgress = observer(({percentage, title, color=''}) => {
   const theme = useTheme()
 
   return (
@@ -90,7 +89,7 @@ const CircleProgress = observer(({percentage, title}) => {
       value={percentage}
       strokeWidth={10}
       styles={buildStyles({
-        pathColor: theme.palette.info.main,
+        pathColor: color || theme.palette.info.main,
         trailColor: theme.palette.background.circleProgressTrail,
       })}
     >
@@ -116,9 +115,26 @@ const CircleProgress = observer(({percentage, title}) => {
 })
 
 const RobotHardware = observer(() => {
-  // TODO: define logic for memoryUsagePercentage and cpuUsagePercentage in a store (data, requests to DB, etc.)
-  const memoryUsagePercentage = 35
-  const cpuUsagePercentage = 60
+  const theme = useTheme()
+  const {rosStore: { cpuState, memoryState }} = useStore()
+
+  const getCpuColor = () => {
+    return getColor(cpuState)
+  }
+
+  const getMemoryColor = () => {
+    return getColor(memoryState)
+  }
+
+  const getColor = (state) => {
+    if (state >= 0 && state <= 40) {
+      return theme.palette.success.main
+    } else if (state > 40 && state <= 80) {
+      return theme.palette.warning.main
+    } else if (state > 80) {
+      return theme.palette.error.main
+    }
+  }
 
   return (
     <Widget widgetName='battery' styles={{height: '100%'}}>
@@ -136,11 +152,11 @@ const RobotHardware = observer(() => {
       <Grid container alignItems='center' justifyContent='center'>
         <Grid item sx={{width: '100px', marginRight: '11px'}}>
           <WidgetTitle styles={{marginBottom: '16px'}}>Memory</WidgetTitle>
-          <CircleProgress percentage={memoryUsagePercentage} title='MEM'/>
+          <CircleProgress percentage={memoryState} title='MEM' color={getMemoryColor()}/>
         </Grid>
-        <Grid item sx={{width: '100px', marginLeft: '11px' }}>
+        <Grid item sx={{width: '100px', marginLeft: '11px'}}>
           <WidgetTitle styles={{marginBottom: '16px'}}>CPU</WidgetTitle>
-          <CircleProgress percentage={cpuUsagePercentage} title='CPU'/>
+          <CircleProgress percentage={cpuState} title='CPU' color={getCpuColor()}/>
         </Grid>
       </Grid>
     </Widget>

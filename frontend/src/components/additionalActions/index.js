@@ -5,8 +5,8 @@ import { observer } from 'mobx-react'
 import Widget, { WidgetTitle } from '../widget'
 import { ReactComponent as RobotStandIcon } from './robot_stand.svg'
 import { ReactComponent as RobotSitIcon } from './robot_sit.svg'
-import { robotPosition } from '../../store/RosController'
 import { useStore } from '../../store'
+import { RobotPose } from '../../constants'
 
 const RobotPositionButton = observer(({heading = '', position, currentPosition, children, handleClick}) => {
   const theme = useTheme()
@@ -46,7 +46,15 @@ const RobotPositionButton = observer(({heading = '', position, currentPosition, 
 
 const AdditionalActions = observer(() => {
   const theme = useTheme()
-  const { rosStore: { currentPosition, setCurrentPosition }} = useStore()
+  const { rosStore: { isStanding, changePose } } = useStore()
+
+  const pose = () => {
+    return isStanding ? RobotPose.STAND : RobotPose.SIT
+  }
+
+  const colorOf = (expectedPose) => {
+    return pose() === expectedPose ? theme.palette.common.white : theme.palette.secondary.main
+  }
 
   return (
     <Widget widgetName='actions'>
@@ -54,28 +62,28 @@ const AdditionalActions = observer(() => {
       <Grid container justifyContent='center'>
         <RobotPositionButton
           heading='Stand'
-          position={robotPosition.stand}
-          currentPosition={currentPosition}
-          handleClick={setCurrentPosition}
+          position={RobotPose.STAND}
+          currentPosition={pose()}
+          handleClick={() => changePose(RobotPose.STAND)}
         >
           <SvgIcon
             component={RobotStandIcon}
             inheritViewBox
             sx={{
-              fill: currentPosition === robotPosition.stand ? theme.palette.common.white : theme.palette.secondary.main
+              fill: colorOf(RobotPose.STAND)
             }} />
         </RobotPositionButton>
         <RobotPositionButton
           heading='Sit'
-          position={robotPosition.sit}
-          currentPosition={currentPosition}
-          handleClick={setCurrentPosition}
+          position={RobotPose.SIT}
+          currentPosition={pose()}
+          handleClick={() => changePose(RobotPose.SIT)}
         >
           <SvgIcon
             component={RobotSitIcon}
             inheritViewBox
             sx={{
-              fill: currentPosition === robotPosition.sit ? theme.palette.common.white : theme.palette.secondary.main
+              fill: colorOf(RobotPose.SIT)
             }}
           />
         </RobotPositionButton>

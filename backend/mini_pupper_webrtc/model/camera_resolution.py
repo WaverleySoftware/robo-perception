@@ -6,3 +6,4 @@ class CameraResolution(str, Enum):
     THE_480_P = 'THE_480_P'
     THE_720_P = 'THE_720_P'
     THE_800_P = 'THE_800_P'
+    THE_1080_P = 'THE_1080_P'

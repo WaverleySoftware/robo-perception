@@ -1,14 +1,15 @@
 import { observable, action, makeObservable } from 'mobx'
-import {BE_URL, CameraType, NNType} from '../../constants'
+import {BE_URL, CameraType, NNType, IS_SIMULATING} from '../../constants'
 import rgb from './mobilenet-ssd.json'
 import depth from './depth.json'
 import simulator from './simulator.json'
 
 export default class WebRTC {
-  @observable selectedMode = CameraType.RGB
+  @observable selectedMode = IS_SIMULATING ? CameraType.SIMULATOR : CameraType.RGB
   @observable useNN = false
   @observable isWebRtcConnected = false
   @observable dataChannel = null
+  @observable isDataChannelOpened = false
 
   constructor(rootStore) {
     makeObservable(this)
@@ -37,12 +38,24 @@ export default class WebRTC {
   }
 
   @action
+  onDataChannelOpened = () => {
+    this.isDataChannelOpened = true
+    console.log('[DC] opened')
+  }
+
+  @action
+  onDataChannelClosed = () => {
+    this.isDataChannelOpened = false
+    console.log('[DC] closed')
+  }
+
+  @action
   startWebRtc = async () => {
     this.initConnection()
     const dataChannel = this.createDataChannel(
       'pingChannel',
-      () => console.log('[DC] closed'),
-      () => console.log('[DC] opened'),
+      this.onDataChannelClosed,
+      this.onDataChannelOpened,
       this.onMessage
     )
     this.setDataChannel(dataChannel)
