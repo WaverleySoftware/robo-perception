@@ -15,6 +15,7 @@
 .App {
   display: flex;
   flex-direction: column;
+  min-width: 1440px;
   min-height: 720px;
   height: 100vh;
 }
