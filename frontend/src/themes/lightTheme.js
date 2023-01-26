@@ -77,6 +77,12 @@ const lightTheme = createTheme({
     fontWeightBold: 600,
     fontWeightMedium: 500,
     fontWeightRegular: 400,
+  },
+  zIndex: {
+    connectionInfo: 1,
+    closeWidget: 10,
+    fullscreen: 100,
+    fullscreenControls: 110,
   }
 });
 

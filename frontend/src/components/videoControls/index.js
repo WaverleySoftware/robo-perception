@@ -9,12 +9,14 @@ import TimeDisplay from './components/TimeDisplay'
 import VolumeControls from './components/VolumeControls'
 import ObjectDetectionControls from './components/ObjectDetectionSwitch'
 import Fullscreen from './components/Fullscreen'
+import { useTheme } from '@emotion/react'
 
 const VideoControls = observer(() => {
   const {
     videoPlayerStore: { isFullscreen, duration },
     rosStore: { isWSConnected, isTeleopReady },
   } = useStore()
+  const theme = useTheme()
 
   const connected = isWSConnected && isTeleopReady
 
@@ -31,7 +33,8 @@ const VideoControls = observer(() => {
           left: isFullscreen ? 0 : 'auto',
           padding: isFullscreen ? '0 10px' : '0',
           height: '56px',
-          width: '100%'
+          width: '100%',
+          zIndex: theme.zIndex.fullscreenControls,
         }}
       >
         <Grid xs={5} container item alignItems='center'>

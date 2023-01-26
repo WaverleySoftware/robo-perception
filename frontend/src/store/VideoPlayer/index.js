@@ -50,10 +50,6 @@ class VideoPlayer {
     this.videoEl.current.currentTime = value
   }
 
-  setIsFullscreen = () => {
-    this.isFullscreen = document.fullscreenElement === this.videoEl.current.parentNode
-  }
-
   @action
   setPlaying = () => {
     if (this.ended) {
@@ -129,7 +125,6 @@ class VideoPlayer {
     videoElement.addEventListener('waiting', this.handleStartBuffering)
     videoElement.addEventListener('playing', this.handleStopBuffering)
     videoElement.addEventListener('ended', this.handleEnded)
-    videoElement.parentNode.addEventListener('fullscreenchange', this.setIsFullscreen)
   }
 
   detachEvents = () => {
@@ -143,7 +138,6 @@ class VideoPlayer {
       videoElement.removeEventListener('waiting', this.handleStartBuffering)
       videoElement.removeEventListener('playing', this.handleStopBuffering)
       videoElement.removeEventListener('ended', this.handleEnded)
-      videoElement.parentNode && videoElement.parentNode.removeEventListener('fullscreenchange', this.setIsFullscreen)
     }
   }
 
@@ -210,12 +204,8 @@ class VideoPlayer {
   onDoubleClick = () => this.toggleFullscreen()
 
   @action
-  toggleFullscreen = async () => {
-    if (document.fullscreenElement === this.videoEl.current.parentNode) {
-      await document.exitFullscreen()
-    } else {
-      await this.videoEl.current.parentNode.requestFullscreen()
-    }
+  toggleFullscreen = () => {
+    this.isFullscreen = !this.isFullscreen
   }
 }
 
