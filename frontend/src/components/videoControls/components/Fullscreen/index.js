@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { observer } from 'mobx-react'
 import { Tooltip, SvgIcon, IconButton } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
@@ -8,6 +8,20 @@ import { useStore } from '../../../../store'
 
 const Fullscreen = observer(({ connected }) => {
   const {videoPlayerStore: { isFullscreen, toggleFullscreen }} = useStore()
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  }
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  // this trick is needed for fixing tooltip freezing on fullscreen change
+  useEffect(() => {
+    setOpen(false)
+  }, [isFullscreen])
 
   const fullscreenIcon = () => {
     return isFullscreen ? FullscreenExitIcon : FullscreenIcon
@@ -20,7 +34,7 @@ const Fullscreen = observer(({ connected }) => {
     : theme.palette.text.disabledVideoPlayerIcon
 
   return (
-    <Tooltip title='Full screen' placement='top'>
+    <Tooltip title='Full screen' placement='top' open={open} onClose={handleClose} onOpen={handleOpen}>
       <span>
         <IconButton
           onClick={toggleFullscreen}

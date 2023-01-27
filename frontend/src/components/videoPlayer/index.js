@@ -7,9 +7,11 @@ import VideoOverlay from '../videoOverlay'
 import Widget from '../widget'
 import ConnectionInfo from '../videoConnectionInfo'
 import classNames from 'classnames'
+import { useTheme } from '@emotion/react'
 
 const VideoPlayerView = observer((props) => {
   const {videoPlayerStore: { videoEl, attachEvents, detachEvents, isFullscreen }} = useStore()
+  const theme = useTheme()
 
   useEffect(() => {
     attachEvents()
@@ -25,7 +27,8 @@ const VideoPlayerView = observer((props) => {
         tabIndex={-1}
         className={classNames('video-wrapper', { 'fullscreen': isFullscreen })}
         style={{
-          cursor: 'default'
+          cursor: 'default',
+          zIndex: isFullscreen ? theme.zIndex.fullscreen : 'auto',
         }}
       >
         <ConnectionInfo />

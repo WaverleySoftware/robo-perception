@@ -55,7 +55,7 @@ const Widget = observer(({
                 top: '16px',
                 right: '16px',
                 cursor: 'pointer',
-                zIndex: 10,
+                zIndex: theme.zIndex.closeWidget,
                 width: '24px',
                 height: '24px',
                 '&:hover': {

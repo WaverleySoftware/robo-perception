@@ -39,7 +39,7 @@ const ConnectionInfo = observer(() => {
       width: '100%',
       height: '100%',
       backgroundColor: theme.palette.common.black,
-      zIndex: 1,
+      zIndex: theme.zIndex.connectionInfo,
       borderRadius: theme.shape.cardBorderRadius,
     }}>
       <Grid>
