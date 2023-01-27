@@ -7,7 +7,7 @@ import { useStore } from '../../../../store'
 const ObjectDetectionControls = observer(({ connected }) => {
   const {
     webRTCStore: { selectedMode, useNN, setNN, isDataChannelOpened },
-    videoPlayerStore: { isFullscreen, restart, isStreamStarted }
+    videoPlayerStore: { isFullscreen, restart, isStreamStarted, isPlaying }
   } = useStore()
 
   const theme = useTheme()
@@ -17,7 +17,9 @@ const ObjectDetectionControls = observer(({ connected }) => {
 
   const handleNNChange = async () => {
     setNN(!useNN)
-    await restart()
+    if (isPlaying) {
+      await restart()
+    }
   }
 
   const isDisabled = () => {
