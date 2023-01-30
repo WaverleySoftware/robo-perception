@@ -10,6 +10,7 @@ import { display, layout, buttonTheme, buttonAttributes, useStyles, syntethicKey
 const Keyboard = observer(() => {
     const {
       rosStore: { handleKeyboardShortcuts },
+      videoPlayerStore: { isFullscreen, toggleFullscreen},
       navigationStore: { activeTab },
     } = useStore()
     const [layoutName, setLayoutName] = useState('default')
@@ -21,6 +22,10 @@ const Keyboard = observer(() => {
             setLayoutName(layoutName === 'default' ? 'shift' : 'default')
         }
         const key = syntethicKeysMap[button] || button
+
+        if(isFullscreen && key === 'Escape') {
+          toggleFullscreen()
+        }
         handleKeyboardShortcuts(key)
     }
 
