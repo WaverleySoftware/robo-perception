@@ -10,6 +10,7 @@ import VolumeControls from './components/VolumeControls'
 import ObjectDetectionControls from './components/ObjectDetectionSwitch'
 import Fullscreen from './components/Fullscreen'
 import { useTheme } from '@emotion/react'
+import { IS_SIMULATING } from '../../constants'
 
 const VideoControls = observer(() => {
   const {
@@ -47,7 +48,7 @@ const VideoControls = observer(() => {
         </Grid>
         <Grid xs={5} container item alignItems='center' justifyContent='flex-end'>
           <VolumeControls connected={connected} />
-          <ObjectDetectionControls connected={connected} />
+          {!IS_SIMULATING && <ObjectDetectionControls connected={connected} />}
           <Fullscreen connected={connected} />
         </Grid>
       </Grid>
