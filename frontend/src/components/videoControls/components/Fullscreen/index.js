@@ -27,6 +27,8 @@ const Fullscreen = observer(({ connected }) => {
     return isFullscreen ? FullscreenExitIcon : FullscreenIcon
   }
 
+  const fullscreenTitle = isFullscreen ? 'Exit Full Screen' : 'Full Screen'
+
   const theme = useTheme()
 
   const color = connected
@@ -34,7 +36,7 @@ const Fullscreen = observer(({ connected }) => {
     : theme.palette.text.disabledVideoPlayerIcon
 
   return (
-    <Tooltip title='Full screen' placement='top' open={open} onClose={handleClose} onOpen={handleOpen}>
+    <Tooltip title={fullscreenTitle} placement='top' open={open} onClose={handleClose} onOpen={handleOpen}>
       <span>
         <IconButton
           onClick={toggleFullscreen}
