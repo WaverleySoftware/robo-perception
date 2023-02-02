@@ -1,117 +1,107 @@
-## MiniPupper Teleop
+## RoboPerception
 
-This project allows streaming video from [MiniPupper](https://minipupperdocs.readthedocs.io/en/latest/) via WebRTC and teleoperating it via ROS. Note that the [backend](https://github.com/sskorol/minipupper-teleop/tree/main/backend) expects you've already connected [OAK-D Lite](https://shop.luxonis.com/products/oak-d-lite-1) camera to your robot. If you don't have one yet, you can still teleoperate the robot via keyboard, but w/o a camera stream. Also, note that technically you are not forced to use this project with MiniPupper only. It should work for any robot with OAK camera.
+This project enables web-based teleoperation support for different types of robots like [MiniPupper](https://minipupperdocs.readthedocs.io/en/latest/).
+Video streaming is implemented via WebRTC, and teleoperation is done via ROS.
+Note that the [backend](https://github.com/WaverleySoftware/robo-perception/tree/main/backend) expects you've already connected a depth camera like [OAK-D Lite](https://shop.luxonis.com/products/oak-d-lite-1) to your robot (only Luxonis products are supported at the moment). If you don't have one yet, you can still teleoperate the robot via keyboard w/o a video stream, or just use a simulator (guide TBD).
 
-<video src='https://user-images.githubusercontent.com/6638780/184704954-94f721f5-6219-48b2-9696-3da01e509eec.mp4'></video>
+<video src="https://user-images.githubusercontent.com/6638780/216462051-69f42309-a2ed-4503-bd91-8f26c7efc3ee.mp4"></video>
 
-- [MiniPupper Teleop](#minipupper-teleop)
+- [RoboPerception](#roboperception)
   - [Architecture](#architecture)
   - [Installation](#installation)
-  - [Running on MiniPupper](#running-on-minipupper)
-  - [Simulated Environment](#running-in-simulated-environment)
-  - [Building FE and BE](#building-fe-and-be)
-  - [Known Issues](#known-issues)
+  - [Running](#running)
+  - [Building FE and BE Docker images](#building-fe-and-be-docker-images)
   - [ToDo](#todo)
 
 ### Architecture
 
 The following diagram reflects the most recent implementation:
 
-![RoboticsDiagram](https://user-images.githubusercontent.com/6638780/184701436-863ccb48-9bcd-44c4-ba8f-c6ebf35d10d9.png)
+![RoboticsDiagram](https://user-images.githubusercontent.com/6638780/215894287-12096b5d-7e7c-42dd-910d-089199378e9a.png)
 
-- **roscore**: a master node that handles all the ROS requests;
-- **rosbridge**: WS proxy between FE and ROS that accepts messages (keys) from the remote browser and passes them to ROS nodes;
-- **webrtc-be**: Python BE, which streams OAK-D Lite camera video to the remote browser via WebRTC (internally uses [DepthAI](https://docs.luxonis.com/projects/api/en/latest/index.html) API);
-- **teleop-fe**: ReactJS FE which uses [roslibjs](https://github.com/RobotWebTools/roslibjs) to communicate with ROS bridge and WebRTC API for camera streaming;
-- **servo-drv**: MiniPupper's servo driver node, which listens to CHAMP messages and changes joints' angles;
-- **CHAMP/vel-smoother**: [CHAMP](https://github.com/chvmp/champ) framework controls the robot's movements;
-- **teleop**: a slightly modified [teleop-legged-robots](https://github.com/SoftServeSAG/teleop_legged_robots) node that accepts remote keys rather than local keyboard events.
+- **backend**: Python BE, which streams camera video to the remote browser via WebRTC; it internally uses [DepthAI](https://docs.luxonis.com/projects/api/en/latest/index.html) API on real hardware, and Gazebo camera images in simulation mode;
+- **frontend**: ReactJS FE which uses [roslibjs](https://github.com/RobotWebTools/roslibjs) to communicate with ROS bridge and WebRTC API for camera streaming;
+- **rosbridge**: WS proxy between FE/BE and ROS that handles the following messages.
 
-Note that `velocity-smoother` was intentionally splitted from `champ` due to netwroking issue mentioned in a [known issues](#known-issues) section.
+| Source | Pub/Sub | Topic                              | Message Type                | Example    |
+| ------ | ------- | ---------------------------------- | --------------------------- | ---------- |
+| FE     | Pub     | /key                               | std_msgs/String             | i/I/1/,    |
+| FE     | Pub     | /robot_pose/change                 | std_msgs/String             | sit/stand  |
+| FE     | Sub     | /teleop_status                     | std_msgs/Bool               | true/false |
+| FE     | Sub     | /robot_pose/is_standing            | std_msgs/Bool               | true/false |
+| FE     | Sub     | /battery/state                     | sensor_msgs/BatteryState    |            |
+| FE     | Sub     | /memory/state                      | std_msgs/Float32            | 0.0-100.0  |
+| FE     | Sub     | /cpu/state                         | std_msgs/Float32            | 0.0-100.0  |
+| BE     | Sub     | /camera/color/image_raw/compressed | sensor_msgs/CompressedImage |            |
+
+- ROS Bridge should be visible to a client to perform common operations via Web UI.
+- You should provide `CompressedImage` to see a virtual camera stream from Gazebo in simulation mode.
+- Only `BatteryState.percentage` property is used for rendering for battery stats.
+- Teleoperation is impossible while `is_standing` or `teleop_status` flag is `false`.
+- Keyboard keys are sent in a raw format. You should implement ROS subscriber which transforms a key to `cmd_vel`.
+- `/robot_pose/change` is very robot-specific: FE just sends either a `sit` or `stand` command.
 
 ### Installation
-
-The following [ROS image](https://drive.google.com/file/d/1Mk_bSmIvnN8EIzB8IilS9M4pofTUH9r2/view?usp=sharing) already comes with all the required drivers pre-installed. Just flash it to SD card and you are almost ready to go.
-
-Check the [official guide](https://docs.docker.com/engine/install/ubuntu/) if you don't have Docker yet. Note that you need both `docker` and `docker-compose` CLI tools installed on MiniPupper.
 
 Clone the source code:
 
 ```shell
-git clone https://github.com/sskorol/minipupper-teleop.git && cd minipupper-teleop
+git clone https://github.com/WaverleySoftware/robo-perception.git && cd robo-perception
 ```
 
-Prepare calibration and env files:
+Prepare required env files:
 
 ```shell
-./generate_configs.sh [MINI_PUPPER_IP_ADDRESS]
+./generate_configs.sh [ROBOT_IP_ADDRESS]
 ```
 
-Adjust angles in `calibration_settings.yaml` to match your own robot's calibration data. Note that MiniPupper's legs should be calibrated to 90 degress as on the following screenshot, as CHAMP framework automatically adjusts angles during bringup process to make your robot stand:
+Robot's IP is required for the FE to be able to communicate with the BE via remote browser.
 
-![image](https://user-images.githubusercontent.com/6638780/183618832-c133ddef-484c-4974-b6e9-04f7e1d81e6e.png)
-
-MiniPupper's IP is required for the FE container to be able to communicate with the BE via remote browser.
-
-Use the following steps to relax your web-browser restrictions:
-
-- Open Chrome
-- Type `chrome://flags/` in the address bar and hit Enter
-- Enable `Insecure origins treated as secure` option, and type the IP address of your MiniPupper
-- Restart Chrome
-
-### Running on MiniPupper
-
-Run the following command to start a stack of docker images required to perform teleoperation:
-
+Setup backend:
 ```shell
-docker compose pull && docker compose up -d
+cd backend && python3 -m venv .venv
+source .venv/bin/activate
+pip3 install pip --upgrade
+pip3 install -r requirements.txt
 ```
 
-An old docker cli uses a bit different syntax: `docker-compose up -d`.
-
-Open your web browser and go to: `http://[MINI_PUPPER_IP_ADDRESS]`
-
-### Running in simulated environment
-
-If you don't have a robot yet, you can still play with teleoperation locally in a simulated environment.
-
-<video src='https://user-images.githubusercontent.com/6638780/184727365-927b5755-99b4-4098-9010-52444ad33856.mp4'></video>
-
+Setup frontend:
 ```shell
-docker compose -f docker-compose-sim.yaml pull && docker compose -f docker-compose-sim.yaml up -d
+cd ../frontend
+npm install
 ```
 
-Then open your web-browser on a localhost, wait until teleop is ready, and you're good to go.
+### Running
 
-### Building FE and BE
+Start ROS bridge and all the custom ROS services that implement the message protocol described in [architecture](#architecture) section.
 
-Run the following command on MiniPupper to build FE and BE images:
+Start backend:
+```shell
+cd robo-perception/backend && source .venv/bin/activate
+./run.sh
+```
+
+Start frontend:
+```shell
+cd robo-perception/frontend && npm start
+```
+
+Open your web browser and go to: `http://[ROBO_PERCEPTION_SERVICE_IP_ADDRESS]:3000`
+
+### Building FE and BE Docker images
+
+Run the following command to build FE and BE images:
 
 ```shell
 docker compose build
 ```
 
-### Known issues
-
-In rare cases `teleop`, `smoother` and `servo` nodes can't correctly publish/subscribe to `/cmd_vel` topic due to registration failure. The current workaround is displayed on the following diagram.
-
-![Docker networking issue](https://user-images.githubusercontent.com/6638780/183454585-49ca757e-a932-4dbe-a5ba-95007cfaafec.png)
-
-You can try to restart docker images to see if it helps. I couldn't yet found the root cause of these Docker <---> ROS networking issues. Feel free to contact [author](mailto:serhii.s.korol@gmail.com) if you have any idea on how to stabilize it.
-
-Run the following command on MiniPupper to diagnose potential errors in logs:
-
-```shell
-docker compose logs -f
-```
-
 ### ToDo
 
 - [ ] Polish FE and BE code
-- [ ] Add local deployment instructions
-- [ ] Add docker-cross builds
-- [ ] Push teleop and mini-pupper core sources
+- [x] Add local deployment instructions
+- [ ] Add simulated environment instructions
+- [ ] Add Docker instructions
 - [ ] Migrate to ROS2
-- [ ] Get rid of velocity-smoother, which seems to cause most networking issues
-- [ ] Add map for SLAM and navigation
+- [ ] Add interactive map for SLAM and navigation
+- [ ] Add gamepad support
