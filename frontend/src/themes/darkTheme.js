@@ -55,6 +55,8 @@ const darkTheme = createTheme({
       circleProgressTrail: '#4F5171', 
       batteryLevel: '#4F5171',
       disabledPlayButton: 'rgba(225, 230, 244, 0.2)',
+      guideModal: '#333553',
+      guideCarouselIndicator: '#4F5171',
     },
     border: {
       formItem: '#777C94',

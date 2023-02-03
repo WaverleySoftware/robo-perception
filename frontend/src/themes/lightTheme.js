@@ -55,6 +55,8 @@ const lightTheme = createTheme({
       circleProgressTrail: '#E1E6F4',
       batteryLevel: '#E1E6F4',
       disabledPlayButton: '#E1E6F4',
+      guideModal: '#FFFFFF',
+      guideCarouselIndicator: '#E1E6F4',
     },
     border: {
       formItem: '#B7C0D9',
