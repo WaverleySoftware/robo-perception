@@ -19,6 +19,7 @@ import BoxTitle from '../boxTitle'
 const AccordionWrapper = styled((props) => (<MuiAccordion {...props}/>))(({ theme }) => ({
   borderRadius: theme.shape.cardBorderRadius,
   background: theme.palette.background.paper,
+  boxShadow: theme.palette.boxShadow.card,
   marginBottom: '16px',
   '&:first-of-type': {
     borderRadius: theme.shape.cardBorderRadius

@@ -66,6 +66,7 @@ const lightTheme = createTheme({
     },
     boxShadow: {
       robotSpeedButton: '0px 6px 22px rgba(222, 226, 237, 0.51)',
+      card: '-10px 10px 20px rgba(212, 212, 225, 0.2), 10px -10px 20px rgba(182, 182, 210, 0.2)',
     }
   },
   shape: {

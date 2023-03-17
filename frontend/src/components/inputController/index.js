@@ -4,13 +4,14 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import { tabUnstyledClasses } from '@mui/base/TabUnstyled'
 import { styled } from '@mui/material/styles'
-import { Paper, SvgIcon, Typography } from '@mui/material'
+import { SvgIcon, Typography } from '@mui/material'
 import { ReactComponent as KeyboardIcon } from './keyboardIcon.svg'
 import { ReactComponent as JoystickIcon } from './joystickIcon.svg'
 import TabPanel from '../tabPanel'
 import Keyboard from '../keyboard'
 import Joystick from '../joystick'
 import { useTheme } from '@mui/material/styles'
+import Paper from '../paper'
 
 const InputControllerTab = styled(Tab)(({ theme }) => ({
   fontSize: '6px',
@@ -53,10 +54,12 @@ const InputController = observer(() => {
   const handleChange = (_event, newValue) => {
     setActiveTab(newValue);
   }
-  const theme = useTheme()
 
   return (
-    <Paper sx={{borderRadius: theme.shape.cardBorderRadius, position: 'relative', padding: '24px 0 8px'}}>
+    <Paper sx={{
+      position: 'relative',
+      padding: '24px 0 8px'
+    }}>
       <Tabs
         value={activeTab}
         onChange={handleChange}
