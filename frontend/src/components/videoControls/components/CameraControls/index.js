@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { observer } from 'mobx-react'
 import { Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
@@ -82,11 +82,10 @@ const CameraControls = observer(({ connected }) => {
         onChange={handleCameraModeChange}
       >
         {
-          IS_SIMULATING ? <CameraLabel name='sim' marginLeft='16px' connected={connected} /> :
-          <Fragment>
+          !IS_SIMULATING && <>
             <CameraLabel name='rgb' connected={connected} />
             <CameraLabel name='depth' marginLeft='16px' connected={connected} />
-          </Fragment>
+          </>
         }
       </RadioGroup>
     </FormControl>
