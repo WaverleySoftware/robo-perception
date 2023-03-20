@@ -1,8 +1,9 @@
 import { useTheme } from '@mui/material/styles'
-import { IconButton, Paper, Tooltip, Typography } from '@mui/material'
+import { IconButton, Tooltip, Typography } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { observer } from 'mobx-react'
 import { useStore } from '../../store'
+import Paper from '../paper'
 
 export const WidgetTitle = ({ children, styles }) => {
   const theme = useTheme()
@@ -42,9 +43,6 @@ const Widget = observer(({
       ? <Paper
           sx={{
             position: 'relative',
-            background: theme.palette.background.paper,
-            borderRadius: theme.shape.cardBorderRadius,
-            padding: '24px',
             ...styles,
           }}
         >

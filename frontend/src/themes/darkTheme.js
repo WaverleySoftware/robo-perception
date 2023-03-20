@@ -66,6 +66,7 @@ const darkTheme = createTheme({
     },
     boxShadow: {
       robotSpeedButton: 'none',
+      card: 'none'
     }
   },
   shape: {
