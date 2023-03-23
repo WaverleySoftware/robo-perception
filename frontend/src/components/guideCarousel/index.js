@@ -5,7 +5,6 @@ import Carousel from 'react-material-ui-carousel'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import KeyboardTemplate from './keyboardTemplate'
-import { useEffect, useState } from 'react'
 import RobotMovement from './activeButtons/robotMovement'
 import RobotMovementObliquely from './activeButtons/robotMovementObliquely'
 import RobotMovementObliquelyHolo from './activeButtons/robotMovementObliquelyHolo'
@@ -188,18 +187,11 @@ const NavButton = ({onClick, className, style, next, prev}) => {
   )
 }
 
-const GuideCarousel = (props) => {
-  const [currentIndex, setCurrentIndex] = useState(0)
-
-  useEffect(() => {
-
-  })
-
+const GuideCarousel = () => {
   const onChange = (now, prev) => {
     if(now !== prev) {
-      setCurrentIndex(now)
+      console.log('start animatino here')
     }
-    console.log('onChange now', now, prev)
   }
 
   return <StyledCarousel
@@ -218,7 +210,7 @@ const GuideCarousel = (props) => {
     onChange={onChange}
   >
     {
-        guideItems.map( (item, i) => <CarouselItem key={i} item={item} currentIndex={currentIndex} index={i}/> )
+        guideItems.map( (item, i) => <CarouselItem key={i} item={item} /> )
     }
   </StyledCarousel>
 }
