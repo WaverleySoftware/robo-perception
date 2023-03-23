@@ -29,6 +29,7 @@ const lightTheme = createTheme({
       disabledVideoPlayerIcon: '#B7C0D9',
       disabledPlayButtonIcon: '#B7C0D9',
       logo: '#0F0E9F',
+      guideActiveButton: '#142236',
     },
     hr: {
       main: '#E1E6F4',

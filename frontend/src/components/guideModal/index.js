@@ -22,10 +22,10 @@ const GuideModal = observer(({open, onClose}) => {
         position: 'absolute',
         right: 0,
         top: 0,
-        width: '637px',
+        width: '712px',
         height: '100%',
         backgroundColor: theme.palette.background.guideModal,
-        padding: '30px 48px',
+        padding: '34px',
       }}>
         <CloseButton title='Close Guide' onClick={onClose}/>
         <InputTabs

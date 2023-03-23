@@ -29,6 +29,7 @@ const darkTheme = createTheme({
       disabledVideoPlayerIcon: '#777C94',
       disabledPlayButtonIcon: '#B7C0D9',
       logo: '#ffffff',
+      guideActiveButton: '#FFFFFF',
     },
     hr: {
       main: '#80819A',

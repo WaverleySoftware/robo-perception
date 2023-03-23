@@ -5,6 +5,18 @@ import Carousel from 'react-material-ui-carousel'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import KeyboardTemplate from './keyboardTemplate'
+import { useEffect, useState } from 'react'
+import RobotMovement from './activeButtons/robotMovement'
+import RobotMovementObliquely from './activeButtons/robotMovementObliquely'
+import RobotMovementObliquelyHolo from './activeButtons/robotMovementObliquelyHolo'
+import Roll from './activeButtons/roll'
+import Pitch from './activeButtons/pitch'
+import Torsion from './activeButtons/torsion'
+import Tilt from './activeButtons/tilt'
+import TiltSide from './activeButtons/tiltSide'
+import BodyElevetion from './activeButtons/bodyElevetion'
+import robot from '../../Media/pupper_cool.jpeg'
+
 
 const StyledCarousel = styled(Carousel)(({ theme }) => ({
   '& .nav-button-wrapper': {
@@ -47,42 +59,107 @@ const StyledCarousel = styled(Carousel)(({ theme }) => ({
 
 const guideItems = [
   {
-    leggedRobotImage: 'https://www.assemblymag.com/ext/resources/LatestHeadlines/headlines900/ford-robot-9001.jpg?1597247564',
-    wheeledRobotImage: 'robot image 2',
-    title: 'Moves the robot:',
-    ButtonDescriptionComponent: 'i - forward ...',
+    leggedRobotImage: robot,
+    title: 'Robot movement:',
+    activeButtonsDescription: RobotMovement,
     keyboardSettings: {
-
-    }
+      template: 'normal',
+      actions: ['forward', 'backward', 'leftward-rotation', 'rightward-rotation'],
+      current: 'forward',
+    },
   },
   {
-    leggedRobotImage: 'http://robohub.org/wp-content/uploads/2015/10/starleth_quadruped_robot_bioinspired.jpg',
-    wheeledRobotImage: 'robot image 2',
+    leggedRobotImage: robot,
+    title: 'Robot movement:',
+    activeButtonsDescription: RobotMovementObliquely,
+    keyboardSettings: {
+      template: 'normal',
+      actions: ['left-forward', 'right-forward', 'right-backward', 'left-backward'],
+      current: 'left-forward',
+    },
+  },
+  {
+    leggedRobotImage: robot,
     title: 'Moves the robot (holo):',
-    ButtonDescriptionComponent: 'i - forward ...',
+    activeButtonsDescription: RobotMovementObliquelyHolo,
     keyboardSettings: {
-      
-    }
+      template: 'shift',
+      actions: ['left-forward', 'right-forward', 'right-backward', 'left-backward'],
+      current: 'left-forward',
+    },
   },
   {
-    leggedRobotImage: 'https://www.assemblymag.com/ext/resources/LatestHeadlines/headlines900/ford-robot-9001.jpg?1597247564',
-    wheeledRobotImage: 'robot image 2',
-    title: 'Body\'s roll:',
-    ButtonDescriptionComponent: 'i - forward ...',
+    leggedRobotImage: robot,
+    title: 'Roll:',
+    activeButtonsDescription: Roll,
     keyboardSettings: {
-      
-    }
+      template: 'normal',
+      actions: ['roll-left', 'roll-right'],
+      current: 'roll-right',
+    },
+  },
+  {
+    leggedRobotImage: robot,
+    title: 'Pitch:',
+    activeButtonsDescription: Pitch,
+    keyboardSettings: {
+      template: 'normal',
+      actions: ['pitch-front', 'pitch-back'],
+      current: 'pitch-back',
+    },
+  },
+  {
+    leggedRobotImage: robot,
+    title: 'Robot torsion:',
+    activeButtonsDescription: Torsion,
+    keyboardSettings: {
+      template: 'normal',
+      actions: ['torsion-right', 'torsion-left'],
+      current: 'torsion-right',
+    },
+  },
+  {
+    leggedRobotImage: robot,
+    title: 'Robot tilt:',
+    activeButtonsDescription: Tilt,
+    keyboardSettings: {
+      template: 'normal',
+      actions: ['tilt-front', 'tilt-back'],
+      current: 'tilt-front',
+    },
+  },
+  {
+    leggedRobotImage: robot,
+    title: 'Robot tilt:',
+    activeButtonsDescription: TiltSide,
+    keyboardSettings: {
+      template: 'normal',
+      actions: ['tilt-right', 'tilt-left'],
+      current: 'tilt-right',
+    },
+  },
+  {
+    leggedRobotImage: robot,
+    title: 'Body elevetion:',
+    activeButtonsDescription: BodyElevetion,
+    keyboardSettings: {
+      template: 'normal',
+      actions: ['elevetion-up', 'elevetion-down'],
+      current: 'elevetion-up',
+    },
   },
 ]
 
+
 const CarouselItem = ({ item }) => {
   return (
-      <Grid container sx={{ flexDirection: 'column', marginTop: '15px' }}>
+      <Grid container sx={{ display: 'block', marginTop: '15px' }}>
         <Grid
           component={'img'}
           src={item.leggedRobotImage}
           sx={{
-            maxHeight: '250px',
+            display: 'block',
+            maxHeight: '200px',
             margin: '0 auto 30px',
           }}
         />
@@ -94,8 +171,10 @@ const CarouselItem = ({ item }) => {
             marginBottom: '32px',
           }}
         >{item.title}</Grid>
-        <p>{item.ButtonDescriptionComponent}</p>
-        <KeyboardTemplate />
+        <Grid sx={{ textAlign: 'center', marginBottom: '28px' }}>
+          {item.activeButtonsDescription && <item.activeButtonsDescription />}
+        </Grid>
+        <KeyboardTemplate {...item.keyboardSettings} />
       </Grid>
   )
 }
@@ -109,8 +188,21 @@ const NavButton = ({onClick, className, style, next, prev}) => {
   )
 }
 
-const GuideCarousel = (props) => (
-  <StyledCarousel
+const GuideCarousel = (props) => {
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  useEffect(() => {
+
+  })
+
+  const onChange = (now, prev) => {
+    if(now !== prev) {
+      setCurrentIndex(now)
+    }
+    console.log('onChange now', now, prev)
+  }
+
+  return <StyledCarousel
     NextIcon='Next'
     PrevIcon='Previous'
     autoPlay={false}
@@ -123,11 +215,12 @@ const GuideCarousel = (props) => (
     indicatorIconButtonProps={{ className: 'indicator-icon' }}
     activeIndicatorIconButtonProps={{ className: 'indicator-icon-active' }}
     indicatorContainerProps={{ className: 'indicator-wrapper' }}
+    onChange={onChange}
   >
     {
-        guideItems.map( (item, i) => <CarouselItem key={i} item={item} /> )
+        guideItems.map( (item, i) => <CarouselItem key={i} item={item} currentIndex={currentIndex} index={i}/> )
     }
   </StyledCarousel>
-)
+}
 
 export default GuideCarousel
