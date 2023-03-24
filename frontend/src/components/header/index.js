@@ -13,7 +13,7 @@ import RobotTypeIcon from '../roboTypeIcon'
 import { ReactComponent as DashboardIcon } from './dashboard.svg'
 import { ReactComponent as SettingsIcon } from './settings.svg'
 import { ReactComponent as GuideIcon } from './guide.svg'
-import LiveClock from './liveClock'
+import ModeSwitcher from './modeSwitcher'
 
 const Logo = ({ textColor }) => (
   <svg width="156" height="48" viewBox="0 0 156 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -116,7 +116,7 @@ const Header = observer(() => {
       </Grid>
 
       <Grid item xs={5} sx={{marginLeft: 'auto', width: 'auto', justifyContent: 'right'}} container>
-        <LiveClock />
+        <ModeSwitcher />
         <Button
           variant='text'
           color='info'
