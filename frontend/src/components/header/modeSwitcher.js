@@ -8,8 +8,7 @@ const Switch = styled(Toggle)(({ theme }) => ({
   width: 44,
   height: 22,
   padding: 0,
-  display: 'flex',
-  position: 'relative',
+  marginRight: 36,
   '&:before, &:after': {
     content: '""',
     position: 'absolute',

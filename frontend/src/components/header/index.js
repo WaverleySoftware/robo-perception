@@ -115,7 +115,7 @@ const Header = observer(() => {
       </Tabs>
       </Grid>
 
-      <Grid item xs={5} sx={{marginLeft: 'auto', width: 'auto', justifyContent: 'right'}} container>
+      <Grid item xs={5} sx={{marginLeft: 'auto', width: 'auto', justifyContent: 'right', alignItems: 'center'}} container>
         <ModeSwitcher />
         <Button
           variant='text'
