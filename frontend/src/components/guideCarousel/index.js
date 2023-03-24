@@ -13,7 +13,7 @@ import Pitch from './activeButtons/pitch'
 import Torsion from './activeButtons/torsion'
 import Tilt from './activeButtons/tilt'
 import TiltSide from './activeButtons/tiltSide'
-import BodyElevetion from './activeButtons/bodyElevetion'
+import BodyElevation from './activeButtons/bodyElevation'
 import robot from '../../Media/pupper_cool.jpeg'
 
 
@@ -139,12 +139,12 @@ const guideItems = [
   },
   {
     leggedRobotImage: robot,
-    title: 'Body elevetion:',
-    activeButtonsDescription: BodyElevetion,
+    title: 'Body elevation:',
+    activeButtonsDescription: BodyElevation,
     keyboardSettings: {
       template: 'normal',
-      actions: ['elevetion-up', 'elevetion-down'],
-      current: 'elevetion-up',
+      actions: ['elevation-up', 'elevation-down'],
+      current: 'elevation-up',
     },
   },
 ]
