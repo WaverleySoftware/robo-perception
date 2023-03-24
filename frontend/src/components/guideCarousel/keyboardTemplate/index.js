@@ -2,6 +2,7 @@ import { makeStyles } from 'tss-react/mui'
 import { useRef, useEffect } from 'react'
 import ShiftKeyboard from './shift'
 import NormalKeyboard from './normal'
+import { Template } from '..'
 
 const useStyles = makeStyles()((theme) => { 
 
@@ -28,9 +29,9 @@ const useStyles = makeStyles()((theme) => {
   }
 })
 
-const KeyboardTemplate = ({ template = 'normal', actions = [], current }) => {
+const KeyboardTemplate = ({ template = Template.NORMAL, actions = [], current }) => {
   const keyboardRef = useRef(null)
-  const Component = template === 'normal' ? NormalKeyboard : ShiftKeyboard
+  const Component = template === Template.NORMAL ? NormalKeyboard : ShiftKeyboard
   const { classes } = useStyles()
 
   useEffect(() => {

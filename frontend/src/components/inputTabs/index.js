@@ -51,8 +51,6 @@ const InputTabs = observer(({ tabStyles = {position: 'absolute', right: '12px', 
   const handleChange = (_event, newValue) => {
     setActiveTab(newValue);
   }
-  const keyboardContent = renderKeyboardContent()
-  const joystickContent = renderJoystickContent()
 
   return (
     <>
@@ -68,10 +66,10 @@ const InputTabs = observer(({ tabStyles = {position: 'absolute', right: '12px', 
         <TabTitle label='Joystick' icon={<SvgIcon component={JoystickIcon} inheritViewBox sx={{fill: 'none'}} />} />
       </Tabs>
       <TabPanel value={activeTab} index={0}>
-        {keyboardContent}
+        {renderKeyboardContent()}
       </TabPanel>
       <TabPanel value={activeTab} index={1}>
-        {joystickContent}
+        {renderJoystickContent()}
       </TabPanel>
     </>
   )

@@ -92,7 +92,6 @@ const Header = observer(() => {
 
   const handleGuideOpen = () => {
     setGuideOpen(true)
-    console.log('Guide button click')
   }
 
   const handleGuideClose = () => {

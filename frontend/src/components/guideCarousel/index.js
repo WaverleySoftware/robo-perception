@@ -28,6 +28,10 @@ import {
   getActions,
 } from './buttonActions'
 
+export const Template = {
+  NORMAL: 'normal',
+  SHIFT: 'shift',
+}
 
 
 const StyledCarousel = styled(Carousel)(({ theme }) => ({
@@ -75,7 +79,7 @@ const guideItems = [
     title: 'Robot movement:',
     activeButtonsDescription: RobotMovement,
     keyboardSettings: {
-      template: 'normal',
+      template: Template.NORMAL,
       actions: getActions(MovementAction),
       current: MovementAction.FORWARD,
     },
@@ -85,7 +89,7 @@ const guideItems = [
     title: 'Robot movement:',
     activeButtonsDescription: RobotMovementObliquely,
     keyboardSettings: {
-      template: 'normal',
+      template: Template.NORMAL,
       actions: getActions(MovementObliquelyAction),
       current: MovementObliquelyAction.LEFT_FORWARD,
     },
@@ -95,7 +99,7 @@ const guideItems = [
     title: 'Moves the robot (holo):',
     activeButtonsDescription: RobotMovementObliquelyHolo,
     keyboardSettings: {
-      template: 'shift',
+      template: Template.SHIFT,
       actions: getActions(MovementObliquelyHoloAction),
       current: MovementObliquelyHoloAction.LEFT_FORWARD,
     },
@@ -105,7 +109,7 @@ const guideItems = [
     title: 'Roll:',
     activeButtonsDescription: Roll,
     keyboardSettings: {
-      template: 'normal',
+      template: Template.NORMAL,
       actions: getActions(RollAction),
       current: RollAction.ROLL_RIGHT,
     },
@@ -115,7 +119,7 @@ const guideItems = [
     title: 'Pitch:',
     activeButtonsDescription: Pitch,
     keyboardSettings: {
-      template: 'normal',
+      template: Template.NORMAL,
       actions: getActions(PitchAction),
       current: PitchAction.PITCH_BACK,
     },
@@ -125,7 +129,7 @@ const guideItems = [
     title: 'Robot torsion:',
     activeButtonsDescription: Torsion,
     keyboardSettings: {
-      template: 'normal',
+      template: Template.NORMAL,
       actions: getActions(TorsionAction),
       current: TorsionAction.TORSION_RIGHT,
     },
@@ -135,7 +139,7 @@ const guideItems = [
     title: 'Robot tilt:',
     activeButtonsDescription: Tilt,
     keyboardSettings: {
-      template: 'normal',
+      template: Template.NORMAL,
       actions: getActions(TiltAction),
       current: TiltAction.TILT_FRONT,
     },
@@ -145,7 +149,7 @@ const guideItems = [
     title: 'Robot tilt:',
     activeButtonsDescription: TiltSide,
     keyboardSettings: {
-      template: 'normal',
+      template: Template.NORMAL,
       actions: getActions(TiltSideAction),
       current: TiltSideAction.TILT_RIGHT,
     },
@@ -155,7 +159,7 @@ const guideItems = [
     title: 'Body elevation:',
     activeButtonsDescription: BodyElevation,
     keyboardSettings: {
-      template: 'normal',
+      template: Template.NORMAL,
       actions: getActions(ElevationAction),
       current: ElevationAction.ELEVATION_UP,
     },
@@ -203,7 +207,7 @@ const NavButton = ({onClick, className, style, next, prev}) => {
 const GuideCarousel = () => {
   const onChange = (now, prev) => {
     if(now !== prev) {
-      console.log('start animatino here')
+      console.log('start animation here')
     }
   }
 
