@@ -15,6 +15,19 @@ import Tilt from './activeButtons/tilt'
 import TiltSide from './activeButtons/tiltSide'
 import BodyElevation from './activeButtons/bodyElevation'
 import robot from '../../Media/pupper_cool.jpeg'
+import {
+  MovementAction,
+  MovementObliquelyAction,
+  MovementObliquelyHoloAction,
+  RollAction,
+  PitchAction,
+  TorsionAction,
+  TiltAction,
+  TiltSideAction,
+  ElevationAction,
+  getActions,
+} from './buttonActions'
+
 
 
 const StyledCarousel = styled(Carousel)(({ theme }) => ({
@@ -63,8 +76,8 @@ const guideItems = [
     activeButtonsDescription: RobotMovement,
     keyboardSettings: {
       template: 'normal',
-      actions: ['forward', 'backward', 'leftward-rotation', 'rightward-rotation'],
-      current: 'forward',
+      actions: getActions(MovementAction),
+      current: MovementAction.FORWARD,
     },
   },
   {
@@ -73,8 +86,8 @@ const guideItems = [
     activeButtonsDescription: RobotMovementObliquely,
     keyboardSettings: {
       template: 'normal',
-      actions: ['left-forward', 'right-forward', 'right-backward', 'left-backward'],
-      current: 'left-forward',
+      actions: getActions(MovementObliquelyAction),
+      current: MovementObliquelyAction.LEFT_FORWARD,
     },
   },
   {
@@ -83,8 +96,8 @@ const guideItems = [
     activeButtonsDescription: RobotMovementObliquelyHolo,
     keyboardSettings: {
       template: 'shift',
-      actions: ['left-forward', 'right-forward', 'right-backward', 'left-backward'],
-      current: 'left-forward',
+      actions: getActions(MovementObliquelyHoloAction),
+      current: MovementObliquelyHoloAction.LEFT_FORWARD,
     },
   },
   {
@@ -93,8 +106,8 @@ const guideItems = [
     activeButtonsDescription: Roll,
     keyboardSettings: {
       template: 'normal',
-      actions: ['roll-left', 'roll-right'],
-      current: 'roll-right',
+      actions: getActions(RollAction),
+      current: RollAction.ROLL_RIGHT,
     },
   },
   {
@@ -103,8 +116,8 @@ const guideItems = [
     activeButtonsDescription: Pitch,
     keyboardSettings: {
       template: 'normal',
-      actions: ['pitch-front', 'pitch-back'],
-      current: 'pitch-back',
+      actions: getActions(PitchAction),
+      current: PitchAction.PITCH_BACK,
     },
   },
   {
@@ -113,8 +126,8 @@ const guideItems = [
     activeButtonsDescription: Torsion,
     keyboardSettings: {
       template: 'normal',
-      actions: ['torsion-right', 'torsion-left'],
-      current: 'torsion-right',
+      actions: getActions(TorsionAction),
+      current: TorsionAction.TORSION_RIGHT,
     },
   },
   {
@@ -123,8 +136,8 @@ const guideItems = [
     activeButtonsDescription: Tilt,
     keyboardSettings: {
       template: 'normal',
-      actions: ['tilt-front', 'tilt-back'],
-      current: 'tilt-front',
+      actions: getActions(TiltAction),
+      current: TiltAction.TILT_FRONT,
     },
   },
   {
@@ -133,8 +146,8 @@ const guideItems = [
     activeButtonsDescription: TiltSide,
     keyboardSettings: {
       template: 'normal',
-      actions: ['tilt-right', 'tilt-left'],
-      current: 'tilt-right',
+      actions: getActions(TiltSideAction),
+      current: TiltSideAction.TILT_RIGHT,
     },
   },
   {
@@ -143,8 +156,8 @@ const guideItems = [
     activeButtonsDescription: BodyElevation,
     keyboardSettings: {
       template: 'normal',
-      actions: ['elevation-up', 'elevation-down'],
-      current: 'elevation-up',
+      actions: getActions(ElevationAction),
+      current: ElevationAction.ELEVATION_UP,
     },
   },
 ]
