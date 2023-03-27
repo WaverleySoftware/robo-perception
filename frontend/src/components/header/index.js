@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { observer } from 'mobx-react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
@@ -14,6 +14,7 @@ import { ReactComponent as DashboardIcon } from './dashboard.svg'
 import { ReactComponent as SettingsIcon } from './settings.svg'
 import { ReactComponent as GuideIcon } from './guide.svg'
 import LiveClock from './liveClock'
+import GuideModal from '../guideModal'
 
 const Logo = ({ textColor }) => (
   <svg width="156" height="48" viewBox="0 0 156 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -83,13 +84,18 @@ const Header = observer(() => {
     settingsStore: { robotTypes, robots_settings, currentRobotId, updateCurrentRobotId}
   } = useStore()
   const theme = useTheme()
+  const [guideOpen, setGuideOpen] = useState(false);
 
   const handleChange = (_event, newValue) => {
     setActiveTab(newValue);
   };
 
-  const handleGuideClick = () => {
-    console.log('Guide button click')
+  const handleGuideOpen = () => {
+    setGuideOpen(true)
+  }
+
+  const handleGuideClose = () => {
+    setGuideOpen(false)
   }
 
   const handleRobotChange = (event) => {
@@ -122,10 +128,14 @@ const Header = observer(() => {
           color='info'
           startIcon={<SvgIcon color='success' component={GuideIcon} inheritViewBox sx={{fill: 'none'}}/>} 
           sx={{ margin: '0 4px', textTransform: 'capitalize', padding: '0 12px', fontSize: '14px', fontWeight: theme.typography.fontWeightMedium }}
-          onClick={handleGuideClick}
+          onClick={handleGuideOpen}
         >
           View Guide
         </Button>
+        <GuideModal
+          open={guideOpen}
+          onClose={handleGuideClose}
+        />
         <RobotSelect
           value={currentRobotId}
           label='Select the robot'

@@ -1,9 +1,9 @@
 import { useTheme } from '@mui/material/styles'
-import { IconButton, Tooltip, Typography } from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close'
+import { Typography } from '@mui/material'
 import { observer } from 'mobx-react'
-import { useStore } from '../../store'
 import Paper from '../paper'
+import { useStore } from '../../store'
+import CloseButton from '../closeButton'
 
 export const WidgetTitle = ({ children, styles }) => {
   const theme = useTheme()
@@ -46,25 +46,7 @@ const Widget = observer(({
             ...styles,
           }}
         >
-          <Tooltip title={'Close Widget'} placement='bottom'>
-            <IconButton
-              sx={{
-                position: 'absolute',
-                top: '16px',
-                right: '16px',
-                cursor: 'pointer',
-                zIndex: theme.zIndex.closeWidget,
-                width: '24px',
-                height: '24px',
-                '&:hover': {
-                  background: theme.palette.background.closeWidgetHover
-                }
-              }}
-              onClick={handleWidgetClose}
-            >
-             <CloseIcon sx={{ color: theme.palette.background.closeWidget }}/>
-            </IconButton>
-          </Tooltip>
+          <CloseButton title='Close Widget' onClick={handleWidgetClose}/>
           {children}
         </Paper>
       : null
