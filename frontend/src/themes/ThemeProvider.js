@@ -1,9 +1,13 @@
 import React, { useMemo, useState } from 'react'
 import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
-import light from './lightTheme'
-import dark from './darkTheme'
+import { getColorModeSettings, lightMode, darkMode } from './base'
 
-export const ThemeContext = React.createContext({})
+// TODO:
+// 1) setup theme settings by mode
+// 2) use variables for 'light' and 'dark'
+// 3) update components depends on mode
+// 4) update header design
+// 5) boxShadow to config ???
 
 export const ColorModeContext = React.createContext({})
 
@@ -17,7 +21,7 @@ const ThemeProvider = (props) => {
         // The mode switch would invoke this method
         toggleColorMode: () => {
           setMode((prevMode) => {
-            const newMode = prevMode === 'light' ? 'dark' : 'light'
+            const newMode = prevMode === lightMode ? darkMode : lightMode
             localStorage.setItem('appMode', newMode)
             return newMode
           })
@@ -27,7 +31,7 @@ const ThemeProvider = (props) => {
     )
 
     // Update the theme only if the mode changes
-  const theme = useMemo(() => createTheme(mode === 'light' ? light : dark), [mode]);
+  const theme = useMemo(() => createTheme(getColorModeSettings(mode)), [mode]);
 
     return (
       <ColorModeContext.Provider value={colorMode}>

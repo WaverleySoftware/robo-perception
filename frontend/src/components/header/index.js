@@ -56,8 +56,8 @@ const SelectRenderValue = ({ value, robots_settings, robotTypes }) => {
 
   return (
     <Grid container sx={{alignItems: 'center', flexDirection: 'row'}}>
-      <Typography sx={{marginRight: '12px', fontSize: '14px', color: theme.palette.text.primary, width: '100px', overflow: 'hidden'}}>{selectedRobot.name}</Typography>
-      <Grid sx={{ width: '36px', height: '36px', borderRadius: '50%', background: theme.palette.robotSelect.iconBg, alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+      <Typography sx={{marginRight: '12px', fontSize: '14px', color: theme.palette.primary.main, width: '100px', overflow: 'hidden'}}>{selectedRobot.name}</Typography>
+      <Grid sx={{ width: '36px', height: '36px', borderRadius: '50%', background: theme.palette.mode === 'light' ? '#E2E7F5' : '#38395C', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
         <RobotTypeIcon color={'#C4C4C4'} type={selectedRobot.type} />
       </Grid>
     </Grid>
@@ -70,11 +70,11 @@ const TabStyled = styled(Tab)(({ theme }) => ({
   textTransform: 'capitalize',
   '& .MuiSvgIcon-root': {
     fontSize: '36px',
-    stroke: theme.palette.text.secondary,
+    stroke: theme.palette.secondary.main,
     marginBottom: 0,
   },
   [`&.${tabUnstyledClasses.selected} .MuiSvgIcon-root`]: {
-    stroke: theme.palette.text.primary
+    stroke: theme.palette.primary.main
   },
 }))
 
@@ -106,7 +106,7 @@ const Header = observer(() => {
   return (
     <Grid container sx={{ height: '80px', maxWidth: '1440px', margin: '0 auto', padding: '0 26px 0 40px', alignItems: 'center' }}>
       <Grid item xs={5} container sx={{alignItems: 'center'}}>
-        <Logo textColor={theme.palette.text.logo}/>
+        <Logo textColor={theme.palette.mode === 'light' ? '#0F0E9F' : theme.palette.common.white}/>
       </Grid>
       <Grid container item xs={2} sx={{justifyContent: 'center'}}>
         <Tabs
@@ -144,7 +144,7 @@ const Header = observer(() => {
           MenuProps={{
             PaperProps: {
               sx: {
-                bgcolor: theme.palette.robotSelect.dropdownBg,
+                bgcolor: theme.palette.mode === 'light' ? theme.palette.common.white : theme.palette.grey[200],
               },
             },
           }}

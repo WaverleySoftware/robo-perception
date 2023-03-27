@@ -3,7 +3,7 @@ import { TorsionAction } from '../buttonActions'
 
 const Torsion = () => {
   const theme = useTheme()
-  const activeButtonColor = theme.palette.text.guideActiveButton
+  const activeButtonColor = theme.palette.mode === 'light' ? theme.palette.blue[100] : theme.palette.common.white
 
   return (
     <svg width="184" height="41" viewBox="0 0 184 41" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -36,7 +36,7 @@ const Switch = styled(Toggle)(({ theme }) => ({
       color: '#fff',
       '& + .MuiSwitch-track': {
         opacity: 1,
-        backgroundColor: theme.palette.mode === 'light' ? '#142236' : '#fff',
+        backgroundColor: theme.palette.mode === 'light' ? theme.palette.blue[100] : '#fff',
       },
     },
   },
@@ -47,13 +47,13 @@ const Switch = styled(Toggle)(({ theme }) => ({
     transition: theme.transitions.create(['width'], {
       duration: 200,
     }),
-    backgroundColor: theme.palette.mode === 'light' ? '#fff' : '#142236',
+    backgroundColor: theme.palette.mode === 'light' ? '#fff' : theme.palette.blue[100],
     boxShadow: 'none'
   },
   '& .MuiSwitch-track': {
     borderRadius: 11,
     opacity: 1,
-    backgroundColor: theme.palette.mode === 'light' ? '#142236' : '#fff',
+    backgroundColor: theme.palette.mode === 'light' ? theme.palette.blue[100] : '#fff',
     boxSizing: 'border-box',
   },
 }))

@@ -12,8 +12,8 @@ const CameraLabel = observer(({name, marginLeft = 0, connected}) => {
     webRTCStore: { isDataChannelOpened },
   } = useStore()
   const color = connected
-    ? isFullscreen ? theme.palette.common.white : theme.palette.text.primary
-    : theme.palette.text.disabledVideoPlayerIcon
+    ? isFullscreen ? theme.palette.common.white : theme.palette.primary.main
+    : theme.palette.mode === 'light' ? theme.palette.secondary.main : theme.palette.grey[100]
 
   const isDisabled = () => {
     return !connected || (connected && isStreamStarted && !isDataChannelOpened)

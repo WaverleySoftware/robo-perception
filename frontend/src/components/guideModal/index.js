@@ -24,7 +24,7 @@ const GuideModal = observer(({open, onClose}) => {
         top: 0,
         width: '712px',
         height: '100%',
-        backgroundColor: theme.palette.background.guideModal,
+        backgroundColor: theme.palette.mode === 'light' ? theme.palette.common.white : theme.palette.blue[400],
         padding: '34px',
       }}>
         <CloseButton title='Close Guide' onClick={onClose}/>

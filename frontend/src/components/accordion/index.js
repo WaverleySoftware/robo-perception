@@ -5,7 +5,7 @@ import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Divider, Grid } from '@mui/material'
+import { alpha, Divider, Grid } from '@mui/material'
 import FormControl from '@mui/material/FormControl'
 import { useTheme } from '@mui/material/styles'
 import FormHelperLabel from '../formHelperLabel'
@@ -18,8 +18,8 @@ import BoxTitle from '../boxTitle'
 
 const AccordionWrapper = styled((props) => (<MuiAccordion {...props}/>))(({ theme }) => ({
   borderRadius: theme.shape.cardBorderRadius,
-  background: theme.palette.background.paper,
-  boxShadow: theme.palette.boxShadow.card,
+  background: `${alpha(theme.palette.mode === 'light' ? theme.palette.grey[400] : theme.palette.blue[400], 0.8)}`,
+  boxShadow: theme.palette.mode === 'light' ? theme.palette.boxShadow.main : 'none',
   marginBottom: '16px',
   '&:first-of-type': {
     borderRadius: theme.shape.cardBorderRadius
@@ -125,7 +125,7 @@ const Accordion = ({
             </Grid>
             
             <Grid item xs={12}>
-              <Divider sx={{ margin: '12px 0', borderColor: theme.palette.hr.main }}/>
+              <Divider sx={{ margin: '12px 0', borderColor: theme.palette.mode === 'light' ? theme.palette.grey[300] : '#80819A' }}/>
             </Grid>
             <Grid item xs={12}>
               <Typography sx={{ fontWeight: 'bold', fontSize: '16px' }}>Speed Settings</Typography>

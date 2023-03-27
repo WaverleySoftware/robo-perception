@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles'
 
 const CustomSelect = styled(DefaultSelect)(({ theme }) => ({
   borderRadius: theme.shape.formFieldBorderRadius,
-  background: theme.palette.background.formItemBg,
+  background: theme.palette.mode === 'light' ? theme.palette.common.white : theme.palette.blue[300],
   height: '44px',
   '& .MuiSelect-select': {
     padding: '10px 12px',
@@ -37,7 +37,7 @@ const Select = (props) => {
     MenuProps={{
       PaperProps: {
         sx: {
-          bgcolor: theme.palette.robotSelect.dropdownBg,
+          bgcolor: theme.palette.mode === 'light' ? theme.palette.common.white : theme.palette.grey[200],
         },
       },
     }}

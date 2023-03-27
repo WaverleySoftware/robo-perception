@@ -12,8 +12,8 @@ const ObjectDetectionControls = observer(({ connected }) => {
 
   const theme = useTheme()
   const color = connected
-    ? isFullscreen ? theme.palette.common.white : theme.palette.text.primary
-    : theme.palette.text.disabledVideoPlayerIcon
+    ? isFullscreen ? theme.palette.common.white : theme.palette.primary.main
+    : theme.palette.mode === 'light' ? theme.palette.secondary.main : theme.palette.grey[100]
 
   const handleNNChange = async () => {
     setNN(!useNN)
@@ -43,7 +43,7 @@ const ObjectDetectionControls = observer(({ connected }) => {
             '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
               backgroundColor: connected
                 ? isFullscreen ? theme.palette.common.white : theme.palette.info.main
-                : theme.palette.text.disabledVideoPlayerIcon,
+                : theme.palette.mode === 'light' ? theme.palette.secondary.main : theme.palette.grey[100],
               opacity: 1,
             },
             '& .Mui-disabled+.MuiSwitch-track': {

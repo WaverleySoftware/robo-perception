@@ -23,7 +23,7 @@ const RobotPositionButton = observer(({heading = '', position, currentPosition, 
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: isActive ? theme.palette.info.main : theme.palette.background.robotPositionButton,
+      backgroundColor: isActive ? theme.palette.info.main : theme.palette.mode === 'light' ? theme.palette.grey[300] : theme.palette.grey[200],
       width: '80px',
       height: '80px',
       borderRadius: '26px',
@@ -36,7 +36,7 @@ const RobotPositionButton = observer(({heading = '', position, currentPosition, 
     <Typography
       sx={{
         fontSize: '11px',
-        color: isActive ? theme.palette.common.white : theme.palette.background.robotPositionTitle,
+        color: isActive ? theme.palette.common.white : theme.palette.mode === 'light' ? theme.palette.primary.main : theme.palette.secondary.main,
         fontWeight: theme.typography.fontWeightRegular,
       }}
 

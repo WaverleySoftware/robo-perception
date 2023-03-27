@@ -17,8 +17,8 @@ const StatusControls = observer(() => {
   const theme = useTheme()
 
   const getIconColor = (condition) => condition
-    ? isFullscreen ? theme.palette.common.white : theme.palette.text.primary
-    : theme.palette.text.disabledVideoPlayerIcon
+    ? isFullscreen ? theme.palette.common.white : theme.palette.primary.main
+    : theme.palette.mode === 'light' ? theme.palette.secondary.main : theme.palette.grey[100]
 
   const label = (condition, prefix) => {
     return condition ? `${prefix} Connected` : `${prefix} Disconnected`

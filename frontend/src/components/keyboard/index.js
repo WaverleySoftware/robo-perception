@@ -136,12 +136,12 @@ const Keyboard = observer(() => {
       elements.forEach(element => {
         if(isPressed) {
           element.style.color = theme.palette.common.white
-          element.style.backgroundColor = theme.palette.background.keyboardButtonBgPressed
+          element.style.backgroundColor = theme.palette.blue[200]
         } else {
           element.style = null
         }
       })
-    }, [theme.palette.common.white, theme.palette.background.keyboardButtonBgPressed])
+    }, [theme.palette.common.white, theme.palette.blue])
 
     useEffect(() => {
       const capslockButton = keyboardRef.current.buttonElements['{capslock}']
@@ -178,7 +178,7 @@ const Keyboard = observer(() => {
                 physicalKeyboardHighlightPress={true}
                 physicalKeyboardHighlightPreventDefault={activeTab === 0}
                 physicalKeyboardHighlightTextColor={theme.palette.common.white}
-                physicalKeyboardHighlightBgColor={theme.palette.background.keyboardButtonBgPressed}
+                physicalKeyboardHighlightBgColor={theme.palette.blue[200]}
                 physicalKeyboardHighlightPressUsePointerEvents={true}
                 syncInstanceInputs={true}
                 mergeDisplay={true}

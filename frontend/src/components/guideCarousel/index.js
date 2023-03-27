@@ -64,7 +64,7 @@ const StyledCarousel = styled(Carousel)(({ theme }) => ({
     
   },
   '& .indicator-icon': {
-    color: theme.palette.background.guideCarouselIndicator,
+    color: theme.palette.mode === 'light' ? theme.palette.grey[300] : theme.palette.grey[200],
     padding: '6px',
     fontSize: '12px',
   },

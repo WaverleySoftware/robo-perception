@@ -44,7 +44,7 @@ const PlaybackControls = observer(({ connected }) => {
                   : `${alpha(theme.palette[isStreamStarted ? 'error' : 'success'].main, 0.4)}`
               },
               '&:disabled': {
-                background: theme.palette.background.disabledPlayButton,
+                background: `${alpha(theme.palette.grey[300], theme.palette.mode === 'light' ? 1 : 0.2)}`,
               },
             }}
           >
@@ -52,7 +52,7 @@ const PlaybackControls = observer(({ connected }) => {
               component={playIcon()}
               sx={{ color: connected
                   ? isFullscreen ? theme.palette.common.white : theme.palette[isStreamStarted ? 'error' : 'success'].main
-                  : theme.palette.text.disabledPlayButtonIcon
+                  : theme.palette.secondary.main
               }} />
           </IconButton>
         </span>

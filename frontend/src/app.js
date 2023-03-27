@@ -11,7 +11,7 @@ const AppContent = () => {
   const theme = useTheme()
 
   return (
-    <div className='App' style={{ background: theme.palette.background.main }}>
+    <div className='App' style={{ background: theme.palette.mode === 'light' ? '#F2F4FC' : '#17162D' }}>
       <Header />
       <Dashboard />
       <Settings />

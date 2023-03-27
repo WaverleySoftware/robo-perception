@@ -46,8 +46,8 @@ const VolumeControls = observer(({ connected }) => {
           component={volumeIcon(volume, muted)}
           sx={{
             color: connected
-              ? isFullscreen ? theme.palette.common.white : theme.palette.text.primary
-              : theme.palette.text.disabledVideoPlayerIcon
+              ? isFullscreen ? theme.palette.common.white : theme.palette.primary.main
+              : theme.palette.mode === 'light' ? theme.palette.secondary.main : theme.palette.grey[100]
           }}
           onClick={handleOnVolumeIconClick}
         />
@@ -64,7 +64,7 @@ const VolumeControls = observer(({ connected }) => {
           '& .MuiSlider-thumb': {
             backgroundColor: connected
               ? isFullscreen ? theme.palette.common.white : '#18DDFC'
-              : theme.palette.text.disabledVideoPlayerIcon,
+              : theme.palette.mode === 'light' ? theme.palette.secondary.main : theme.palette.grey[100],
             width: '12px',
             height: '12px',
             '&:hover': {
@@ -78,7 +78,7 @@ const VolumeControls = observer(({ connected }) => {
           '& .MuiSlider-track': {
             color: connected
               ? isFullscreen ? 'rgba(255, 255, 255, 0.7)' : theme.palette.info.main
-              : theme.palette.text.disabledVideoPlayerIcon,
+              : theme.palette.mode === 'light' ? theme.palette.secondary.main : theme.palette.grey[100],
           }
         }}
         onChange={handleChange}

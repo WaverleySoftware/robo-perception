@@ -16,7 +16,7 @@ const Button = styled(DefaultButton)(({ theme }) => ({
     color: '#B7C0D9'
   },
   '&:active': {
-    backgroundColor: '#2097BC'
+    backgroundColor: theme.palette.blue[200]
   }
 }));
 

@@ -21,7 +21,7 @@ const BatteryLevelDivider = observer(({left = '0'}) => {
     sx={{
       height: '12px',
       backgroundColor: theme.palette.common.white,
-      borderColor: theme.palette.hr.batteryLevel,
+      borderColor: theme.palette.mode === 'light' ? theme.palette.secondary.main : theme.palette.grey[100],
       margin: 0,
       position: 'absolute',
       top: '3px',
@@ -57,7 +57,7 @@ const Battery = observer(() => {
         sx={{
           height: '18px',
           borderRadius: '6px',
-          backgroundColor: theme.palette.background.batteryLevel,
+          backgroundColor: theme.palette.mode === 'light' ? theme.palette.grey[300] : theme.palette.grey[200],
           position: 'relative',
           marginBottom: '40px',
           overflow: 'hidden',
@@ -90,7 +90,7 @@ const CircleProgress = observer(({percentage, title, color=''}) => {
       strokeWidth={10}
       styles={buildStyles({
         pathColor: color || theme.palette.info.main,
-        trailColor: theme.palette.background.circleProgressTrail,
+        trailColor: theme.palette.mode === 'light' ? theme.palette.grey[300] : theme.palette.grey[200],
       })}
     >
       <Typography

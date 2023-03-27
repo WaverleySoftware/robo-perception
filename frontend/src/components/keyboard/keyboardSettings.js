@@ -260,7 +260,7 @@ export const useStyles = makeStyles()((theme, layoutName) => {
       background: 'transparent',
       '& .hg-button': {
         height: '34px',
-        backgroundColor: theme.palette.background.keyboardButtonBg,
+        backgroundColor: theme.palette.mode === 'light' ? '#DFE5F7' : theme.palette.grey[200],
         color: theme.palette.common.black,
         fontWeight: theme.typography.fontWeightMedium,
         fontFamily: theme.typography.fontFamily,
@@ -276,11 +276,11 @@ export const useStyles = makeStyles()((theme, layoutName) => {
           fontSize: 0,
         },
         '&:hover': {
-          backgroundColor: theme.palette.background.keyboardButtonBgHover,
+          backgroundColor: theme.palette.info.main,
           color: theme.palette.common.white,
         },
         '&:active': {
-          backgroundColor: theme.palette.background.keyboardButtonBgPressed,
+          backgroundColor: theme.palette.blue[200],
           color: theme.palette.common.white,
         },
         // groups of buttons

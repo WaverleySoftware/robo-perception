@@ -29,7 +29,7 @@ const VideoPlayerView = observer((props) => {
         style={{
           cursor: 'default',
           zIndex: isFullscreen ? theme.zIndex.fullscreen : 'auto',
-          boxShadow: theme.palette.boxShadow.card,
+          boxShadow: theme.palette.mode === 'light' ? theme.palette.boxShadow.main : 'none',
         }}
       >
         <ConnectionInfo />
