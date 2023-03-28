@@ -5,6 +5,7 @@ import Keyboard from '../keyboard'
 import Joystick from '../joystick'
 import { useTheme } from '@mui/material/styles'
 import InputTabs, { TabPanelTitle } from '../inputTabs'
+import { isLightMode } from '../../themes/base'
 
 const InputController = observer(() => {
   const theme = useTheme()
@@ -14,8 +15,8 @@ const InputController = observer(() => {
       borderRadius: theme.shape.cardBorderRadius,
       position: 'relative',
       padding: '24px 0 8px',
-      boxShadow: theme.palette.mode === 'light' ? theme.palette.boxShadow.main : 'none',
-      background: `${alpha(theme.palette.mode === 'light' ? theme.palette.grey[400] : theme.palette.blue[400], 0.8)}`,
+      boxShadow: isLightMode(theme.palette.mode) ? theme.palette.boxShadow.main : 'none',
+      background: `${alpha(isLightMode(theme.palette.mode) ? theme.palette.grey[400] : theme.palette.blue[400], 0.8)}`,
     }}>
       <InputTabs
         tabStyles={{position: 'absolute', right: '12px', top: '12px'}}

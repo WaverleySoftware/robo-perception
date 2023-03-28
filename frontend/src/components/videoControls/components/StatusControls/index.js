@@ -6,6 +6,7 @@ import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack'
 import GamepadIcon from '@mui/icons-material/Gamepad'
 import React from 'react'
 import { useTheme } from '@mui/material/styles'
+import { isLightMode } from '../../../../themes/base'
 
 const StatusControls = observer(() => {
   const {
@@ -18,7 +19,7 @@ const StatusControls = observer(() => {
 
   const getIconColor = (condition) => condition
     ? isFullscreen ? theme.palette.common.white : theme.palette.primary.main
-    : theme.palette.mode === 'light' ? theme.palette.secondary.main : theme.palette.grey[100]
+    : isLightMode(theme.palette.mode) ? theme.palette.secondary.main : theme.palette.grey[100]
 
   const label = (condition, prefix) => {
     return condition ? `${prefix} Connected` : `${prefix} Disconnected`

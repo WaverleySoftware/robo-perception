@@ -11,6 +11,7 @@ import {
 } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 import { BatteryLevel } from '../../constants'
+import { isLightMode } from '../../themes/base'
 
 const BatteryLevelDivider = observer(({left = '0'}) => {
   const theme = useTheme()
@@ -21,7 +22,7 @@ const BatteryLevelDivider = observer(({left = '0'}) => {
     sx={{
       height: '12px',
       backgroundColor: theme.palette.common.white,
-      borderColor: theme.palette.mode === 'light' ? theme.palette.secondary.main : theme.palette.grey[100],
+      borderColor: isLightMode(theme.palette.mode) ? theme.palette.secondary.main : theme.palette.grey[100],
       margin: 0,
       position: 'absolute',
       top: '3px',
@@ -57,7 +58,7 @@ const Battery = observer(() => {
         sx={{
           height: '18px',
           borderRadius: '6px',
-          backgroundColor: theme.palette.mode === 'light' ? theme.palette.grey[300] : theme.palette.grey[200],
+          backgroundColor: isLightMode(theme.palette.mode) ? theme.palette.grey[300] : theme.palette.grey[200],
           position: 'relative',
           marginBottom: '40px',
           overflow: 'hidden',
@@ -90,7 +91,7 @@ const CircleProgress = observer(({percentage, title, color=''}) => {
       strokeWidth={10}
       styles={buildStyles({
         pathColor: color || theme.palette.info.main,
-        trailColor: theme.palette.mode === 'light' ? theme.palette.grey[300] : theme.palette.grey[200],
+        trailColor: isLightMode(theme.palette.mode) ? theme.palette.grey[300] : theme.palette.grey[200],
       })}
     >
       <Typography

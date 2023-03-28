@@ -1,11 +1,11 @@
 import React, { useMemo, useState } from 'react'
 import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
-import { getColorModeSettings, lightMode, darkMode } from './base'
+import { getColorModeSettings, lightMode, darkMode, isLightMode } from './base'
 
 export const ColorModeContext = React.createContext({})
 
 const ThemeProvider = (props) => {
-    const currentMode = localStorage.getItem('appMode') || 'light'
+    const currentMode = localStorage.getItem('appMode') || lightMode
 
     const [mode, setMode] = useState(currentMode)
 
@@ -14,7 +14,7 @@ const ThemeProvider = (props) => {
         // The mode switch would invoke this method
         toggleColorMode: () => {
           setMode((prevMode) => {
-            const newMode = prevMode === lightMode ? darkMode : lightMode
+            const newMode = isLightMode(prevMode) ? darkMode : lightMode
             localStorage.setItem('appMode', newMode)
             return newMode
           })

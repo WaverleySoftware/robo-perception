@@ -7,6 +7,7 @@ import { ReactComponent as RobotStandIcon } from './robot_stand.svg'
 import { ReactComponent as RobotSitIcon } from './robot_sit.svg'
 import { useStore } from '../../store'
 import { RobotPose } from '../../constants'
+import { isLightMode } from '../../themes/base'
 
 const RobotPositionButton = observer(({heading = '', position, currentPosition, children, handleClick}) => {
   const theme = useTheme()
@@ -23,7 +24,7 @@ const RobotPositionButton = observer(({heading = '', position, currentPosition, 
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: isActive ? theme.palette.info.main : theme.palette.mode === 'light' ? theme.palette.grey[300] : theme.palette.grey[200],
+      backgroundColor: isActive ? theme.palette.info.main : isLightMode(theme.palette.mode) ? theme.palette.grey[300] : theme.palette.grey[200],
       width: '80px',
       height: '80px',
       borderRadius: '26px',
@@ -36,7 +37,7 @@ const RobotPositionButton = observer(({heading = '', position, currentPosition, 
     <Typography
       sx={{
         fontSize: '11px',
-        color: isActive ? theme.palette.common.white : theme.palette.mode === 'light' ? theme.palette.primary.main : theme.palette.secondary.main,
+        color: isActive ? theme.palette.common.white : isLightMode(theme.palette.mode) ? theme.palette.primary.main : theme.palette.secondary.main,
         fontWeight: theme.typography.fontWeightRegular,
       }}
 

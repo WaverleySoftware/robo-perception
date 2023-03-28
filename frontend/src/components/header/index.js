@@ -15,6 +15,7 @@ import { ReactComponent as SettingsIcon } from './settings.svg'
 import { ReactComponent as GuideIcon } from './guide.svg'
 import ModeSwitcher from './modeSwitcher'
 import GuideModal from '../guideModal'
+import { isLightMode } from '../../themes/base'
 
 const Logo = ({ textColor }) => (
   <svg width="156" height="48" viewBox="0 0 156 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -57,7 +58,7 @@ const SelectRenderValue = ({ value, robots_settings, robotTypes }) => {
   return (
     <Grid container sx={{alignItems: 'center', flexDirection: 'row'}}>
       <Typography sx={{marginRight: '12px', fontSize: '14px', color: theme.palette.primary.main, width: '100px', overflow: 'hidden'}}>{selectedRobot.name}</Typography>
-      <Grid sx={{ width: '36px', height: '36px', borderRadius: '50%', background: theme.palette.mode === 'light' ? '#E2E7F5' : '#38395C', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+      <Grid sx={{ width: '36px', height: '36px', borderRadius: '50%', background: isLightMode(theme.palette.mode) ? '#E2E7F5' : '#38395C', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
         <RobotTypeIcon color={'#C4C4C4'} type={selectedRobot.type} />
       </Grid>
     </Grid>
@@ -80,7 +81,7 @@ const TabStyled = styled(Tab)(({ theme }) => ({
     stroke: theme.palette.primary.main
   },
   '& .Mui-selected': {
-    color: theme.palette.mode === 'light' ? theme.palette.blue[100] : theme.palette.common.white,
+    color: isLightMode(theme.palette.mode) ? theme.palette.blue[100] : theme.palette.common.white,
   },
   '&:nth-of-type(2):before': {
     content: '""',
@@ -125,8 +126,8 @@ const Header = observer(() => {
         alignItems: 'center',
         height: '68px',
         padding: '0 26px 0 40px',
-        backgroundColor: theme.palette.mode === 'light' ?  '#F7F8FF' : '#343654',
-        boxShadow: theme.palette.mode === 'light' ? theme.palette.boxShadow.main : 'none',
+        backgroundColor: isLightMode(theme.palette.mode) ?  '#F7F8FF' : '#343654',
+        boxShadow: isLightMode(theme.palette.mode) ? theme.palette.boxShadow.main : 'none',
       }}>
         <Grid item xs={5} container sx={{alignItems: 'center'}}>
           <RobotSelect
@@ -137,7 +138,7 @@ const Header = observer(() => {
             MenuProps={{
               PaperProps: {
                 sx: {
-                  bgcolor: theme.palette.mode === 'light' ? theme.palette.common.white : theme.palette.grey[200],
+                  bgcolor: isLightMode(theme.palette.mode) ? theme.palette.common.white : theme.palette.grey[200],
                 },
               },
             }}
@@ -153,7 +154,7 @@ const Header = observer(() => {
           </RobotSelect>
         </Grid>
         <Grid container item xs={2} sx={{justifyContent: 'center'}}>
-          <Logo textColor={theme.palette.mode === 'light' ? '#0F0E9F' : theme.palette.common.white}/>
+          <Logo textColor={isLightMode(theme.palette.mode) ? '#0F0E9F' : theme.palette.common.white}/>
         </Grid>
 
         <Grid item xs={5} sx={{marginLeft: 'auto', width: 'auto', justifyContent: 'right', alignItems: 'center'}} container>

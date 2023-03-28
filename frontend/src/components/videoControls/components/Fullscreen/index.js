@@ -5,6 +5,7 @@ import { useTheme } from '@mui/material/styles'
 import {ReactComponent as FullscreenIcon} from './fullscreen.svg'
 import {ReactComponent as FullscreenExitIcon} from './fullscreenexit.svg'
 import { useStore } from '../../../../store'
+import { isLightMode } from '../../../../themes/base'
 
 const Fullscreen = observer(({ connected }) => {
   const {videoPlayerStore: { isFullscreen, toggleFullscreen }} = useStore()
@@ -33,7 +34,7 @@ const Fullscreen = observer(({ connected }) => {
 
   const color = connected
     ? isFullscreen ? theme.palette.common.white : theme.palette.primary.main
-    : theme.palette.mode === 'light' ? theme.palette.secondary.main : theme.palette.grey[100]
+    : isLightMode(theme.palette.mode) ? theme.palette.secondary.main : theme.palette.grey[100]
 
   return (
     <Tooltip title={fullscreenTitle} placement='top' open={open} onClose={handleClose} onOpen={handleOpen}>

@@ -5,6 +5,7 @@ import { useTheme } from '@mui/material/styles'
 import CloseButton from '../closeButton'
 import InputTabs, { TabPanelTitle } from '../inputTabs'
 import GuideCarousel from '../guideCarousel'
+import { isLightMode } from '../../themes/base'
 
 const GuideModal = observer(({open, onClose}) => {
   const theme = useTheme()
@@ -24,7 +25,7 @@ const GuideModal = observer(({open, onClose}) => {
         top: 0,
         width: '712px',
         height: '100%',
-        backgroundColor: theme.palette.mode === 'light' ? theme.palette.common.white : theme.palette.blue[400],
+        backgroundColor: isLightMode(theme.palette.mode) ? theme.palette.common.white : theme.palette.blue[400],
         padding: '34px',
       }}>
         <CloseButton title='Close Guide' onClick={onClose}/>

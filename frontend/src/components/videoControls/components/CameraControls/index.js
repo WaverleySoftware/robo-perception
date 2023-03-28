@@ -4,6 +4,7 @@ import { Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from '../../../../store'
 import { IS_SIMULATING } from '../../../../constants'
+import { isLightMode } from '../../../../themes/base'
 
 const CameraLabel = observer(({name, marginLeft = 0, connected}) => {
   const theme = useTheme()
@@ -13,7 +14,7 @@ const CameraLabel = observer(({name, marginLeft = 0, connected}) => {
   } = useStore()
   const color = connected
     ? isFullscreen ? theme.palette.common.white : theme.palette.primary.main
-    : theme.palette.mode === 'light' ? theme.palette.secondary.main : theme.palette.grey[100]
+    : isLightMode(theme.palette.mode) ? theme.palette.secondary.main : theme.palette.grey[100]
 
   const isDisabled = () => {
     return !connected || (connected && isStreamStarted && !isDataChannelOpened)

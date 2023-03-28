@@ -3,11 +3,13 @@ import { common } from '@mui/material/colors'
 export const lightMode = 'light'
 export const darkMode = 'dark'
 
+export const isLightMode = (mode) => mode === lightMode
+
 export const getColorModeSettings = (mode = lightMode) => ({
   palette: {
     mode: mode,
     primary: {
-      main: mode === 'light' ? '#262748' : common.white,
+      main: isLightMode(mode) ? '#262748' : common.white,
     },
     secondary: {
       main: '#B7C0D9'

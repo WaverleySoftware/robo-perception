@@ -1,6 +1,7 @@
 import { useTheme } from '@mui/material/styles'
 import { IconButton, Tooltip } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
+import { isLightMode } from '../../themes/base'
 
 const CloseButton = ({ title, onClick }) => {
   const theme = useTheme()
@@ -17,12 +18,12 @@ const CloseButton = ({ title, onClick }) => {
           width: '24px',
           height: '24px',
           '&:hover': {
-            background: theme.palette.mode === 'light' ? '#EAEDF7' : theme.palette.grey[200]
+            background: isLightMode(theme.palette.mode) ? '#EAEDF7' : theme.palette.grey[200]
           }
         }}
         onClick={onClick}
       >
-        <CloseIcon sx={{ color: theme.palette.mode === 'light' ? theme.palette.secondary.main : theme.palette.common.white}}/>
+        <CloseIcon sx={{ color: isLightMode(theme.palette.mode) ? theme.palette.secondary.main : theme.palette.common.white}}/>
       </IconButton>
     </Tooltip>
   )

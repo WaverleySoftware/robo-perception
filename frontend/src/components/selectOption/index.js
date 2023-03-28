@@ -1,5 +1,6 @@
 import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
+import { isLightMode } from '../../themes/base'
 
 const SelectOption = styled(MenuItem)(({ theme }) => ({
   height: '40px',
@@ -7,7 +8,7 @@ const SelectOption = styled(MenuItem)(({ theme }) => ({
   color: theme.palette.primary.main,
   '&.Mui-selected': {
     color: theme.palette.info.main,
-    background: theme.palette.mode === 'light' ? '#F7F8FC' : '#3E405E'
+    background: isLightMode(theme.palette.mode) ? '#F7F8FC' : '#3E405E'
   },
 }))
 
