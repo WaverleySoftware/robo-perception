@@ -98,14 +98,22 @@ const TabStyled = styled(Tab)(({ theme }) => ({
 const Header = observer(() => {
   const {
     navigationStore: { activeTab, setActiveTab },
-    settingsStore: { robotTypes, robots_settings, currentRobotId, updateCurrentRobotId}
+    settingsStore: { robotTypes, robots_settings, currentRobotId, updateCurrentRobotId },
+    videoPlayerStore: { onShowModal, isStreamStarted },
   } = useStore()
   const theme = useTheme()
-  const [guideOpen, setGuideOpen] = useState(false);
+  const [guideOpen, setGuideOpen] = useState(false)
 
   const handleChange = (_event, newValue) => {
-    setActiveTab(newValue)
-  };
+    const setActiveTabCallback = () => setActiveTab(newValue)
+
+    if(newValue === 1 && isStreamStarted) {
+      onShowModal(setActiveTabCallback)
+      return
+    }
+
+    setActiveTabCallback()
+  }
 
   const handleGuideOpen = () => {
     setGuideOpen(true)
@@ -117,7 +125,14 @@ const Header = observer(() => {
 
   const handleRobotChange = (event) => {
     event.preventDefault()
-    updateCurrentRobotId(event.target.value);
+    const updateCurrentRobotIdCallback = () => updateCurrentRobotId(event.target.value)
+
+    if (isStreamStarted) {
+      onShowModal(updateCurrentRobotIdCallback)
+      return
+    }
+
+    updateCurrentRobotIdCallback()
   }
  
   return (

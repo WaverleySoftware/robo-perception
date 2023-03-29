@@ -37,6 +37,7 @@ export const getColorModeSettings = (mode = lightMode) => ({
       200: '#2097BC',
       300: '#484A69',
       400: '#333553',
+      500: '#262748',
     },
     boxShadow: {
       main: '-10px 10px 20px rgba(212, 212, 225, 0.2), 10px -10px 20px rgba(182, 182, 210, 0.2)',

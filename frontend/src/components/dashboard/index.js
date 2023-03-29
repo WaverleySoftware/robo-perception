@@ -9,6 +9,7 @@ import InputController from '../inputController'
 import AdditionalActions from '../additionalActions'
 import RobotSpeed from '../robotSpeed'
 import RobotHardware from '../robotHardware'
+import StreamingModal from '../streamingModal'
 
 const Dashboard = observer(() => {
   const {
@@ -50,6 +51,7 @@ const Dashboard = observer(() => {
           </>}
         </Grid>
       </Grid>
+      <StreamingModal />
     </TabPanel>
   )
 })
