@@ -41,7 +41,7 @@ const Widgets = observer(() => {
               selected={widget.selected}
               onClick={() => toggleWidget(widget.name)}
             >
-              <ListItemText primary={widget.label} sx={{color: theme.palette.text.primary}} />
+              <ListItemText primary={widget.label} sx={{color: theme.palette.primary.main}} />
               <Switch checked={widget.selected} />
             </ListItemButtonCustom>
           </ListItem>

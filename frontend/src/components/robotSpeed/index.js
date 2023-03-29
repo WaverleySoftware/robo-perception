@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles'
 import { useTheme } from '@mui/material/styles'
 import { observer } from 'mobx-react'
 import { useStore } from '../../store'
+import { isLightMode } from '../../themes/base'
 import Widget, { WidgetTitle } from '../widget'
 import { ReactComponent as SpeedIcon } from './speed.svg'
 
@@ -16,7 +17,7 @@ const RobotSpeedButton = styled(Button)(({ theme }) => ({
   fontWeight: 500,
   fontSize: '26px',
   minWidth: 'auto',
-  boxShadow: theme.palette.boxShadow.robotSpeedButton,
+  boxShadow: isLightMode(theme.palette.mode) ? '0px 6px 22px rgba(222, 226, 237, 0.51)' : 'none',
   '&:hover': {
     backgroundColor: '#C8F0F8',
   },
@@ -24,7 +25,7 @@ const RobotSpeedButton = styled(Button)(({ theme }) => ({
     backgroundColor: '#A9E5F7',
   },
   '&:disabled': {
-    backgroundColor: theme.palette.background.robotSpeedButtonDisabled,
+    backgroundColor: isLightMode(theme.palette.mode) ? theme.palette.grey[300] : '#565873',
     color: theme.palette.secondary.main,
   },
 }))
@@ -55,7 +56,7 @@ const RobotSpeed = observer(() => {
           sx={{
             fontSize: '18px',
             fontWeight: theme.typography.fontWeightBold,
-            color: theme.palette.text.robotSpeedValue,
+            color: isLightMode(theme.palette.mode) ? theme.palette.secondary.main : theme.palette.info.main,
             margin: '0 24px',
           }}
         >{robotSpeed}</Typography>

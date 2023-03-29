@@ -4,6 +4,7 @@ import { Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from '../../../../store'
 import { IS_SIMULATING } from '../../../../constants'
+import { isLightMode } from '../../../../themes/base'
 
 const CameraLabel = observer(({name, marginLeft = 0, connected}) => {
   const theme = useTheme()
@@ -12,8 +13,8 @@ const CameraLabel = observer(({name, marginLeft = 0, connected}) => {
     webRTCStore: { isDataChannelOpened },
   } = useStore()
   const color = connected
-    ? isFullscreen ? theme.palette.common.white : theme.palette.text.primary
-    : theme.palette.text.disabledVideoPlayerIcon
+    ? isFullscreen ? theme.palette.common.white : theme.palette.primary.main
+    : isLightMode(theme.palette.mode) ? theme.palette.secondary.main : theme.palette.grey[100]
 
   const isDisabled = () => {
     return !connected || (connected && isStreamStarted && !isDataChannelOpened)

@@ -6,12 +6,13 @@ import Dashboard from './components/dashboard'
 import Settings from './components/settings'
 import ThemeProvider from './themes/ThemeProvider'
 import { useTheme } from '@mui/material/styles'
+import { isLightMode } from './themes/base'
 
 const AppContent = () => {
   const theme = useTheme()
 
   return (
-    <div className='App' style={{ background: theme.palette.background.main }}>
+    <div className='App' style={{ background: isLightMode(theme.palette.mode) ? '#F2F4FC' : '#17162D' }}>
       <Header />
       <Dashboard />
       <Settings />

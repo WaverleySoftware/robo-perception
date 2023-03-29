@@ -5,7 +5,6 @@ import { useStore } from '../../store'
 import TabPanel from '../tabPanel'
 import ControlledAccordions from '../controlledAccordions'
 import Widgets from '../widgets'
-import Display from '../display'
 
 const Settings = observer(() => {
   const {
@@ -20,7 +19,6 @@ const Settings = observer(() => {
         </Grid>
         <Grid item xs={4}>
           <Widgets />
-          <Display />
         </Grid>
       </Grid>
     </TabPanel>

@@ -4,6 +4,7 @@ import { Icon, Slider, Grid, Tooltip } from '@mui/material'
 import { VolumeUp, VolumeDown, VolumeMute } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from '../../../../store'
+import { isLightMode } from '../../../../themes/base'
 
 const VolumeControls = observer(({ connected }) => {
   const {videoPlayerStore: { volume, setVolume, muted, setMuted, isFullscreen }} = useStore()
@@ -46,8 +47,8 @@ const VolumeControls = observer(({ connected }) => {
           component={volumeIcon(volume, muted)}
           sx={{
             color: connected
-              ? isFullscreen ? theme.palette.common.white : theme.palette.text.primary
-              : theme.palette.text.disabledVideoPlayerIcon
+              ? isFullscreen ? theme.palette.common.white : theme.palette.primary.main
+              : isLightMode(theme.palette.mode) ? theme.palette.secondary.main : theme.palette.grey[100]
           }}
           onClick={handleOnVolumeIconClick}
         />
@@ -64,7 +65,7 @@ const VolumeControls = observer(({ connected }) => {
           '& .MuiSlider-thumb': {
             backgroundColor: connected
               ? isFullscreen ? theme.palette.common.white : '#18DDFC'
-              : theme.palette.text.disabledVideoPlayerIcon,
+              : isLightMode(theme.palette.mode) ? theme.palette.secondary.main : theme.palette.grey[100],
             width: '12px',
             height: '12px',
             '&:hover': {
@@ -78,7 +79,7 @@ const VolumeControls = observer(({ connected }) => {
           '& .MuiSlider-track': {
             color: connected
               ? isFullscreen ? 'rgba(255, 255, 255, 0.7)' : theme.palette.info.main
-              : theme.palette.text.disabledVideoPlayerIcon,
+              : isLightMode(theme.palette.mode) ? theme.palette.secondary.main : theme.palette.grey[100],
           }
         }}
         onChange={handleChange}

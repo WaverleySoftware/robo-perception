@@ -2,10 +2,11 @@ import { useTheme } from '@mui/material/styles'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 import {default as DefaultSelect} from '@mui/material/Select'
 import { styled } from '@mui/material/styles'
+import { isLightMode } from '../../themes/base'
 
 const CustomSelect = styled(DefaultSelect)(({ theme }) => ({
   borderRadius: theme.shape.formFieldBorderRadius,
-  background: theme.palette.background.formItemBg,
+  background: isLightMode(theme.palette.mode) ? theme.palette.common.white : theme.palette.blue[300],
   height: '44px',
   '& .MuiSelect-select': {
     padding: '10px 12px',
@@ -37,7 +38,7 @@ const Select = (props) => {
     MenuProps={{
       PaperProps: {
         sx: {
-          bgcolor: theme.palette.robotSelect.dropdownBg,
+          bgcolor: isLightMode(theme.palette.mode) ? theme.palette.common.white : theme.palette.grey[200],
         },
       },
     }}

@@ -3,6 +3,7 @@ import { Grid, Typography } from '@mui/material'
 import { observer } from 'mobx-react'
 import Switch from '../../../switch'
 import { useStore } from '../../../../store'
+import { isLightMode } from '../../../../themes/base'
 
 const ObjectDetectionControls = observer(({ connected }) => {
   const {
@@ -12,8 +13,8 @@ const ObjectDetectionControls = observer(({ connected }) => {
 
   const theme = useTheme()
   const color = connected
-    ? isFullscreen ? theme.palette.common.white : theme.palette.text.primary
-    : theme.palette.text.disabledVideoPlayerIcon
+    ? isFullscreen ? theme.palette.common.white : theme.palette.primary.main
+    : isLightMode(theme.palette.mode) ? theme.palette.secondary.main : theme.palette.grey[100]
 
   const handleNNChange = async () => {
     setNN(!useNN)
@@ -43,7 +44,7 @@ const ObjectDetectionControls = observer(({ connected }) => {
             '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
               backgroundColor: connected
                 ? isFullscreen ? theme.palette.common.white : theme.palette.info.main
-                : theme.palette.text.disabledVideoPlayerIcon,
+                : isLightMode(theme.palette.mode) ? theme.palette.secondary.main : theme.palette.grey[100],
               opacity: 1,
             },
             '& .Mui-disabled+.MuiSwitch-track': {

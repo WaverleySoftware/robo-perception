@@ -27,6 +27,7 @@ import {
   ElevationAction,
   getActions,
 } from './buttonActions'
+import { isLightMode } from '../../themes/base'
 
 export const Template = {
   NORMAL: 'normal',
@@ -64,7 +65,7 @@ const StyledCarousel = styled(Carousel)(({ theme }) => ({
     
   },
   '& .indicator-icon': {
-    color: theme.palette.background.guideCarouselIndicator,
+    color: isLightMode(theme.palette.mode) ? theme.palette.grey[300] : theme.palette.grey[200],
     padding: '6px',
     fontSize: '12px',
   },

@@ -1,25 +1,35 @@
-import React, { useState } from 'react'
-import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
-import { getThemeByName, themesList } from './base'
+import React, { useMemo, useState } from 'react'
+import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
+import { getColorModeSettings, lightMode, darkMode, isLightMode } from './base'
 
-export const ThemeContext = React.createContext({})
+export const ColorModeContext = React.createContext({})
 
 const ThemeProvider = (props) => {
-    const curThemeName = localStorage.getItem('appTheme') || 'lightTheme'
+    const currentMode = localStorage.getItem('appMode') || lightMode
 
-    const [selectedThemeName, setSelectedThemeName] = useState(curThemeName);
+    const [mode, setMode] = useState(currentMode)
 
-    const theme = getThemeByName(selectedThemeName);
+    const colorMode = React.useMemo(
+      () => ({
+        // The mode switch would invoke this method
+        toggleColorMode: () => {
+          setMode((prevMode) => {
+            const newMode = isLightMode(prevMode) ? darkMode : lightMode
+            localStorage.setItem('appMode', newMode)
+            return newMode
+          })
+        },
+      }),
+      [],
+    )
 
-    const setThemeName = (selectedThemeName) => {
-        localStorage.setItem('appTheme', selectedThemeName);
-        setSelectedThemeName(selectedThemeName);
-    }
+    // Update the theme only if the mode changes
+  const theme = useMemo(() => createTheme(getColorModeSettings(mode)), [mode]);
 
     return (
-      <ThemeContext.Provider value={{themesList, selectedThemeName, setThemeName}}>
+      <ColorModeContext.Provider value={colorMode}>
         <MuiThemeProvider theme={theme}>{props.children}</MuiThemeProvider>
-      </ThemeContext.Provider>
+      </ColorModeContext.Provider>
     );
 }
 

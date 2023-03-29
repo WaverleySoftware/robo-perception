@@ -43,11 +43,11 @@ const LiveClock = () => {
       <Grid container item direction='column' justifyContent='center' alignItems='center' sx={{padding: '0 12px', minWidth: '130px'}}>
         <Grid
           item
-          sx={{fontSize: '18px', color: theme.palette.text.primary, fontWeight: theme.typography.fontWeightBold}}
+          sx={{fontSize: '18px', color: theme.palette.primary.main, fontWeight: theme.typography.fontWeightBold}}
         >{time}</Grid>
         <Grid
           item
-          sx={{fontSize: '12px', color: theme.palette.text.secondary, fontWeight: theme.typography.fontWeightRegular}}
+          sx={{fontSize: '12px', color: theme.palette.secondary.main, fontWeight: theme.typography.fontWeightRegular}}
         >{dateTitle}</Grid>
       </Grid>
       <Divider orientation='vertical' flexItem sx={{ borderColor: theme.palette.hr.main }} variant='middle'/>

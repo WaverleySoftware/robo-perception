@@ -13,8 +13,9 @@ import RobotTypeIcon from '../roboTypeIcon'
 import { ReactComponent as DashboardIcon } from './dashboard.svg'
 import { ReactComponent as SettingsIcon } from './settings.svg'
 import { ReactComponent as GuideIcon } from './guide.svg'
-import LiveClock from './liveClock'
+import ModeSwitcher from './modeSwitcher'
 import GuideModal from '../guideModal'
+import { isLightMode } from '../../themes/base'
 
 const Logo = ({ textColor }) => (
   <svg width="156" height="48" viewBox="0 0 156 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -56,8 +57,8 @@ const SelectRenderValue = ({ value, robots_settings, robotTypes }) => {
 
   return (
     <Grid container sx={{alignItems: 'center', flexDirection: 'row'}}>
-      <Typography sx={{marginRight: '12px', fontSize: '14px', color: theme.palette.text.primary, width: '100px', overflow: 'hidden'}}>{selectedRobot.name}</Typography>
-      <Grid sx={{ width: '36px', height: '36px', borderRadius: '50%', background: theme.palette.robotSelect.iconBg, alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+      <Typography sx={{marginRight: '12px', fontSize: '14px', color: theme.palette.primary.main, width: '100px', overflow: 'hidden'}}>{selectedRobot.name}</Typography>
+      <Grid sx={{ width: '36px', height: '36px', borderRadius: '50%', background: isLightMode(theme.palette.mode) ? '#E2E7F5' : '#38395C', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
         <RobotTypeIcon color={'#C4C4C4'} type={selectedRobot.type} />
       </Grid>
     </Grid>
@@ -65,17 +66,33 @@ const SelectRenderValue = ({ value, robots_settings, robotTypes }) => {
 }
 
 const TabStyled = styled(Tab)(({ theme }) => ({
-  fontSize: '11px',
-  padding: '10px',
+  fontSize: '18px',
+  padding: '10px 16px',
   textTransform: 'capitalize',
+  color: theme.palette.secondary.main,
+  fontWeight: theme.typography.fontWeightMedium,
+  position: 'relative',
   '& .MuiSvgIcon-root': {
-    fontSize: '36px',
-    stroke: theme.palette.text.secondary,
+    fontSize: '24px',
+    stroke: theme.palette.secondary.main,
     marginBottom: 0,
   },
   [`&.${tabUnstyledClasses.selected} .MuiSvgIcon-root`]: {
-    stroke: theme.palette.text.primary
+    stroke: theme.palette.primary.main
   },
+  '& .Mui-selected': {
+    color: isLightMode(theme.palette.mode) ? theme.palette.blue[100] : theme.palette.common.white,
+  },
+  '&:nth-of-type(2):before': {
+    content: '""',
+    position: 'absolute',
+    left: 0,
+    top: '50%',
+    transform: 'translateY(-50%)',
+    width: '1px',
+    height: '24px',
+    backgroundColor: theme.palette.secondary.main,
+  }
 }))
 
 const Header = observer(() => {
@@ -87,7 +104,7 @@ const Header = observer(() => {
   const [guideOpen, setGuideOpen] = useState(false);
 
   const handleChange = (_event, newValue) => {
-    setActiveTab(newValue);
+    setActiveTab(newValue)
   };
 
   const handleGuideOpen = () => {
@@ -104,60 +121,71 @@ const Header = observer(() => {
   }
  
   return (
-    <Grid container sx={{ height: '80px', maxWidth: '1440px', margin: '0 auto', padding: '0 26px 0 40px', alignItems: 'center' }}>
-      <Grid item xs={5} container sx={{alignItems: 'center'}}>
-        <Logo textColor={theme.palette.text.logo}/>
-      </Grid>
-      <Grid container item xs={2} sx={{justifyContent: 'center'}}>
-        <Tabs
-        value={activeTab}
-        onChange={handleChange}
-        TabIndicatorProps={{
-          hidden: true
-        }}
-      >
-        <TabStyled label='Dashboard' icon={<SvgIcon component={DashboardIcon} inheritViewBox sx={{fill: 'none'}} />} />
-        <TabStyled label='Settings' icon={<SvgIcon component={SettingsIcon} inheritViewBox sx={{fill: 'none'}} />} />
-      </Tabs>
-      </Grid>
-
-      <Grid item xs={5} sx={{marginLeft: 'auto', width: 'auto', justifyContent: 'right'}} container>
-        <LiveClock />
-        <Button
-          variant='text'
-          color='info'
-          startIcon={<SvgIcon color='success' component={GuideIcon} inheritViewBox sx={{fill: 'none'}}/>} 
-          sx={{ margin: '0 4px', textTransform: 'capitalize', padding: '0 12px', fontSize: '14px', fontWeight: theme.typography.fontWeightMedium }}
-          onClick={handleGuideOpen}
-        >
-          View Guide
-        </Button>
-        <GuideModal
-          open={guideOpen}
-          onClose={handleGuideClose}
-        />
-        <RobotSelect
-          value={currentRobotId}
-          label='Select the robot'
-          onChange={handleRobotChange}
-          notched={false}
-          MenuProps={{
-            PaperProps: {
-              sx: {
-                bgcolor: theme.palette.robotSelect.dropdownBg,
+    <Grid>
+      <Grid container sx={{
+        alignItems: 'center',
+        height: '68px',
+        padding: '0 26px 0 40px',
+        backgroundColor: isLightMode(theme.palette.mode) ?  '#F7F8FF' : '#343654',
+        boxShadow: isLightMode(theme.palette.mode) ? theme.palette.boxShadow.main : 'none',
+      }}>
+        <Grid item xs={5} container sx={{alignItems: 'center'}}>
+          <RobotSelect
+            value={currentRobotId}
+            label='Select the robot'
+            onChange={handleRobotChange}
+            notched={false}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  bgcolor: isLightMode(theme.palette.mode) ? theme.palette.common.white : theme.palette.grey[200],
+                },
               },
-            },
+            }}
+            renderValue={(value) => <SelectRenderValue value={value} robotTypes={robotTypes} robots_settings={robots_settings}/>}
+            IconComponent={(props) => <ExpandMore {...props}/>}
+          >
+            {robots_settings.map((robotDate) => (
+              <SelectOption key={robotDate.id} value={robotDate.id}>
+                <RobotTypeIcon color={robotDate.id === currentRobotId ? '#28BDEB' : '#C4C4C4'} type={robotDate.type} />
+                <Typography sx={{ marginLeft: '8px', fontSize: '14px' }} >{robotDate.name}</Typography>
+              </SelectOption>
+            ))}
+          </RobotSelect>
+        </Grid>
+        <Grid container item xs={2} sx={{justifyContent: 'center'}}>
+          <Logo textColor={isLightMode(theme.palette.mode) ? '#0F0E9F' : theme.palette.common.white}/>
+        </Grid>
+
+        <Grid item xs={5} sx={{marginLeft: 'auto', width: 'auto', justifyContent: 'right', alignItems: 'center'}} container>
+          <ModeSwitcher />
+          <Button
+            variant='text'
+            color='info'
+            startIcon={<SvgIcon color='success' component={GuideIcon} inheritViewBox sx={{fill: 'none'}}/>} 
+            sx={{ textTransform: 'capitalize', padding: '0 12px', fontSize: '14px', fontWeight: theme.typography.fontWeightMedium }}
+            onClick={handleGuideOpen}
+          >
+            View Guide
+          </Button>
+          <GuideModal
+            open={guideOpen}
+            onClose={handleGuideClose}
+          />
+        </Grid>
+      </Grid>
+      <Grid sx={{ height: '72px' }}>       
+        <Tabs
+          value={activeTab}
+          onChange={handleChange}
+          TabIndicatorProps={{
+            hidden: true
           }}
-          renderValue={(value) => <SelectRenderValue value={value} robotTypes={robotTypes} robots_settings={robots_settings}/>}
-          IconComponent={(props) => <ExpandMore {...props}/>}
+          centered
         >
-          {robots_settings.map((robotDate) => (
-            <SelectOption key={robotDate.id} value={robotDate.id}>
-              <RobotTypeIcon color={robotDate.id === currentRobotId ? '#28BDEB' : '#C4C4C4'} type={robotDate.type} />
-              <Typography sx={{ marginLeft: '8px', fontSize: '14px' }} >{robotDate.name}</Typography>
-            </SelectOption>
-          ))}
-        </RobotSelect>
+          <TabStyled label='Dashboard' icon={<SvgIcon component={DashboardIcon} inheritViewBox sx={{fill: 'none'}} />} iconPosition='start' />
+          <TabStyled label='Settings' icon={<SvgIcon component={SettingsIcon} inheritViewBox sx={{fill: 'none'}} />} iconPosition='start' />
+        </Tabs>
       </Grid>
     </Grid>
   )

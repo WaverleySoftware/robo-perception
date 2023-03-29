@@ -8,6 +8,7 @@ import Widget from '../widget'
 import ConnectionInfo from '../videoConnectionInfo'
 import classNames from 'classnames'
 import { useTheme } from '@emotion/react'
+import { isLightMode } from '../../themes/base'
 
 const VideoPlayerView = observer((props) => {
   const {videoPlayerStore: { videoEl, attachEvents, detachEvents, isFullscreen }} = useStore()
@@ -29,7 +30,7 @@ const VideoPlayerView = observer((props) => {
         style={{
           cursor: 'default',
           zIndex: isFullscreen ? theme.zIndex.fullscreen : 'auto',
-          boxShadow: theme.palette.boxShadow.card,
+          boxShadow: isLightMode(theme.palette.mode) ? theme.palette.boxShadow.main : 'none',
         }}
       >
         <ConnectionInfo />

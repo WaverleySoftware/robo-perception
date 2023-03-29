@@ -5,6 +5,7 @@ import { Pause, PlayArrow } from '@mui/icons-material'
 import React from 'react'
 import { alpha } from '@mui/material/styles'
 import { useTheme } from '@mui/material/styles'
+import { isLightMode } from '../../../../themes/base'
 
 const PlaybackControls = observer(({ connected }) => {
   const {
@@ -44,7 +45,7 @@ const PlaybackControls = observer(({ connected }) => {
                   : `${alpha(theme.palette[isStreamStarted ? 'error' : 'success'].main, 0.4)}`
               },
               '&:disabled': {
-                background: theme.palette.background.disabledPlayButton,
+                background: `${alpha(theme.palette.grey[300], isLightMode(theme.palette.mode) ? 1 : 0.2)}`,
               },
             }}
           >
@@ -52,7 +53,7 @@ const PlaybackControls = observer(({ connected }) => {
               component={playIcon()}
               sx={{ color: connected
                   ? isFullscreen ? theme.palette.common.white : theme.palette[isStreamStarted ? 'error' : 'success'].main
-                  : theme.palette.text.disabledPlayButtonIcon
+                  : theme.palette.secondary.main
               }} />
           </IconButton>
         </span>

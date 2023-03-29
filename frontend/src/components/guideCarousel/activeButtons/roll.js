@@ -1,10 +1,10 @@
 import { useTheme } from '@mui/material/styles'
 import { RollAction } from '../buttonActions'
-
+import { isLightMode } from '../../../themes/base'
 
 const Roll = () => {
   const theme = useTheme()
-  const activeButtonColor = theme.palette.text.guideActiveButton
+  const activeButtonColor = isLightMode(theme.palette.mode) ? theme.palette.blue[100] : theme.palette.common.white
 
   return (
     <svg width="184" height="41" viewBox="0 0 184 41" fill="none" xmlns="http://www.w3.org/2000/svg">

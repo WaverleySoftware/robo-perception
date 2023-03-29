@@ -1,5 +1,6 @@
 import { default as Toggle } from '@mui/material/Switch'
 import { styled } from '@mui/material/styles'
+import { isLightMode } from '../../themes/base';
 
 const Switch = styled(Toggle)(({ theme }) => ({
   width: 32,
@@ -28,7 +29,7 @@ const Switch = styled(Toggle)(({ theme }) => ({
   '& .MuiSwitch-track': {
     borderRadius: 16 / 2,
     opacity: 1,
-    backgroundColor: theme.palette.background.switchOffBg,
+    backgroundColor: isLightMode(theme.palette.mode) ? theme.palette.secondary.main : theme.palette.grey[200],
     boxSizing: 'border-box',
   },
 }));

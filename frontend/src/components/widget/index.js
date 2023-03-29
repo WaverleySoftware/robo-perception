@@ -28,7 +28,6 @@ const Widget = observer(({
   widgetName,
   styles,
 }) => {
-  const theme = useTheme()
   const { settingsStore: { toggleWidget, widgets }} = useStore()
 
   const handleWidgetClose = (e) => {
