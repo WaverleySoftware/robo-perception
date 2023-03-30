@@ -10,6 +10,7 @@ import AdditionalActions from '../additionalActions'
 import RobotSpeed from '../robotSpeed'
 import RobotHardware from '../robotHardware'
 import StreamingModal from '../streamingModal'
+import { NavigationTabs } from '../../store/Navigation'
 
 const Dashboard = observer(() => {
   const {
@@ -24,7 +25,7 @@ const Dashboard = observer(() => {
   const isAdditionalActionsWidgetSelected = widgets.find((widget) => widget.name === 'actions').selected
 
   return (
-    <TabPanel value={activeTab} index={0}>
+    <TabPanel activeTab={activeTab} value={NavigationTabs.DASHBOARD}>
       <Grid
         container
         component='main'

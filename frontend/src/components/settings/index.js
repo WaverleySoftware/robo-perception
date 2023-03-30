@@ -5,6 +5,7 @@ import { useStore } from '../../store'
 import TabPanel from '../tabPanel'
 import ControlledAccordions from '../controlledAccordions'
 import Widgets from '../widgets'
+import { NavigationTabs } from '../../store/Navigation'
 
 const Settings = observer(() => {
   const {
@@ -12,7 +13,7 @@ const Settings = observer(() => {
   } = useStore()
 
   return (
-    <TabPanel value={activeTab} index={1}>
+    <TabPanel activeTab={activeTab} value={NavigationTabs.SETTINGS}>
       <Grid sx={{ maxWidth: '900px', margin: '0 auto' }} container spacing={2}>
         <Grid item xs={8}>
           <ControlledAccordions />

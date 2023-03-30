@@ -9,8 +9,11 @@ import { useStore } from '../../store'
 const StreamingModal = observer(() => {
   const {
     videoPlayerStore: { showModal, onStopStreamingConfirm, onStopStreamingCancel },
+    settingsStore: { robots_settings, currentRobotId },
   } = useStore()
   const theme = useTheme()
+
+  const robot = robots_settings.find(({id}) => id === currentRobotId)
 
   return (
     <Modal
@@ -37,7 +40,7 @@ const StreamingModal = observer(() => {
           color: theme.palette.blue[100],
           fontSize: '24px',
           marginBottom: '34px'
-        }}>Do you want to end the streaming robot<br/>[1 Spot 12-55467]?</Typography>
+        }}>Do you want to end the streaming robot<br/>[{robot.name}]?</Typography>
         <Grid>
           <Button sx={{ textTransform: 'uppercase' }} isLight onClick={onStopStreamingConfirm}>yes, I want to end streaming</Button>
           <Button sx={{ textTransform: 'uppercase', marginLeft: '24px' }} onClick={onStopStreamingCancel}>no, I don’t </Button>

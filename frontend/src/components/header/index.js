@@ -16,6 +16,7 @@ import { ReactComponent as GuideIcon } from './guide.svg'
 import ModeSwitcher from './modeSwitcher'
 import GuideModal from '../guideModal'
 import { isLightMode } from '../../themes/base'
+import { NavigationTabs } from '../../store/Navigation'
 
 const Logo = ({ textColor }) => (
   <svg width="156" height="48" viewBox="0 0 156 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -107,7 +108,7 @@ const Header = observer(() => {
   const handleChange = (_event, newValue) => {
     const setActiveTabCallback = () => setActiveTab(newValue)
 
-    if(newValue === 1 && isStreamStarted) {
+    if(newValue === NavigationTabs.SETTINGS && isStreamStarted) {
       onShowModal(setActiveTabCallback)
       return
     }
@@ -198,8 +199,8 @@ const Header = observer(() => {
           }}
           centered
         >
-          <TabStyled label='Dashboard' icon={<SvgIcon component={DashboardIcon} inheritViewBox sx={{fill: 'none'}} />} iconPosition='start' />
-          <TabStyled label='Settings' icon={<SvgIcon component={SettingsIcon} inheritViewBox sx={{fill: 'none'}} />} iconPosition='start' />
+          <TabStyled value={NavigationTabs.DASHBOARD} label='Dashboard' icon={<SvgIcon component={DashboardIcon} inheritViewBox sx={{fill: 'none'}} />} iconPosition='start' />
+          <TabStyled value={NavigationTabs.SETTINGS} label='Settings' icon={<SvgIcon component={SettingsIcon} inheritViewBox sx={{fill: 'none'}} />} iconPosition='start' />
         </Tabs>
       </Grid>
     </Grid>
