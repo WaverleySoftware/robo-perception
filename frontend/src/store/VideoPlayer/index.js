@@ -229,7 +229,7 @@ class VideoPlayer {
   }
 
   @action
-  onStopStreamingCancel = async () => {
+  onStopStreamingCancel = () => {
     this.showModal = false
     this.showModalCallback = null
   }
