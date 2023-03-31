@@ -1,7 +1,12 @@
 import { action, makeObservable, observable } from 'mobx'
 
+export const NavigationTabs = {
+  DASHBOARD: 'dashboard',
+  SETTINGS: 'settings'
+}
+
 class Navigation {
-  @observable activeTab = 0
+  @observable activeTab = NavigationTabs.DASHBOARD
 
   constructor() {
     makeObservable(this)

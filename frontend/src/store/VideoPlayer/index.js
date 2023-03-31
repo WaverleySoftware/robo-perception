@@ -18,6 +18,8 @@ class VideoPlayer {
   @observable isPlaying = false
   @observable duration = null
   @observable buffering = false
+  @observable showModal = false
+  @observable showModalCallback = null
 
   constructor(rootStore) {
     makeObservable(this)
@@ -206,6 +208,30 @@ class VideoPlayer {
   @action
   toggleFullscreen = () => {
     this.isFullscreen = !this.isFullscreen
+  }
+
+  @action
+  onShowModal = (callback) => {
+    this.showModal = true
+    if(typeof callback === 'function') {
+      this.showModalCallback = callback
+    }
+  }
+
+  @action
+  onStopStreamingConfirm = async () => {
+    await this.videoEl.current.pause()
+    this.showModal = false
+    if(this.showModalCallback) {
+      this.showModalCallback()
+      this.showModalCallback = null
+    }
+  }
+
+  @action
+  onStopStreamingCancel = () => {
+    this.showModal = false
+    this.showModalCallback = null
   }
 }
 

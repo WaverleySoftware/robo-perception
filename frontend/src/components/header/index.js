@@ -16,6 +16,7 @@ import { ReactComponent as GuideIcon } from './guide.svg'
 import ModeSwitcher from './modeSwitcher'
 import GuideModal from '../guideModal'
 import { isLightMode } from '../../themes/base'
+import { NavigationTabs } from '../../store/Navigation'
 
 const Logo = ({ textColor }) => (
   <svg width="156" height="48" viewBox="0 0 156 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -98,14 +99,22 @@ const TabStyled = styled(Tab)(({ theme }) => ({
 const Header = observer(() => {
   const {
     navigationStore: { activeTab, setActiveTab },
-    settingsStore: { robotTypes, robots_settings, currentRobotId, updateCurrentRobotId}
+    settingsStore: { robotTypes, robots_settings, currentRobotId, updateCurrentRobotId },
+    videoPlayerStore: { onShowModal, isStreamStarted },
   } = useStore()
   const theme = useTheme()
-  const [guideOpen, setGuideOpen] = useState(false);
+  const [guideOpen, setGuideOpen] = useState(false)
 
   const handleChange = (_event, newValue) => {
-    setActiveTab(newValue)
-  };
+    const setActiveTabCallback = () => setActiveTab(newValue)
+
+    if(newValue === NavigationTabs.SETTINGS && isStreamStarted) {
+      onShowModal(setActiveTabCallback)
+      return
+    }
+
+    setActiveTabCallback()
+  }
 
   const handleGuideOpen = () => {
     setGuideOpen(true)
@@ -117,7 +126,14 @@ const Header = observer(() => {
 
   const handleRobotChange = (event) => {
     event.preventDefault()
-    updateCurrentRobotId(event.target.value);
+    const updateCurrentRobotIdCallback = () => updateCurrentRobotId(event.target.value)
+
+    if (isStreamStarted) {
+      onShowModal(updateCurrentRobotIdCallback)
+      return
+    }
+
+    updateCurrentRobotIdCallback()
   }
  
   return (
@@ -183,8 +199,8 @@ const Header = observer(() => {
           }}
           centered
         >
-          <TabStyled label='Dashboard' icon={<SvgIcon component={DashboardIcon} inheritViewBox sx={{fill: 'none'}} />} iconPosition='start' />
-          <TabStyled label='Settings' icon={<SvgIcon component={SettingsIcon} inheritViewBox sx={{fill: 'none'}} />} iconPosition='start' />
+          <TabStyled value={NavigationTabs.DASHBOARD} label='Dashboard' icon={<SvgIcon component={DashboardIcon} inheritViewBox sx={{fill: 'none'}} />} iconPosition='start' />
+          <TabStyled value={NavigationTabs.SETTINGS} label='Settings' icon={<SvgIcon component={SettingsIcon} inheritViewBox sx={{fill: 'none'}} />} iconPosition='start' />
         </Tabs>
       </Grid>
     </Grid>
