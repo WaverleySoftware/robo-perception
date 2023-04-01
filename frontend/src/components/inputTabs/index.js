@@ -46,8 +46,13 @@ export const TabPanelTitle = (props) => {
   )
 }
 
+export const InputTabsName = {
+  KEYBOARD: 'keyboard',
+  JOYSTICK: 'joystick'
+}
+
 const InputTabs = observer(({ tabStyles = {position: 'absolute', right: '12px', top: '12px'}, renderKeyboardContent, renderJoystickContent }) => {
-  const [activeTab, setActiveTab] = useState(0)
+  const [activeTab, setActiveTab] = useState(InputTabsName.KEYBOARD)
   const handleChange = (_event, newValue) => {
     setActiveTab(newValue);
   }
@@ -62,13 +67,13 @@ const InputTabs = observer(({ tabStyles = {position: 'absolute', right: '12px', 
         }}
         sx={tabStyles}
       >
-        <TabTitle label='Keyboard' icon={<SvgIcon component={KeyboardIcon} inheritViewBox sx={{fill: 'none'}} />} />
-        <TabTitle label='Joystick' icon={<SvgIcon component={JoystickIcon} inheritViewBox sx={{fill: 'none'}} />} />
+        <TabTitle value={InputTabsName.KEYBOARD} label='Keyboard' icon={<SvgIcon component={KeyboardIcon} inheritViewBox sx={{fill: 'none'}} />} />
+        <TabTitle value={InputTabsName.JOYSTICK} label='Joystick' icon={<SvgIcon component={JoystickIcon} inheritViewBox sx={{fill: 'none'}} />} />
       </Tabs>
-      <TabPanel value={activeTab} index={0}>
+      <TabPanel activeTab={activeTab} value={InputTabsName.KEYBOARD}>
         {renderKeyboardContent()}
       </TabPanel>
-      <TabPanel value={activeTab} index={1}>
+      <TabPanel activeTab={activeTab} value={InputTabsName.JOYSTICK}>
         {renderJoystickContent()}
       </TabPanel>
     </>
