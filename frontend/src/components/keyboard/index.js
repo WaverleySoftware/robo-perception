@@ -52,7 +52,7 @@ const Keyboard = observer(() => {
            * Whereas on Mac Os current handler is not invoked when capslock is already pressed and active.
            * That's why additionally we need to track "firstClick" property
            */
-          if(capslockPress.isVirtual || (!isVirtual && isLinuxOS)) {
+          if((capslockPress.isVirtual && !isVirtual) || (!isVirtual && isLinuxOS)) {
             setCapslockPress({
               isVirtual,
               isPressed: true,
@@ -153,7 +153,37 @@ const Keyboard = observer(() => {
       const shiftLeftButton = keyboardRef.current.buttonElements['{shiftleft}']
       const shiftRightButton = keyboardRef.current.buttonElements['{shiftright}']
       paintButtons([...shiftLeftButton, ...shiftRightButton], shiftPress.isPressed)
-    }, [shiftPress, paintButtons])
+    }, [shiftPress.isPressed, paintButtons])
+
+    const handleMouseMove = (e) => {
+      if(e.getModifierState('CapsLock')) {
+        setCapslockPress({
+          isVirtual: false,
+          isPressed: true,
+          firstClick: true
+        })
+      }
+    }
+
+    useEffect(() => {
+      const handleFocus = () => {
+        /*
+         * Unfortunately, there is no possibility to check programatically if physical capslock button pressed.
+         * That's why mousemove event is being listened, as most possible where we can check capslock button state.
+         */
+        document.addEventListener('mousemove', handleMouseMove, { once: true })
+  
+        const shiftLeftButton = keyboardRef.current.buttonElements['{shiftleft}']
+        const shiftRightButton = keyboardRef.current.buttonElements['{shiftright}']
+        paintButtons([...shiftLeftButton, ...shiftRightButton], shiftPress.isPressed)
+  
+        const capslockButton = keyboardRef.current.buttonElements['{capslock}']
+        paintButtons(capslockButton, capslockPress.isPressed)  
+      }
+
+      window.addEventListener('focus', handleFocus)
+      return () => window.removeEventListener('focus', handleFocus)
+    }, [shiftPress.isPressed, capslockPress.isPressed, paintButtons])
 
     let layoutName = defaultLayoutName
   
