@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import VideoPlayerView from '../videoPlayer'
 import { useStore } from '../../store'
 import poster from '../../Media/pupper_cool.jpeg'
@@ -11,11 +11,14 @@ import RobotSpeed from '../robotSpeed'
 import RobotHardware from '../robotHardware'
 import StreamingModal from '../streamingModal'
 import { NavigationTabs } from '../../store/Navigation'
+import { useTheme } from '@mui/material/styles'
+import { isLightMode } from '../../themes/base'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 const Dashboard = observer(() => {
   const {
     navigationStore: { activeTab },
-    settingsStore: { widgets },
+    settingsStore: { widgets, currentRobotId, showSidebar },
     rosStore: { isWSConnected, isTeleopReady },
   } = useStore()
 
@@ -24,9 +27,12 @@ const Dashboard = observer(() => {
   const isRobotSpeedWidgetSelected = widgets.find((widget) => widget.name === 'speed').selected
   const isAdditionalActionsWidgetSelected = widgets.find((widget) => widget.name === 'actions').selected
 
+  const theme = useTheme()
+  const isFullHD = useMediaQuery('(min-width:1920px)')
+
   return (
-    <TabPanel activeTab={activeTab} value={NavigationTabs.DASHBOARD}>
-      <Grid
+    <TabPanel activeTab={activeTab} value={NavigationTabs.DASHBOARD} sx={{marginLeft: '256px'}}>
+      {currentRobotId ? <Grid
         container
         component='main'
         sx={{
@@ -51,7 +57,19 @@ const Dashboard = observer(() => {
             <InputController />
           </>}
         </Grid>
-      </Grid>
+      </Grid> : <Typography sx={{
+        marginLeft: showSidebar && !isFullHD ? '256px' : 0,
+        height: 'calc(100vh - 140px)',
+        textAlign: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: isLightMode(theme.palette.mode) ? theme.palette.secondary.main : '#DFE5F7',
+        marginTop: '-70px',
+        transition: theme.transitions.create(['margin'], {
+          duration: 250,
+        }),
+      }}>Select location filters<br/> to view robot list </Typography>}
       <StreamingModal />
     </TabPanel>
   )

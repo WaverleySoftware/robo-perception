@@ -33,10 +33,10 @@ const RobotSpeedButton = styled(Button)(({ theme }) => ({
 const RobotSpeed = observer(() => {
   const theme = useTheme()
   const {
-    settingsStore: { robotSpeed, decreeseRobotSpeed, increeseRobotSpeed, robots_settings, currentRobotId }
+    settingsStore: { robotSpeed, decreeseRobotSpeed, increeseRobotSpeed, robotsSettings, currentRobotId }
   } = useStore()
 
-  const speedMax = robots_settings.find(({id}) => id === currentRobotId).speed_max
+  const speedMax = robotsSettings.find(({id}) => id === currentRobotId)?.speed_max
 
   return (
     <Widget widgetName='speed' styles={{marginBottom: '16px'}}>

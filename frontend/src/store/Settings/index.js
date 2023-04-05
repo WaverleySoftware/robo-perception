@@ -3,7 +3,12 @@ import { observable, action, makeObservable } from 'mobx'
 class Settings {
   constructor() {
     makeObservable(this)
-    this.updateCurrentRobotId(1)
+    const currentRobotId = localStorage.getItem('currentRobotId')
+    if (currentRobotId) {
+      this.updateCurrentRobotId(JSON.parse(currentRobotId))
+    }
+
+    this.showSidebar = window.outerWidth >= 1920
   }
 
   @observable widgets = [
@@ -18,25 +23,61 @@ class Settings {
     { label: 'Wheeled', id: '2' },
   ]
 
-  @observable robots_settings = [{
+  @observable robotsSettings = [{
     id: 1,
     name: 'Spot 1234 869',
     type: '1',
     speed_min: 1,
     speed_max: 100,
-    speed_step: 10
+    speed_step: 10,
+    location: 'Ukraine',
+    building: 'Building A1',
   }, {
     id: 2,
     name: 'robot 2',
     type: '2',
     speed_min: 1,
     speed_max: 100,
-    speed_step: 20
+    speed_step: 20,
+    location: 'USA',
+    building: 'Building A2',
+  }, {
+    id: 3,
+    name: 'robot 3',
+    type: '1',
+    speed_min: 1,
+    speed_max: 100,
+    speed_step: 20,
+    location: 'Ukraine',
+    building: 'Building B1',
+  }, {
+    id: 4,
+    name: 'robot 4',
+    type: '1',
+    speed_min: 1,
+    speed_max: 100,
+    speed_step: 20,
+    location: 'Ukraine',
+    building: 'Building B1',
+  },{
+    id: 5,
+    name: 'robot 5',
+    type: '1',
+    speed_min: 1,
+    speed_max: 100,
+    speed_step: 20,
+    location: 'Ukraine',
+    building: 'Building C',
   },]
 
-  @observable currentRobotId = 1
+  @observable currentRobotId = null
 
   @observable robotSpeed = 100
+
+  @observable showSidebar = false
+
+  @action
+  toggleSidebar = () => this.showSidebar = !this.showSidebar
 
   @action
   decreeseRobotSpeed = () => this.robotSpeed -= 1
@@ -46,14 +87,15 @@ class Settings {
 
   @action
   updateCurrentRobotId = (robotId) => {
+    localStorage.setItem('currentRobotId', JSON.stringify(robotId))
     this.currentRobotId = robotId
-    this.robotSpeed = this.robots_settings.find(({id}) => id === robotId).speed_max
+    this.robotSpeed = this.robotsSettings.find(({id}) => id === robotId).speed_max
   }
 
   @action
   updateRobotSettings = (robot_data) => {
     // TODO: send robot_data to the beckend when it is ready
-    this.robots_settings = this.robots_settings.map((robot) => 
+    this.robotsSettings = this.robotsSettings.map((robot) => 
       robot.id === robot_data.id ? robot_data : robot
     )
 

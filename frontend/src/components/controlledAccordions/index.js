@@ -4,7 +4,7 @@ import { useStore } from '../../store'
 import Accordion from '../accordion'
 
 const ControlledAccordions = observer(() => {
-  const { settingsStore: { robots_settings, robotTypes, updateRobotSettings }} = useStore()
+  const { settingsStore: { robotsSettings, robotTypes, updateRobotSettings }} = useStore()
   const [expanded, setExpanded] = React.useState(1)
 
   const handleChange = (panel) => (_event, isExpanded) => {
@@ -13,7 +13,7 @@ const ControlledAccordions = observer(() => {
 
   return (
     <>
-      {robots_settings.map((robot_data, index) => {
+      {robotsSettings.map((robot_data, index) => {
         return (<Accordion 
           key={robot_data.id}
           id={robot_data.id}
