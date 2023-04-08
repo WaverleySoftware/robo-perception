@@ -40,33 +40,38 @@ const SidebarTitle = styled(Typography)(({ theme }) => ({
   color: isLightMode(theme.palette.mode) ? theme.palette.blue[100] : theme.palette.common.white,
 }))
 
-const FilterOption = styled(Button)(({ theme }) => ({
-  height: '44px',
-  padding: '0 24px',
-  backgroundColor: 'transparent',
-  color: isLightMode(theme.palette.mode) ? theme.palette.blue[100] : theme.palette.common.white,
-  fontWeight: theme.typography.fontWeightMedium,
-  fontSize: '14px',
-  boxShadow: 'none',
-  textTransform: 'capitalize',
-  justifyContent: 'flex-start',
-  width: '100%',
-  '&:hover': {
-    backgroundColor: isLightMode(theme.palette.mode) ? theme.palette.grey[500] : theme.palette.blue[600],
-    color: theme.palette.info.main,
-  },
-  '&:disabled': {
-    color: theme.palette.secondary.main,
-  },
-  '&:active': {
-    backgroundColor: isLightMode(theme.palette.mode) ? theme.palette.grey[500] : theme.palette.blue[600],
-    color: theme.palette.info.main,
-  },
-  '&.selected': {
-    backgroundColor: isLightMode(theme.palette.mode) ? theme.palette.grey[500] : theme.palette.blue[600],
-    color: theme.palette.info.main,
+const FilterOption = styled(Button)(({ theme }) => {
+  const backgroundColor = isLightMode(theme.palette.mode) ? theme.palette.grey[500] : theme.palette.blue[600]
+  const infoColor = theme.palette.info.main
+
+  return {
+    height: '44px',
+    padding: '0 24px',
+    backgroundColor: 'transparent',
+    color: isLightMode(theme.palette.mode) ? theme.palette.blue[100] : theme.palette.common.white,
+    fontWeight: theme.typography.fontWeightMedium,
+    fontSize: '14px',
+    boxShadow: 'none',
+    textTransform: 'capitalize',
+    justifyContent: 'flex-start',
+    width: '100%',
+    '&:hover': {
+      backgroundColor,
+      color: infoColor,
+    },
+    '&:disabled': {
+      color: theme.palette.secondary.main,
+    },
+    '&:active': {
+      backgroundColor,
+      color: infoColor,
+    },
+    '&.selected': {
+      backgroundColor,
+      color: infoColor,
+    }
   }
-}))
+})
 
 const FilterType = styled(FilterOption)(({ theme }) => ({
   '& svg': {
