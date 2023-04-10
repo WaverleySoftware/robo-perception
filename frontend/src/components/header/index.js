@@ -4,12 +4,9 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import { tabUnstyledClasses } from '@mui/base/TabUnstyled'
 import Grid from '@mui/material/Grid'
-import { Button, Select, SvgIcon, Typography } from '@mui/material'
-import ExpandMore from '@mui/icons-material/ExpandMore'
+import { Button, IconButton, SvgIcon, Typography } from '@mui/material'
 import { styled, useTheme } from '@mui/material/styles'
 import { useStore } from '../../store'
-import SelectOption from '../selectOption'
-import RobotTypeIcon from '../roboTypeIcon'
 import { ReactComponent as DashboardIcon } from './dashboard.svg'
 import { ReactComponent as SettingsIcon } from './settings.svg'
 import { ReactComponent as GuideIcon } from './guide.svg'
@@ -37,34 +34,23 @@ const Logo = ({ textColor }) => (
   </svg>
 )
 
-const RobotSelect = styled(Select)(({ theme }) => ({
-  width: '200px',
-  '& .MuiSelect-select': {
-    padding: '8px 32px 8px 12px',
-  },
-  '& .MuiSelect-icon': {
-    color: theme.palette.primary.main
-  },
-  '&.MuiOutlinedInput-root': {
-    '& .MuiOutlinedInput-notchedOutline': {
-      border: 'none',
-    },
-  },
-}))
+const CloseSidebarIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path fillRule="evenodd" clipRule="evenodd" d="M2 18C2 18.5523 2.44771 19 3 19L15.4443 19C15.9965 19 16.4443 18.5523 16.4443 18C16.4443 17.4477 15.9965 17 15.4443 17L3 17C2.44771 17 2 17.4477 2 18Z" />
+    <path fillRule="evenodd" clipRule="evenodd" d="M2 12.4453C2 12.9976 2.44771 13.4453 3 13.4453L12.111 13.4453C12.6633 13.4453 13.111 12.9976 13.111 12.4453C13.111 11.893 12.6633 11.4453 12.111 11.4453L3 11.4453C2.44772 11.4453 2 11.893 2 12.4453Z" />
+    <path fillRule="evenodd" clipRule="evenodd" d="M3 5.88965C2.44771 5.88965 2 6.33736 2 6.88965C2 7.44193 2.44771 7.88965 3 7.88965L15.4443 7.88965C15.9965 7.88965 16.4443 7.44194 16.4443 6.88965C16.4443 6.33737 15.9965 5.88965 15.4443 5.88965L3 5.88965Z" />
+    <path fillRule="evenodd" clipRule="evenodd" d="M21.293 17.2514C21.6831 16.8613 21.6835 16.2289 21.2939 15.8382L18.1622 12.6977C18.0843 12.6196 18.0843 12.4933 18.1622 12.4152L21.294 9.27473C21.6835 8.88405 21.6831 8.25164 21.293 7.8615L21.1395 7.70808C20.749 7.31756 20.1159 7.31756 19.7253 7.70808L15.5841 11.8494C15.1935 12.2399 15.1935 12.873 15.5841 13.2636L19.7253 17.4048C20.1159 17.7954 20.749 17.7954 21.1395 17.4048L21.293 17.2514Z" />
+  </svg>
+)
 
-const SelectRenderValue = ({ value, robots_settings, robotTypes }) => {
-  const theme = useTheme()
-  const selectedRobot = robots_settings.find(robot => robot.id === value)  
-
-  return (
-    <Grid container sx={{alignItems: 'center', flexDirection: 'row'}}>
-      <Typography sx={{marginRight: '12px', fontSize: '14px', color: theme.palette.primary.main, width: '100px', overflow: 'hidden'}}>{selectedRobot.name}</Typography>
-      <Grid sx={{ width: '36px', height: '36px', borderRadius: '50%', background: isLightMode(theme.palette.mode) ? '#E2E7F5' : '#38395C', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
-        <RobotTypeIcon color={'#C4C4C4'} type={selectedRobot.type} />
-      </Grid>
-    </Grid>
-  )
-}
+const OpenSidebarIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path fillRule="evenodd" clipRule="evenodd" d="M22 6C22 5.44772 21.5523 5 21 5L8.55574 5C8.00345 5 7.55574 5.44771 7.55574 6C7.55574 6.55228 8.00345 7 8.55574 7L21 7C21.5523 7 22 6.55228 22 6Z" />
+    <path fillRule="evenodd" clipRule="evenodd" d="M22 11.5547C22 11.0024 21.5523 10.5547 21 10.5547L11.889 10.5547C11.3367 10.5547 10.889 11.0024 10.889 11.5547C10.889 12.107 11.3367 12.5547 11.889 12.5547L21 12.5547C21.5523 12.5547 22 12.107 22 11.5547Z" />
+    <path fillRule="evenodd" clipRule="evenodd" d="M21 18.1104C21.5523 18.1104 22 17.6626 22 17.1104C22 16.5581 21.5523 16.1104 21 16.1104L8.55574 16.1104C8.00345 16.1104 7.55574 16.5581 7.55574 17.1104C7.55574 17.6626 8.00345 18.1104 8.55574 18.1104L21 18.1104Z" />
+    <path fillRule="evenodd" clipRule="evenodd" d="M2.70606 6.74858C2.31592 7.13871 2.31548 7.77112 2.70507 8.1618L5.83684 11.3023C5.91468 11.3804 5.91468 11.5067 5.83683 11.5848L2.70507 14.7253C2.31548 15.116 2.31592 15.7484 2.70606 16.1385L2.85948 16.2919C3.25 16.6824 3.88317 16.6824 4.27369 16.2919L8.41496 12.1506C8.80549 11.7601 8.80549 11.127 8.41496 10.7364L4.27369 6.59516C3.88317 6.20463 3.25 6.20463 2.85948 6.59516L2.70606 6.74858Z" />
+  </svg>
+)
 
 const TabStyled = styled(Tab)(({ theme }) => ({
   fontSize: '18px',
@@ -99,7 +85,7 @@ const TabStyled = styled(Tab)(({ theme }) => ({
 const Header = observer(() => {
   const {
     navigationStore: { activeTab, setActiveTab },
-    settingsStore: { robotTypes, robots_settings, currentRobotId, updateCurrentRobotId },
+    settingsStore: { showSidebar, toggleSidebar, robotsSettings, currentRobotId },
     videoPlayerStore: { onShowModal, isStreamStarted },
   } = useStore()
   const theme = useTheme()
@@ -124,55 +110,42 @@ const Header = observer(() => {
     setGuideOpen(false)
   }
 
-  const handleRobotChange = (event) => {
-    event.preventDefault()
-    const updateCurrentRobotIdCallback = () => updateCurrentRobotId(event.target.value)
-
-    if (isStreamStarted) {
-      onShowModal(updateCurrentRobotIdCallback)
-      return
-    }
-
-    updateCurrentRobotIdCallback()
-  }
+  const selectedRobot = robotsSettings.find(({id}) => id === currentRobotId)
  
   return (
-    <Grid>
+    <Grid sx={{
+      marginLeft: showSidebar ? '256px' : 0,
+      transition: theme.transitions.create(['margin'], {
+        duration: 250,
+      }),
+    }}>
       <Grid container sx={{
         alignItems: 'center',
         height: '68px',
-        padding: '0 26px 0 40px',
+        padding: '0 24px',
         backgroundColor: isLightMode(theme.palette.mode) ?  '#F7F8FF' : '#343654',
         boxShadow: isLightMode(theme.palette.mode) ? theme.palette.boxShadow.main : 'none',
       }}>
         <Grid item xs={5} container sx={{alignItems: 'center'}}>
-          <RobotSelect
-            value={currentRobotId}
-            label='Select the robot'
-            onChange={handleRobotChange}
-            notched={false}
-            MenuProps={{
-              PaperProps: {
-                sx: {
-                  bgcolor: isLightMode(theme.palette.mode) ? theme.palette.common.white : theme.palette.grey[200],
-                },
-              },
-            }}
-            renderValue={(value) => <SelectRenderValue value={value} robotTypes={robotTypes} robots_settings={robots_settings}/>}
-            IconComponent={(props) => <ExpandMore {...props}/>}
-          >
-            {robots_settings.map((robotDate) => (
-              <SelectOption key={robotDate.id} value={robotDate.id}>
-                <RobotTypeIcon color={robotDate.id === currentRobotId ? '#28BDEB' : '#C4C4C4'} type={robotDate.type} />
-                <Typography sx={{ marginLeft: '8px', fontSize: '14px' }} >{robotDate.name}</Typography>
-              </SelectOption>
-            ))}
-          </RobotSelect>
+        <IconButton
+          sx={{
+            fill: isLightMode(theme.palette.mode) ? theme.palette.blue[100] : theme.palette.common.white,
+            marginLeft: '-8px',
+          }}
+          onClick={() => toggleSidebar()}
+        >
+          {showSidebar ? <CloseSidebarIcon /> : <OpenSidebarIcon />}
+        </IconButton>
+        {selectedRobot && <Typography sx={{
+          fontSize: '18px',
+          fontWeight: theme.typography.fontWeightMedium,
+          marginLeft: '16px',
+          color: isLightMode(theme.palette.mode) ? theme.palette.blue[100] : theme.palette.common.white,
+        }}>{selectedRobot.name}</Typography>}
         </Grid>
         <Grid container item xs={2} sx={{justifyContent: 'center'}}>
           <Logo textColor={isLightMode(theme.palette.mode) ? '#0F0E9F' : theme.palette.common.white}/>
         </Grid>
-
         <Grid item xs={5} sx={{marginLeft: 'auto', width: 'auto', justifyContent: 'right', alignItems: 'center'}} container>
           <ModeSwitcher />
           <Button
@@ -191,7 +164,7 @@ const Header = observer(() => {
         </Grid>
       </Grid>
       <Grid sx={{ height: '72px' }}>       
-        <Tabs
+        {selectedRobot && <Tabs
           value={activeTab}
           onChange={handleChange}
           TabIndicatorProps={{
@@ -201,7 +174,7 @@ const Header = observer(() => {
         >
           <TabStyled value={NavigationTabs.DASHBOARD} label='Dashboard' icon={<SvgIcon component={DashboardIcon} inheritViewBox sx={{fill: 'none'}} />} iconPosition='start' />
           <TabStyled value={NavigationTabs.SETTINGS} label='Settings' icon={<SvgIcon component={SettingsIcon} inheritViewBox sx={{fill: 'none'}} />} iconPosition='start' />
-        </Tabs>
+        </Tabs>}
       </Grid>
     </Grid>
   )

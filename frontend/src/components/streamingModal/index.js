@@ -9,14 +9,13 @@ import { useStore } from '../../store'
 const StreamingModal = observer(() => {
   const {
     videoPlayerStore: { showModal, onStopStreamingConfirm, onStopStreamingCancel },
-    settingsStore: { robots_settings, currentRobotId },
+    settingsStore: { robotsSettings, currentRobotId },
   } = useStore()
   const theme = useTheme()
 
-  const robot = robots_settings.find(({id}) => id === currentRobotId)
+  const robot = robotsSettings.find(({id}) => id === currentRobotId)
 
-  return (
-    <Modal
+  return robot && <Modal
       open={showModal}
       onClose={onStopStreamingCancel}
       sx={{
@@ -47,7 +46,6 @@ const StreamingModal = observer(() => {
         </Grid>
       </Box>
     </Modal>
-  )
 })
 
 export default StreamingModal

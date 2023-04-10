@@ -261,7 +261,7 @@ export const useStyles = makeStyles()((theme, layoutName) => {
       background: 'transparent',
       '& .hg-button': {
         height: '34px',
-        backgroundColor: isLightMode(theme.palette.mode) ? '#DFE5F7' : theme.palette.grey[200],
+        backgroundColor: isLightMode(theme.palette.mode) ? theme.palette.grey[600] : theme.palette.grey[200],
         color: theme.palette.common.black,
         fontWeight: theme.typography.fontWeightMedium,
         fontFamily: theme.typography.fontFamily,

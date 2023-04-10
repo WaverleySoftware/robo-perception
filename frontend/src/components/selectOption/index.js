@@ -8,7 +8,7 @@ const SelectOption = styled(MenuItem)(({ theme }) => ({
   color: theme.palette.primary.main,
   '&.Mui-selected': {
     color: theme.palette.info.main,
-    background: isLightMode(theme.palette.mode) ? '#F7F8FC' : '#3E405E'
+    background: isLightMode(theme.palette.mode) ? theme.palette.grey[500] : theme.palette.blue[600]
   },
 }))
 

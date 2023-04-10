@@ -4,7 +4,7 @@ import { default as DefaultButton } from '@mui/material/Button'
 const Button = styled(({isLight, ...props}) => <DefaultButton {...props}/>)(({ theme, isLight }) => ({
   height: '44px',
   padding: '0 24px',
-  backgroundColor: isLight ? '#F7F8FC' : theme.palette.info.main,
+  backgroundColor: isLight ? theme.palette.grey[500] : theme.palette.info.main,
   borderRadius: '8px',
   color: isLight ? theme.palette.info.main : theme.palette.common.white,
   fontWeight: theme.typography.fontWeightMedium,
