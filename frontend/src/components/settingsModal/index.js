@@ -4,19 +4,18 @@ import { Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from '../../store'
 import Modal from '../modal'
+import { ActionModalName } from '../../store/ActionModal'
 
 const SettingsModal = observer(() => {
   const {
-    settingsStore: { showRobotSettingsModal, onSaveSettingsConfirm, onSaveSettingsCancel },
+    actionModalStore: { actionModalName, showActionModal, onConfirmActionModal, onCancelActionModal },
   } = useStore()
   const theme = useTheme()
 
   return <Modal
-    showModal={showRobotSettingsModal}
-    onCancel={onSaveSettingsCancel}
-    onConfirm={onSaveSettingsConfirm}
-    confirmButtonText='yes, I want to end streaming'
-    cancelButtonText='no, I don’t'
+    showModal={ActionModalName.SAVE_ROBOT_SETTINGS === actionModalName && showActionModal}
+    onConfirm={onConfirmActionModal}
+    onCancel={onCancelActionModal}
   >
     <Typography sx={{
       color: theme.palette.blue[100],

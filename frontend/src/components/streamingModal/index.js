@@ -4,18 +4,19 @@ import { Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from '../../store'
 import Modal from '../modal'
+import { ActionModalName } from '../../store/ActionModal'
 
 const StreamingModal = observer(() => {
   const {
-    videoPlayerStore: { showVideoStreamingModal, onStopStreamingConfirm, onStopStreamingCancel },
+    actionModalStore: { actionModalName, showActionModal, onConfirmActionModal, onCancelActionModal },
     settingsStore: { currentRobot },
   } = useStore()
   const theme = useTheme()
 
   return currentRobot && <Modal
-    showModal={showVideoStreamingModal}
-    onCancel={onStopStreamingCancel}
-    onConfirm={onStopStreamingConfirm}
+    showModal={actionModalName === ActionModalName.STREANMING && showActionModal}
+    onCancel={onCancelActionModal}
+    onConfirm={onConfirmActionModal}
     confirmButtonText='yes, I want to end streaming'
     cancelButtonText='no, I don’t'
   >

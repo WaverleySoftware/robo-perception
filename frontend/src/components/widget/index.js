@@ -4,6 +4,7 @@ import { observer } from 'mobx-react'
 import Paper from '../paper'
 import { useStore } from '../../store'
 import CloseButton from '../closeButton'
+import { ActionModalName } from '../../store/ActionModal'
 
 export const WidgetTitle = ({ children, styles }) => {
   const theme = useTheme()
@@ -29,7 +30,8 @@ const Widget = observer(({
   styles,
 }) => {
   const {
-    videoPlayerStore: { onShowVideoStreamingModal, isStreamStarted },
+    videoPlayerStore: { pause, isStreamStarted },
+    actionModalStore: { onShowActionModal },
     settingsStore: { toggleWidget, currentRobot }
   } = useStore()
 
@@ -38,7 +40,14 @@ const Widget = observer(({
     const toggleWidgetCallback = () => toggleWidget(widgetName)
 
     if(widgetName === 'screen' && isStreamStarted) {
-      onShowVideoStreamingModal(toggleWidgetCallback)
+      const actionModalConfirmCallback = () => {
+        pause()
+        toggleWidgetCallback()
+      }
+      onShowActionModal({
+        actionModalName: ActionModalName.STREANMING,
+        actionModalConfirmCallback,
+      })
       return
     }
 

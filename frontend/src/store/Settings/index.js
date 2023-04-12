@@ -103,12 +103,6 @@ class Settings {
 
   @observable showSidebar = false
 
-  @observable showRobotSettingsModal = false
-
-  @observable robotSettingsModalConfirmCallback = null
-
-  @observable robotSettingsModalCancelCallback = null
-
   @observable shouldSaveRobotSettings = false
 
   @action
@@ -143,37 +137,6 @@ class Settings {
     this.currentRobot.widgets.forEach((widget) => 
         widget.selected = widgetName === widget.name ? !widget.selected : widget.selected,
     )
-  }
-
-  @action
-  onShowRobotSettingsModal  = (confirmCallback, cancelCallback) => {
-    this.showRobotSettingsModal = true
-    if(typeof confirmCallback === 'function') {
-      this.robotSettingsModalConfirmCallback = confirmCallback
-    }
-    if(typeof cancelCallback === 'function') {
-      this.robotSettingsModalCancelCallback = cancelCallback
-    }
-  }
-
-  @action
-  onSaveSettingsConfirm = () => {
-    this.showRobotSettingsModal = false
-    if(this.robotSettingsModalConfirmCallback) {
-      this.robotSettingsModalConfirmCallback()
-      this.robotSettingsModalConfirmCallback = null
-    }
-    this.robotSettingsModalCancelCallback = null
-  }
-
-  @action
-  onSaveSettingsCancel = () => {
-    this.showRobotSettingsModal = false
-    if(this.robotSettingsModalCancelCallback) {
-      this.robotSettingsModalCancelCallback()
-      this.robotSettingsModalCancelCallback = null
-    }
-    this.robotSettingsModalConfirmCallback = null
   }
 
   @action

@@ -7,6 +7,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { useEffect, useState } from 'react'
 import { observer } from 'mobx-react'
 import { useStore } from '../../store'
+import { ActionModalName } from '../../store/ActionModal'
 
 const LocationIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -195,7 +196,8 @@ const Sidebar = observer(() => {
   const theme = useTheme()
   const {
     settingsStore: { showSidebar, robotsSettings, currentRobotId, currentRobot, updateCurrentRobotId },
-    videoPlayerStore: { onShowVideoStreamingModal, isStreamStarted },
+    videoPlayerStore: { isStreamStarted, pause },
+    actionModalStore: { onShowActionModal },
   } = useStore()
 
   const clearFilters = () => {
@@ -236,10 +238,16 @@ const Sidebar = observer(() => {
   }, [selectedLocation, currentRobot, selectedBuilding])
 
   const handleRobotChange = (id) => {
-    const updateCurrentRobotIdCallback = () => updateCurrentRobotId(id)
+    const updateCurrentRobotIdCallback = () => {
+      updateCurrentRobotId(id)
+      pause()
+    }
 
     if (isStreamStarted) {
-      onShowVideoStreamingModal(updateCurrentRobotIdCallback)
+      onShowActionModal({
+        actionModalName: ActionModalName.STREANMING,
+        actionModalConfirmCallback: updateCurrentRobotIdCallback,
+      })
       return
     }
 

@@ -4,6 +4,7 @@ import RosController from './RosController'
 import WebRTC from './WebRtc'
 import Navigation from './Navigation'
 import Settings from './Settings'
+import ActionModal from './ActionModal'
 
 class RootStore {
   constructor() {
@@ -12,6 +13,7 @@ class RootStore {
       this.webRTCStore = new WebRTC(this)
       this.navigationStore = new Navigation(this)
       this.settingsStore = new Settings(this)
+      this.actionModalStore = new ActionModal(this)
   }
 }
 

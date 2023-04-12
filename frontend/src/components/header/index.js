@@ -14,6 +14,7 @@ import ModeSwitcher from './modeSwitcher'
 import GuideModal from '../guideModal'
 import { isLightMode } from '../../themes/base'
 import { NavigationTabs } from '../../store/Navigation'
+import { ActionModalName } from '../../store/ActionModal'
 
 const Logo = ({ textColor }) => (
   <svg width="156" height="48" viewBox="0 0 156 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -85,8 +86,9 @@ const TabStyled = styled(Tab)(({ theme }) => ({
 const Header = observer(() => {
   const {
     navigationStore: { activeTab, setActiveTab },
-    settingsStore: { showSidebar, toggleSidebar, currentRobot, shouldSaveRobotSettings, onShowRobotSettingsModal },
-    videoPlayerStore: { onShowVideoStreamingModal, isStreamStarted },
+    settingsStore: { showSidebar, toggleSidebar, currentRobot, shouldSaveRobotSettings },
+    actionModalStore: { onShowActionModal },
+    videoPlayerStore: { isStreamStarted, pause },
   } = useStore()
   const theme = useTheme()
   const [guideOpen, setGuideOpen] = useState(false)
@@ -95,18 +97,29 @@ const Header = observer(() => {
     const setActiveTabCallback = () => setActiveTab(newValue)
 
     if(newValue === NavigationTabs.SETTINGS && isStreamStarted) {
-      onShowVideoStreamingModal(setActiveTabCallback)
+      const actionModalConfirmCallback = () => {
+        pause()
+        setActiveTabCallback()
+      }
+      onShowActionModal({
+        actionModalName: ActionModalName.STREANMING,
+        actionModalConfirmCallback,
+      })
       return
     }
 
     if(newValue === NavigationTabs.DASHBOARD && shouldSaveRobotSettings) {
       const saveRobotSettingsEvent = new Event('saveRobotSettings')
-      const robotSettingsModalConfirmCallback = () => {
+      const actionModalConfirmCallback = () => {
         document.dispatchEvent(saveRobotSettingsEvent)
         setActiveTabCallback()
       }
 
-      onShowRobotSettingsModal(robotSettingsModalConfirmCallback, setActiveTabCallback)
+      onShowActionModal({
+        actionModalName: ActionModalName.SAVE_ROBOT_SETTINGS,
+        actionModalCancelCallback: setActiveTabCallback,
+        actionModalConfirmCallback,
+      })
       return
     }
 
