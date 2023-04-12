@@ -5,17 +5,16 @@ import { useTheme } from '@mui/material/styles'
 import { useStore } from '../../store'
 import Modal from '../modal'
 
-const StreamingModal = observer(() => {
+const SettingsModal = observer(() => {
   const {
-    videoPlayerStore: { showVideoStreamingModal, onStopStreamingConfirm, onStopStreamingCancel },
-    settingsStore: { currentRobot },
+    settingsStore: { showRobotSettingsModal, onSaveSettingsConfirm, onSaveSettingsCancel },
   } = useStore()
   const theme = useTheme()
 
-  return currentRobot && <Modal
-    showModal={showVideoStreamingModal}
-    onCancel={onStopStreamingCancel}
-    onConfirm={onStopStreamingConfirm}
+  return <Modal
+    showModal={showRobotSettingsModal}
+    onCancel={onSaveSettingsCancel}
+    onConfirm={onSaveSettingsConfirm}
     confirmButtonText='yes, I want to end streaming'
     cancelButtonText='no, I don’t'
   >
@@ -23,8 +22,8 @@ const StreamingModal = observer(() => {
       color: theme.palette.blue[100],
       fontSize: '24px',
       marginBottom: '34px'
-    }}>Do you want to end the streaming robot<br/>[{currentRobot.name}]?</Typography>
+    }}>Do you want to save changes to the settings blocks before leaving the page?</Typography>
   </Modal>
 })
 
-export default StreamingModal
+export default SettingsModal

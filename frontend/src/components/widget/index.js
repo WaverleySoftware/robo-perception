@@ -29,8 +29,8 @@ const Widget = observer(({
   styles,
 }) => {
   const {
-    videoPlayerStore: { onShowModal, isStreamStarted },
-    settingsStore: { toggleWidget, widgets }
+    videoPlayerStore: { onShowVideoStreamingModal, isStreamStarted },
+    settingsStore: { toggleWidget, currentRobot }
   } = useStore()
 
   const handleWidgetClose = (e) => {
@@ -38,14 +38,14 @@ const Widget = observer(({
     const toggleWidgetCallback = () => toggleWidget(widgetName)
 
     if(widgetName === 'screen' && isStreamStarted) {
-      onShowModal(toggleWidgetCallback)
+      onShowVideoStreamingModal(toggleWidgetCallback)
       return
     }
 
     toggleWidgetCallback()
   }
 
-  const showWidget = widgets.find((widget) => widget.name === widgetName).selected
+  const showWidget = currentRobot?.widgets.find((widget) => widget.name === widgetName)?.selected
 
   return (
     showWidget

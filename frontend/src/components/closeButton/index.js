@@ -3,7 +3,7 @@ import { IconButton, Tooltip } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { isLightMode } from '../../themes/base'
 
-const CloseButton = ({ title, onClick }) => {
+const CloseButton = ({ title, onClick, zIndex }) => {
   const theme = useTheme()
 
   return (
@@ -14,7 +14,7 @@ const CloseButton = ({ title, onClick }) => {
           top: '16px',
           right: '16px',
           cursor: 'pointer',
-          zIndex: theme.zIndex.closeWidget,
+          zIndex: zIndex || theme.zIndex.closeWidget,
           width: '24px',
           height: '24px',
           '&:hover': {

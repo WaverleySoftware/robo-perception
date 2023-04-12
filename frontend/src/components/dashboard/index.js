@@ -18,14 +18,14 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 const Dashboard = observer(() => {
   const {
     navigationStore: { activeTab },
-    settingsStore: { widgets, currentRobotId, showSidebar },
+    settingsStore: { currentRobotId, showSidebar, currentRobot },
     rosStore: { isWSConnected, isTeleopReady },
   } = useStore()
 
   const connected = isWSConnected && isTeleopReady
-  const isBatteryWidgetSelected = widgets.find((widget) => widget.name === 'battery').selected
-  const isRobotSpeedWidgetSelected = widgets.find((widget) => widget.name === 'speed').selected
-  const isAdditionalActionsWidgetSelected = widgets.find((widget) => widget.name === 'actions').selected
+  const isBatteryWidgetSelected = currentRobot?.widgets.find((widget) => widget.name === 'battery')?.selected
+  const isRobotSpeedWidgetSelected = currentRobot?.widgets.find((widget) => widget.name === 'speed')?.selected
+  const isAdditionalActionsWidgetSelected = currentRobot?.widgets.find((widget) => widget.name === 'actions')?.selected
 
   const theme = useTheme()
   const isFullHD = useMediaQuery('(min-width:1920px)')

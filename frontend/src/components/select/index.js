@@ -6,25 +6,31 @@ import { isLightMode } from '../../themes/base'
 
 const CustomSelect = styled(DefaultSelect)(({ theme }) => ({
   borderRadius: theme.shape.formFieldBorderRadius,
-  background: isLightMode(theme.palette.mode) ? theme.palette.common.white : theme.palette.blue[300],
   height: '44px',
   '& .MuiSelect-select': {
     padding: '10px 12px',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    background: isLightMode(theme.palette.mode) ? theme.palette.common.white : theme.palette.blue[300],
+    '&.Mui-disabled': {
+      backgroundColor: isLightMode(theme.palette.mode) ? theme.palette.grey[700] : theme.palette.blue[300]
+    }
   },
   '& .MuiSelect-select > .MuiSvgIcon-root': {
-    fill: '#C4C4C4'
+    fill: theme.palette.grey[800]
   },
   '& .MuiSelect-icon': {
-    color: '#28BDEB'
+    color: theme.palette.info.main,
+    '&.Mui-disabled': {
+      color: 'transparent',
+    },
   },
   '&.MuiOutlinedInput-root': {
     '& .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#B7C0D9',
+      borderColor: theme.palette.secondary.main,
     },
     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#29BDEB',
+      borderColor: theme.palette.info.main,
     },
   },
 }))

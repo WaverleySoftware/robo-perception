@@ -28,14 +28,14 @@ const ListItemButtonCustom = styled(ListItemButton)(({ theme }) => ({
 const Widgets = observer(() => {
   const theme = useTheme()
   const {
-    settingsStore: { widgets, toggleWidget }
+    settingsStore: { currentRobot , toggleWidget }
   } = useStore()
 
   return (
     <Paper sx={{marginBottom: '16px'}}>
       <BoxTitle sx={{marginBottom: '24px'}}>Widgets</BoxTitle>
       <List sx={{padding: 0}}>
-        {widgets.map((widget) => (
+        {currentRobot?.widgets.map((widget) => (
           <ListItem disablePadding key={widget.id}>
             <ListItemButtonCustom
               selected={widget.selected}

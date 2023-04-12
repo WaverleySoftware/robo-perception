@@ -18,8 +18,8 @@ class VideoPlayer {
   @observable isPlaying = false
   @observable duration = null
   @observable buffering = false
-  @observable showModal = false
-  @observable showModalCallback = null
+  @observable showVideoStreamingModal = false
+  @observable videoStreamingModalCallback = null
 
   constructor(rootStore) {
     makeObservable(this)
@@ -211,27 +211,27 @@ class VideoPlayer {
   }
 
   @action
-  onShowModal = (callback) => {
-    this.showModal = true
+  onShowVideoStreamingModal = (callback) => {
+    this.showVideoStreamingModal = true
     if(typeof callback === 'function') {
-      this.showModalCallback = callback
+      this.videoStreamingModalCallback = callback
     }
   }
 
   @action
   onStopStreamingConfirm = async () => {
     await this.videoEl.current.pause()
-    this.showModal = false
-    if(this.showModalCallback) {
-      this.showModalCallback()
-      this.showModalCallback = null
+    this.showVideoStreamingModal = false
+    if(this.videoStreamingModalCallback) {
+      this.videoStreamingModalCallback()
+      this.videoStreamingModalCallback = null
     }
   }
 
   @action
   onStopStreamingCancel = () => {
-    this.showModal = false
-    this.showModalCallback = null
+    this.showVideoStreamingModal = false
+    this.videoStreamingModalCallback = null
   }
 }
 

@@ -85,8 +85,8 @@ const TabStyled = styled(Tab)(({ theme }) => ({
 const Header = observer(() => {
   const {
     navigationStore: { activeTab, setActiveTab },
-    settingsStore: { showSidebar, toggleSidebar, robotsSettings, currentRobotId },
-    videoPlayerStore: { onShowModal, isStreamStarted },
+    settingsStore: { showSidebar, toggleSidebar, currentRobot, shouldSaveRobotSettings, onShowRobotSettingsModal },
+    videoPlayerStore: { onShowVideoStreamingModal, isStreamStarted },
   } = useStore()
   const theme = useTheme()
   const [guideOpen, setGuideOpen] = useState(false)
@@ -95,7 +95,18 @@ const Header = observer(() => {
     const setActiveTabCallback = () => setActiveTab(newValue)
 
     if(newValue === NavigationTabs.SETTINGS && isStreamStarted) {
-      onShowModal(setActiveTabCallback)
+      onShowVideoStreamingModal(setActiveTabCallback)
+      return
+    }
+
+    if(newValue === NavigationTabs.DASHBOARD && shouldSaveRobotSettings) {
+      const saveRobotSettingsEvent = new Event('saveRobotSettings')
+      const robotSettingsModalConfirmCallback = () => {
+        document.dispatchEvent(saveRobotSettingsEvent)
+        setActiveTabCallback()
+      }
+
+      onShowRobotSettingsModal(robotSettingsModalConfirmCallback, setActiveTabCallback)
       return
     }
 
@@ -109,8 +120,6 @@ const Header = observer(() => {
   const handleGuideClose = () => {
     setGuideOpen(false)
   }
-
-  const selectedRobot = robotsSettings.find(({id}) => id === currentRobotId)
  
   return (
     <Grid sx={{
@@ -136,12 +145,12 @@ const Header = observer(() => {
         >
           {showSidebar ? <CloseSidebarIcon /> : <OpenSidebarIcon />}
         </IconButton>
-        {selectedRobot && <Typography sx={{
+        {currentRobot && <Typography sx={{
           fontSize: '18px',
           fontWeight: theme.typography.fontWeightMedium,
           marginLeft: '16px',
           color: isLightMode(theme.palette.mode) ? theme.palette.blue[100] : theme.palette.common.white,
-        }}>{selectedRobot.name}</Typography>}
+        }}>{currentRobot.name}</Typography>}
         </Grid>
         <Grid container item xs={2} sx={{justifyContent: 'center'}}>
           <Logo textColor={isLightMode(theme.palette.mode) ? '#0F0E9F' : theme.palette.common.white}/>
@@ -164,7 +173,7 @@ const Header = observer(() => {
         </Grid>
       </Grid>
       <Grid sx={{ height: '72px' }}>       
-        {selectedRobot && <Tabs
+        {currentRobot && <Tabs
           value={activeTab}
           onChange={handleChange}
           TabIndicatorProps={{

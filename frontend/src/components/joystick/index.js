@@ -79,9 +79,9 @@ const Joystick = observer(() => {
         <stop offset="1" stopColor="#BDC3D7"/>
         </linearGradient>
         <linearGradient id="paint0_linear_1976_51956" x1="175.747" y1="29.0005" x2="175.747" y2="230.001" gradientUnits="userSpaceOnUse">
-        <stop stop-color="#686A8A"/>
-        <stop offset="0.489583" stop-color="#4F5171"/>
-        <stop offset="1" stop-color="#4F5171"/>
+        <stop stopColor="#686A8A"/>
+        <stop offset="0.489583" stopColor="#4F5171"/>
+        <stop offset="1" stopColor="#4F5171"/>
         </linearGradient>
         </defs>
       </svg>
