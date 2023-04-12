@@ -15,6 +15,7 @@ import GuideModal from '../guideModal'
 import { isLightMode } from '../../themes/base'
 import { NavigationTabs } from '../../store/Navigation'
 import { ActionModalName } from '../../store/ActionModal'
+import { SAVE_ROBOT_SETTINGS_EVENT } from '../robotPropertiesSettings'
 
 const Logo = ({ textColor }) => (
   <svg width="156" height="48" viewBox="0 0 156 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -109,7 +110,7 @@ const Header = observer(() => {
     }
 
     if(newValue === NavigationTabs.DASHBOARD && shouldSaveRobotSettings) {
-      const saveRobotSettingsEvent = new Event('saveRobotSettings')
+      const saveRobotSettingsEvent = new Event(SAVE_ROBOT_SETTINGS_EVENT)
       const actionModalConfirmCallback = () => {
         document.dispatchEvent(saveRobotSettingsEvent)
         setActiveTabCallback()

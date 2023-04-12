@@ -15,6 +15,8 @@ import Paper from '../paper'
 import { useStore } from '../../store'
 import { observer } from 'mobx-react'
 
+export const SAVE_ROBOT_SETTINGS_EVENT = 'saveRobotSettingsEvent'
+
 const RobotPropertiesSettings = observer(() => {
   const { settingsStore: {
     currentRobot, robotTypes, updateRobotSettings, shouldSaveRobotSettings, updateShouldSaveRobotSettings
@@ -58,8 +60,8 @@ const RobotPropertiesSettings = observer(() => {
       sendRobotSettings()
     }
 
-    document.addEventListener('saveRobotSettings', saveRobotSettings)
-    return () => document.removeEventListener('saveRobotSettings', saveRobotSettings)
+    document.addEventListener(SAVE_ROBOT_SETTINGS_EVENT, saveRobotSettings)
+    return () => document.removeEventListener(SAVE_ROBOT_SETTINGS_EVENT, saveRobotSettings)
   }, [sendRobotSettings])
 
   const disabled = !robotName

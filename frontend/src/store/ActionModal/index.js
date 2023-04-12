@@ -29,7 +29,6 @@ class ActionModal {
 
   @action
   onConfirmActionModal = () => {
-    console.log('onConfirmActionModal');
     this.showActionModal = false
     this.actionModalName = null
     if(this.actionModalConfirmCallback) {
