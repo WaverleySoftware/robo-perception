@@ -238,15 +238,17 @@ const Sidebar = observer(() => {
   }, [selectedLocation, currentRobot, selectedBuilding])
 
   const handleRobotChange = (id) => {
-    const updateCurrentRobotIdCallback = () => {
-      updateCurrentRobotId(id)
-      pause()
-    }
+    const updateCurrentRobotIdCallback = () => updateCurrentRobotId(id)
 
     if (isStreamStarted) {
+      const actionModalConfirmCallback = () => {
+        pause()
+        updateCurrentRobotIdCallback()
+      }
+
       onShowActionModal({
         actionModalName: ActionModalName.STREANMING,
-        actionModalConfirmCallback: updateCurrentRobotIdCallback,
+        actionModalConfirmCallback,
       })
       return
     }

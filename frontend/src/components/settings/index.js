@@ -11,18 +11,19 @@ import SettingsModal from '../settingsModal'
 const Settings = observer(() => {
   const {
     navigationStore: { activeTab },
+    settingsStore: { currentRobot }
   } = useStore()
 
   return (
     <TabPanel activeTab={activeTab} value={NavigationTabs.SETTINGS}>
-      <Grid sx={{ maxWidth: '900px', margin: '0 auto' }} container spacing={2}>
+      {currentRobot && <Grid sx={{ maxWidth: '900px', margin: '0 auto' }} container spacing={2}>
         <Grid item xs={8}>
           <RobotPropertiesSettings />
         </Grid>
         <Grid item xs={4}>
           <Widgets />
         </Grid>
-      </Grid>
+      </Grid>}
       <SettingsModal />
     </TabPanel>
   )
