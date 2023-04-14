@@ -241,8 +241,8 @@ const Sidebar = observer(() => {
     const updateCurrentRobotIdCallback = () => updateCurrentRobotId(id)
 
     if (isStreamStarted) {
-      const actionModalConfirmCallback = () => {
-        pause()
+      const actionModalConfirmCallback = async () => {
+        await pause()
         updateCurrentRobotIdCallback()
       }
 

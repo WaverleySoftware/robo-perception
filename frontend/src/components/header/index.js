@@ -98,8 +98,8 @@ const Header = observer(() => {
     const setActiveTabCallback = () => setActiveTab(newValue)
 
     if(newValue === NavigationTabs.SETTINGS && isStreamStarted) {
-      const actionModalConfirmCallback = () => {
-        pause()
+      const actionModalConfirmCallback = async () => {
+        await pause()
         setActiveTabCallback()
       }
       onShowActionModal({

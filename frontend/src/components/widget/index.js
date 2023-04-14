@@ -40,8 +40,8 @@ const Widget = observer(({
     const toggleWidgetCallback = () => toggleWidget(widgetName)
 
     if(widgetName === 'screen' && isStreamStarted) {
-      const actionModalConfirmCallback = () => {
-        pause()
+      const actionModalConfirmCallback = async () => {
+        await pause()
         toggleWidgetCallback()
       }
       onShowActionModal({

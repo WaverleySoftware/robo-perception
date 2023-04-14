@@ -28,22 +28,22 @@ class ActionModal {
   }
 
   @action
-  onConfirmActionModal = () => {
+  onConfirmActionModal = async () => {
     this.showActionModal = false
     this.actionModalName = null
     if(this.actionModalConfirmCallback) {
-      this.actionModalConfirmCallback()
+      await this.actionModalConfirmCallback()
       this.actionModalConfirmCallback = null
     }
     this.actionModalCancelCallback = null
   }
 
   @action
-  onCancelActionModal = () => {
+  onCancelActionModal = async () => {
     this.showActionModal = false
     this.actionModalName = null
     if(this.actionModalCancelCallback) {
-      this.actionModalCancelCallback()
+      await this.actionModalCancelCallback()
       this.actionModalCancelCallback = null
     }
     this.actionModalConfirmCallback = null
