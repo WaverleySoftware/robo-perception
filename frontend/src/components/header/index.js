@@ -16,6 +16,7 @@ import { isLightMode } from '../../themes/base'
 import { NavigationTabs } from '../../store/Navigation'
 import { ActionModalName } from '../../store/ActionModal'
 import { SAVE_ROBOT_SETTINGS_EVENT } from '../robotPropertiesSettings'
+import { delay } from '../../util'
 
 const Logo = ({ textColor }) => (
   <svg width="156" height="48" viewBox="0 0 156 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -100,7 +101,7 @@ const Header = observer(() => {
     if(newValue === NavigationTabs.SETTINGS && isStreamStarted) {
       const actionModalConfirmCallback = async () => {
         await pause()
-        setActiveTabCallback()
+        await delay(setActiveTabCallback, 200)
       }
       onShowActionModal({
         actionModalName: ActionModalName.STREANMING,

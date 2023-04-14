@@ -5,6 +5,7 @@ import Paper from '../paper'
 import { useStore } from '../../store'
 import CloseButton from '../closeButton'
 import { ActionModalName } from '../../store/ActionModal'
+import { delay } from '../../util'
 
 export const WidgetTitle = ({ children, styles }) => {
   const theme = useTheme()
@@ -42,7 +43,7 @@ const Widget = observer(({
     if(widgetName === 'screen' && isStreamStarted) {
       const actionModalConfirmCallback = async () => {
         await pause()
-        toggleWidgetCallback()
+        await delay(toggleWidgetCallback, 200)
       }
       onShowActionModal({
         actionModalName: ActionModalName.STREANMING,
