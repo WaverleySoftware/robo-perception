@@ -19,10 +19,10 @@ class ActionModal {
   onShowActionModal  = ({ actionModalName, actionModalConfirmCallback, actionModalCancelCallback }) => {
     this.actionModalName = actionModalName
     this.showActionModal = true
-    if(typeof actionModalConfirmCallback === 'function') {
+    if (typeof actionModalConfirmCallback === 'function') {
       this.actionModalConfirmCallback = actionModalConfirmCallback
     }
-    if(typeof actionModalCancelCallback === 'function') {
+    if (typeof actionModalCancelCallback === 'function') {
       this.actionModalCancelCallback = actionModalCancelCallback
     }
   }
@@ -31,7 +31,7 @@ class ActionModal {
   onConfirmActionModal = async () => {
     this.showActionModal = false
     this.actionModalName = null
-    if(this.actionModalConfirmCallback) {
+    if (this.actionModalConfirmCallback) {
       await this.actionModalConfirmCallback()
       this.actionModalConfirmCallback = null
     }
@@ -42,7 +42,7 @@ class ActionModal {
   onCancelActionModal = async () => {
     this.showActionModal = false
     this.actionModalName = null
-    if(this.actionModalCancelCallback) {
+    if (this.actionModalCancelCallback) {
       await this.actionModalCancelCallback()
       this.actionModalCancelCallback = null
     }

@@ -15,7 +15,7 @@ export function formatTime(d, timeFormat) {
 }
 
 export async function delay(cb, time) {
-  return new Promise(function(resolve, _reject) {
+  return new Promise((resolve, _reject) => {
     setTimeout(() => {
       resolve(cb())
     }, time)

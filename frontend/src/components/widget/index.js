@@ -6,6 +6,7 @@ import { useStore } from '../../store'
 import CloseButton from '../closeButton'
 import { ActionModalName } from '../../store/ActionModal'
 import { delay } from '../../util'
+import { checkWidgetSelected, WidgetName } from '../../store/Settings'
 
 export const WidgetTitle = ({ children, styles }) => {
   const theme = useTheme()
@@ -40,7 +41,7 @@ const Widget = observer(({
     e.preventDefault()
     const toggleWidgetCallback = () => toggleWidget(widgetName)
 
-    if(widgetName === 'screen' && isStreamStarted) {
+    if (widgetName === WidgetName.SCREEN && isStreamStarted) {
       const actionModalConfirmCallback = async () => {
         await pause()
         await delay(toggleWidgetCallback, 200)
@@ -55,7 +56,7 @@ const Widget = observer(({
     toggleWidgetCallback()
   }
 
-  const showWidget = currentRobot?.widgets.find((widget) => widget.name === widgetName)?.selected
+  const showWidget = checkWidgetSelected(currentRobot, widgetName)
 
   return (
     showWidget

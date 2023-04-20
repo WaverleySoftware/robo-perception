@@ -1,5 +1,16 @@
 import { observable, action, makeObservable, computed } from 'mobx'
 
+export const WidgetName = {
+  SCREEN: 'screen',
+  BATTERY: 'battery',
+  SPEED: 'speed',
+  ACTIONS: 'actions',
+}
+
+export const checkWidgetSelected = (robot, widgetName) => {
+  return robot?.widgets.find((widget) => widget.name === widgetName)?.selected
+}
+
 class Settings {
   constructor() {
     makeObservable(this)
@@ -10,13 +21,6 @@ class Settings {
 
     this.showSidebar = window.outerWidth >= 1920
   }
-
-  @observable widgets = [
-    { label: 'Screen', name: 'screen', id: '1', selected: true },
-    { label: 'Battery', name: 'battery', id: '2', selected: true },
-    { label: 'Robot\'s Speed', name: 'speed', id: '3', selected: true },
-    { label: 'Additional actions', name: 'actions', id: '4', selected: true },
-  ]
 
   @observable robotTypes = [
     { label: 'Legged', id: '1' },
@@ -33,10 +37,10 @@ class Settings {
     location: 'Ukraine',
     building: 'Building A1',
     widgets: [
-      { label: 'Screen', name: 'screen', id: '1', selected: true },
-      { label: 'Battery', name: 'battery', id: '2', selected: true },
-      { label: 'Robot\'s Speed', name: 'speed', id: '3', selected: true },
-      { label: 'Additional actions', name: 'actions', id: '4', selected: true },
+      { label: 'Screen', name: WidgetName.SCREEN, id: '1', selected: true },
+      { label: 'Battery', name: WidgetName.BATTERY, id: '2', selected: true },
+      { label: 'Robot\'s Speed', name: WidgetName.SPEED, id: '3', selected: true },
+      { label: 'Additional actions', name: WidgetName.ACTIONS, id: '4', selected: true },
     ],
   }, {
     id: 2,
@@ -48,9 +52,9 @@ class Settings {
     location: 'USA',
     building: 'Building A2',
     widgets: [
-      { label: 'Screen', name: 'screen', id: '1', selected: true },
-      { label: 'Battery', name: 'battery', id: '2', selected: true },
-      { label: 'Additional actions', name: 'actions', id: '4', selected: true },
+      { label: 'Screen', name: WidgetName.SCREEN, id: '1', selected: true },
+      { label: 'Battery', name: WidgetName.BATTERY, id: '2', selected: true },
+      { label: 'Additional actions', name: WidgetName.ACTIONS, id: '4', selected: true },
     ],
   }, {
     id: 3,
@@ -62,10 +66,10 @@ class Settings {
     location: 'Ukraine',
     building: 'Building B1',
     widgets: [
-      { label: 'Screen', name: 'screen', id: '1', selected: true },
-      { label: 'Battery', name: 'battery', id: '2', selected: true },
-      { label: 'Robot\'s Speed', name: 'speed', id: '3', selected: true },
-      { label: 'Additional actions', name: 'actions', id: '4', selected: true },
+      { label: 'Screen', name: WidgetName.SCREEN, id: '1', selected: true },
+      { label: 'Battery', name: WidgetName.BATTERY, id: '2', selected: true },
+      { label: 'Robot\'s Speed', name: WidgetName.SPEED, id: '3', selected: true },
+      { label: 'Additional actions', name: WidgetName.ACTIONS, id: '4', selected: true },
     ],
   }, {
     id: 4,
@@ -77,9 +81,9 @@ class Settings {
     location: 'Ukraine',
     building: 'Building B1',
     widgets: [
-      { label: 'Screen', name: 'screen', id: '1', selected: true },
-      { label: 'Battery', name: 'battery', id: '2', selected: true },
-      { label: 'Robot\'s Speed', name: 'speed', id: '3', selected: true },
+      { label: 'Screen', name: WidgetName.SCREEN, id: '1', selected: true },
+      { label: 'Battery', name: WidgetName.BATTERY, id: '2', selected: true },
+      { label: 'Robot\'s Speed', name: WidgetName.SPEED, id: '3', selected: true },
     ],
   },{
     id: 5,
@@ -91,9 +95,9 @@ class Settings {
     location: 'Ukraine',
     building: 'Building C',
     widgets: [
-      { label: 'Battery', name: 'battery', id: '2', selected: true },
-      { label: 'Robot\'s Speed', name: 'speed', id: '3', selected: true },
-      { label: 'Additional actions', name: 'actions', id: '4', selected: true },
+      { label: 'Battery', name: WidgetName.BATTERY, id: '2', selected: true },
+      { label: 'Robot\'s Speed', name: WidgetName.SPEED, id: '3', selected: true },
+      { label: 'Additional actions', name: WidgetName.ACTIONS, id: '4', selected: true },
     ],
   },]
 
