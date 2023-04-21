@@ -33,6 +33,8 @@ export const getColorModeSettings = (mode = lightMode) => ({
       400: '#F8F9FD',
       500: '#F7F8FC',
       600: '#DFE5F7',
+      700: '#EBEFFA',
+      800: '#C4C4C4',
     },
     blue: {
       100: '#142236',

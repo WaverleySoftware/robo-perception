@@ -7,6 +7,8 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { useEffect, useState } from 'react'
 import { observer } from 'mobx-react'
 import { useStore } from '../../store'
+import { ActionModalName } from '../../store/ActionModal'
+import { delay } from '../../util'
 
 const LocationIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -194,11 +196,10 @@ const Sidebar = observer(() => {
   const [selectedBuilding, setSelectedBuilding] = useState(null)
   const theme = useTheme()
   const {
-    settingsStore: { showSidebar, robotsSettings, currentRobotId, updateCurrentRobotId },
-    videoPlayerStore: { onShowModal, isStreamStarted },
+    settingsStore: { showSidebar, robotsSettings, currentRobotId, currentRobot, updateCurrentRobotId },
+    videoPlayerStore: { isStreamStarted, pause },
+    actionModalStore: { onShowActionModal },
   } = useStore()
-
-  const robot = robotsSettings.find(({id}) => id === currentRobotId)
 
   const clearFilters = () => {
     setSelectedLocation(null)
@@ -213,14 +214,14 @@ const Sidebar = observer(() => {
 
     setLocations(uniqueLocations)
 
-    if(robot) {
-      setSelectedLocation(robot.location)
-      setSelectedBuilding(robot.building)
+    if(currentRobot) {
+      setSelectedLocation(currentRobot.location)
+      setSelectedBuilding(currentRobot.building)
     }
   }, [])
 
   useEffect(() => {
-    const currentLocation = selectedLocation || robot?.location
+    const currentLocation = selectedLocation || currentRobot?.location
     const uniqueBuildings = currentLocation
       ? robotsSettings
         .filter(({location}) => location === currentLocation)
@@ -230,18 +231,26 @@ const Sidebar = observer(() => {
     
     setBuildings(uniqueBuildings)
 
-    const currentBuilding = selectedBuilding || robot?.building
+    const currentBuilding = selectedBuilding || currentRobot?.building
 
     if (uniqueBuildings.indexOf(currentBuilding) < 0) {
       setSelectedBuilding(null)
     }
-  }, [selectedLocation, robot, selectedBuilding])
+  }, [selectedLocation, currentRobot, selectedBuilding])
 
   const handleRobotChange = (id) => {
     const updateCurrentRobotIdCallback = () => updateCurrentRobotId(id)
 
     if (isStreamStarted) {
-      onShowModal(updateCurrentRobotIdCallback)
+      const actionModalConfirmCallback = async () => {
+        await pause()
+        await delay(updateCurrentRobotIdCallback, 200)
+      }
+
+      onShowActionModal({
+        actionModalName: ActionModalName.STREANMING,
+        actionModalConfirmCallback,
+      })
       return
     }
 

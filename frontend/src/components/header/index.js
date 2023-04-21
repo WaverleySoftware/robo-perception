@@ -14,6 +14,9 @@ import ModeSwitcher from './modeSwitcher'
 import GuideModal from '../guideModal'
 import { isLightMode } from '../../themes/base'
 import { NavigationTabs } from '../../store/Navigation'
+import { ActionModalName } from '../../store/ActionModal'
+import { SAVE_ROBOT_SETTINGS_EVENT } from '../robotPropertiesSettings'
+import { delay } from '../../util'
 
 const Logo = ({ textColor }) => (
   <svg width="156" height="48" viewBox="0 0 156 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -85,8 +88,9 @@ const TabStyled = styled(Tab)(({ theme }) => ({
 const Header = observer(() => {
   const {
     navigationStore: { activeTab, setActiveTab },
-    settingsStore: { showSidebar, toggleSidebar, robotsSettings, currentRobotId },
-    videoPlayerStore: { onShowModal, isStreamStarted },
+    settingsStore: { showSidebar, toggleSidebar, currentRobot, shouldSaveRobotSettings },
+    actionModalStore: { onShowActionModal },
+    videoPlayerStore: { isStreamStarted, pause },
   } = useStore()
   const theme = useTheme()
   const [guideOpen, setGuideOpen] = useState(false)
@@ -95,7 +99,29 @@ const Header = observer(() => {
     const setActiveTabCallback = () => setActiveTab(newValue)
 
     if(newValue === NavigationTabs.SETTINGS && isStreamStarted) {
-      onShowModal(setActiveTabCallback)
+      const actionModalConfirmCallback = async () => {
+        await pause()
+        await delay(setActiveTabCallback, 200)
+      }
+      onShowActionModal({
+        actionModalName: ActionModalName.STREANMING,
+        actionModalConfirmCallback,
+      })
+      return
+    }
+
+    if(newValue === NavigationTabs.DASHBOARD && shouldSaveRobotSettings) {
+      const saveRobotSettingsEvent = new Event(SAVE_ROBOT_SETTINGS_EVENT)
+      const actionModalConfirmCallback = () => {
+        document.dispatchEvent(saveRobotSettingsEvent)
+        setActiveTabCallback()
+      }
+
+      onShowActionModal({
+        actionModalName: ActionModalName.SAVE_ROBOT_SETTINGS,
+        actionModalCancelCallback: setActiveTabCallback,
+        actionModalConfirmCallback,
+      })
       return
     }
 
@@ -109,8 +135,6 @@ const Header = observer(() => {
   const handleGuideClose = () => {
     setGuideOpen(false)
   }
-
-  const selectedRobot = robotsSettings.find(({id}) => id === currentRobotId)
  
   return (
     <Grid sx={{
@@ -136,12 +160,12 @@ const Header = observer(() => {
         >
           {showSidebar ? <CloseSidebarIcon /> : <OpenSidebarIcon />}
         </IconButton>
-        {selectedRobot && <Typography sx={{
+        {currentRobot && <Typography sx={{
           fontSize: '18px',
           fontWeight: theme.typography.fontWeightMedium,
           marginLeft: '16px',
           color: isLightMode(theme.palette.mode) ? theme.palette.blue[100] : theme.palette.common.white,
-        }}>{selectedRobot.name}</Typography>}
+        }}>{currentRobot.name}</Typography>}
         </Grid>
         <Grid container item xs={2} sx={{justifyContent: 'center'}}>
           <Logo textColor={isLightMode(theme.palette.mode) ? '#0F0E9F' : theme.palette.common.white}/>
@@ -164,7 +188,7 @@ const Header = observer(() => {
         </Grid>
       </Grid>
       <Grid sx={{ height: '72px' }}>       
-        {selectedRobot && <Tabs
+        {currentRobot && <Tabs
           value={activeTab}
           onChange={handleChange}
           TabIndicatorProps={{

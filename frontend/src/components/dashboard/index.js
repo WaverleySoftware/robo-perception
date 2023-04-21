@@ -14,18 +14,19 @@ import { NavigationTabs } from '../../store/Navigation'
 import { useTheme } from '@mui/material/styles'
 import { isLightMode } from '../../themes/base'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import { checkWidgetSelected, WidgetName } from '../../store/Settings'
 
 const Dashboard = observer(() => {
   const {
     navigationStore: { activeTab },
-    settingsStore: { widgets, currentRobotId, showSidebar },
+    settingsStore: { currentRobotId, showSidebar, currentRobot },
     rosStore: { isWSConnected, isTeleopReady },
   } = useStore()
 
   const connected = isWSConnected && isTeleopReady
-  const isBatteryWidgetSelected = widgets.find((widget) => widget.name === 'battery').selected
-  const isRobotSpeedWidgetSelected = widgets.find((widget) => widget.name === 'speed').selected
-  const isAdditionalActionsWidgetSelected = widgets.find((widget) => widget.name === 'actions').selected
+  const isBatteryWidgetSelected = checkWidgetSelected(currentRobot, WidgetName.BATTERY)
+  const isRobotSpeedWidgetSelected = checkWidgetSelected(currentRobot, WidgetName.SPEED)
+  const isAdditionalActionsWidgetSelected = checkWidgetSelected(currentRobot, WidgetName.ACTIONS)
 
   const theme = useTheme()
   const isFullHD = useMediaQuery('(min-width:1920px)')

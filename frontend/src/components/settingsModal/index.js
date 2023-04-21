@@ -6,26 +6,23 @@ import { useStore } from '../../store'
 import Modal from '../modal'
 import { ActionModalName } from '../../store/ActionModal'
 
-const StreamingModal = observer(() => {
+const SettingsModal = observer(() => {
   const {
     actionModalStore: { actionModalName, showActionModal, onConfirmActionModal, onCancelActionModal },
-    settingsStore: { currentRobot },
   } = useStore()
   const theme = useTheme()
 
-  return currentRobot && <Modal
-    showModal={actionModalName === ActionModalName.STREANMING && showActionModal}
-    onCancel={onCancelActionModal}
+  return <Modal
+    showModal={ActionModalName.SAVE_ROBOT_SETTINGS === actionModalName && showActionModal}
     onConfirm={onConfirmActionModal}
-    confirmButtonText='yes, I want to end streaming'
-    cancelButtonText='no, I don’t'
+    onCancel={onCancelActionModal}
   >
     <Typography sx={{
       color: theme.palette.blue[100],
       fontSize: '24px',
       marginBottom: '34px'
-    }}>Do you want to end the streaming robot<br/>[{currentRobot.name}]?</Typography>
+    }}>Do you want to save changes to the settings blocks before leaving the page?</Typography>
   </Modal>
 })
 
-export default StreamingModal
+export default SettingsModal
