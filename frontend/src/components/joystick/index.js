@@ -50,24 +50,51 @@ const buttonState = {
   [ButtonLabel.RT]: false,
 }
 
-const axisState = {
-  LeftStickX: 0,
-  LeftStickY: 0,
-  RightStickX: 0,
-  RightStickY: 0,
+const AxisLabel = {
+  LeftStickX: 'LeftStickX',
+  LeftStickY: 'LeftStickY',
+  RightStickX: 'RightStickX',
+  RightStickY: 'RightStickY',
 }
+
+const axisState = {
+  [AxisLabel.LeftStickX]: 0,
+  [AxisLabel.LeftStickY]: 0,
+  [AxisLabel.RightStickX]: 0,
+  [AxisLabel.RightStickY]: 0,
+}
+
+const axisButtonL3 = 'l3'
+const axisButtonR3 = 'r3'
+
+const AxisMoveRadius = 10
 
 const Joystick = observer(() => {
   const [buttons, setButtons] = useState(buttonState)
   const [axis, setAxis] = useState(axisState)
+  const [axisButtonPressed, setAxisButtonPressed] = useState('')
+  const [axisShift, setAxisShift] = useState([0,0])
   const theme = useTheme()
   const { classes } = useStyles()
   
   const handleClickEvent = (event) => {
     const { target } = event
     const buttonName = target.dataset.button
+    const isMouseDownEvent = event.type === 'mousedown'
     if (buttonName in buttons) {
-      setButtons((currentButtonsState) => ({...currentButtonsState, [buttonName]: event.type === 'mousedown'}))
+      setButtons((currentButtonsState) => ({...currentButtonsState, [buttonName]: isMouseDownEvent}))
+    } else {
+      if(buttonName === axisButtonL3 || buttonName === axisButtonR3) {
+        setAxisButtonPressed(isMouseDownEvent ? buttonName : '')
+        if (!isMouseDownEvent) {
+          setAxis((currentAxisState) => ({
+            ...currentAxisState,
+            [buttonName === axisButtonL3 ? AxisLabel.LeftStickX : AxisLabel.RightStickX]: 0,
+            [buttonName === axisButtonL3 ? AxisLabel.LeftStickY : AxisLabel.RightStickY]: 0
+          }))
+        }
+        setAxisShift([event.pageX, event.pageY])
+      }
     }
   }
   
@@ -84,6 +111,33 @@ const Joystick = observer(() => {
   const axisChangeHandler = (axisName, value) => {
     if (axisName in axis) {
       setAxis((currentAxisState) => ({...currentAxisState, [axisName]: value}))
+    }
+  }
+
+  const axisMoveHandler = (e) => {
+    if(axisButtonPressed) {
+      const buttonName = e.target.dataset.button
+      let shiftX = e.pageX - axisShift[0]
+      let shiftY = axisShift[1] - e.pageY
+      if (Math.abs(shiftX) > AxisMoveRadius) {
+        shiftX = shiftX < 0 ? -AxisMoveRadius : AxisMoveRadius
+      }
+      if (Math.abs(shiftY) > AxisMoveRadius) {
+        shiftY = shiftY < 0 ? -AxisMoveRadius : AxisMoveRadius
+      }
+      // calculate distance between center of the circle and current cursor position
+      const d = Math.sqrt(Math.pow(shiftX, 2) + Math.pow(shiftY, 2))
+
+      // if the distance is bigger than radius of the circle we need to find the coordinates of the dot on a circle
+      if (d > AxisMoveRadius) {
+        shiftX = shiftX / d * AxisMoveRadius
+        shiftY = shiftY / d * AxisMoveRadius
+      }
+      setAxis((currentAxisState) => ({
+        ...currentAxisState,
+        [buttonName === axisButtonL3 ? AxisLabel.LeftStickX : AxisLabel.RightStickX]: shiftX / AxisMoveRadius,
+        [buttonName === axisButtonL3 ? AxisLabel.LeftStickY : AxisLabel.RightStickY]: shiftY / AxisMoveRadius,
+      }))
     }
   }
 
@@ -108,15 +162,17 @@ const Joystick = observer(() => {
           <path d="M133.564 198C151.79 198 166.564 183.225 166.564 165C166.564 146.775 151.79 132 133.564 132C115.339 132 100.564 146.775 100.564 165C100.564 183.225 115.339 198 133.564 198Z" fill={fillColor} stroke="#B7C0D9" strokeWidth="2" strokeMiterlimit="10"/>
           <path d="M213.564 198C231.79 198 246.564 183.225 246.564 165C246.564 146.775 231.79 132 213.564 132C195.339 132 180.564 146.775 180.564 165C180.564 183.225 195.339 198 213.564 198Z" fill={fillColor} stroke="#B7C0D9" strokeWidth="2" strokeMiterlimit="10"/>
           <path
-            data-button="l3"
-            style={{ transform: `translate(${10 * axis.LeftStickX}px, ${10 * -axis.LeftStickY}px)`, cursor: 'grab'}}
-            className={classNames({ 'active': axis.LeftStickX || axis.LeftStickY})}
+            data-button={axisButtonL3}
+            style={{ transform: `translate(${AxisMoveRadius * axis.LeftStickX}px, ${AxisMoveRadius * -axis.LeftStickY}px)`, cursor: 'grab'}}
+            className={classNames({ 'active': axis.LeftStickX || axis.LeftStickY || axisButtonPressed === axisButtonL3 })}
+            onMouseMove={axisMoveHandler}
             d="M157.564 165C157.564 178.255 146.819 189 133.564 189C120.31 189 109.564 178.255 109.564 165C109.564 151.745 120.31 141 133.564 141C146.819 141 157.564 151.745 157.564 165Z" stroke={strokeColor} strokeWidth="2" fill={fillColor}
           />
           <path
-            data-button="r3"
-            style={{ transform: `translate(${10 * axis.RightStickX}px, ${10 * -axis.RightStickY}px)`, cursor: 'grab' }}
-            className={classNames({ 'active': axis.RightStickX || axis.RightStickY})}
+            data-button={axisButtonR3}
+            style={{ transform: `translate(${AxisMoveRadius * axis.RightStickX}px, ${AxisMoveRadius * -axis.RightStickY}px)`, cursor: 'grab' }}
+            className={classNames({ 'active': axis.RightStickX || axis.RightStickY || axisButtonPressed === axisButtonR3})}
+            onMouseMove={axisMoveHandler}
             d="M237.564 165C237.564 178.255 226.819 189 213.564 189C200.31 189 189.564 178.255 189.564 165C189.564 151.745 200.31 141 213.564 141C226.819 141 237.564 151.745 237.564 165Z" stroke={strokeColor} strokeWidth="2" fill={fillColor}/>
           <path d="M231.775 52.5134C231.775 48.9161 228.859 46 225.261 46C221.664 46 218.748 48.9161 218.748 52.5134V63.8593C218.748 67.4566 221.664 70.3727 225.261 70.3727C228.859 70.3727 231.775 67.4566 231.775 63.8593V52.5134Z" stroke="#B7C0D9" strokeWidth="2" strokeMiterlimit="10"/>
           <path d="M132.775 52.5134C132.775 48.9161 129.859 46 126.261 46C122.664 46 119.748 48.9161 119.748 52.5134V63.8593C119.748 67.4566 122.664 70.3727 126.261 70.3727C129.859 70.3727 132.775 67.4566 132.775 63.8593V52.5134Z" stroke="#B7C0D9" strokeWidth="2" strokeMiterlimit="10"/>
