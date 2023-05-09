@@ -69,6 +69,16 @@ const axisButtonR3 = 'r3'
 
 const AxisMoveRadius = 10
 
+const normalizeShift = (shift) => {
+  if (Math.abs(shift) > AxisMoveRadius) {
+    return shift < 0 ? -AxisMoveRadius : AxisMoveRadius
+  }
+  return shift
+}
+
+const getStickXLabel = (buttonName) => buttonName === axisButtonL3 ? AxisLabel.LeftStickX : AxisLabel.RightStickX
+const getStickYLabel = (buttonName) => buttonName === axisButtonL3 ? AxisLabel.LeftStickY : AxisLabel.RightStickY
+
 const Joystick = observer(() => {
   const [buttons, setButtons] = useState(buttonState)
   const [axis, setAxis] = useState(axisState)
@@ -84,13 +94,13 @@ const Joystick = observer(() => {
     if (buttonName in buttons) {
       setButtons((currentButtonsState) => ({...currentButtonsState, [buttonName]: isMouseDownEvent}))
     } else {
-      if(buttonName === axisButtonL3 || buttonName === axisButtonR3) {
+      if (buttonName === axisButtonL3 || buttonName === axisButtonR3) {
         setAxisButtonPressed(isMouseDownEvent ? buttonName : '')
         if (!isMouseDownEvent) {
           setAxis((currentAxisState) => ({
             ...currentAxisState,
-            [buttonName === axisButtonL3 ? AxisLabel.LeftStickX : AxisLabel.RightStickX]: 0,
-            [buttonName === axisButtonL3 ? AxisLabel.LeftStickY : AxisLabel.RightStickY]: 0
+            [getStickXLabel(buttonName)]: 0,
+            [getStickYLabel(buttonName)]: 0
           }))
         }
         setAxisShift([event.pageX, event.pageY])
@@ -115,16 +125,13 @@ const Joystick = observer(() => {
   }
 
   const axisMoveHandler = (e) => {
-    if(axisButtonPressed) {
+    if (axisButtonPressed) {
       const buttonName = e.target.dataset.button
       let shiftX = e.pageX - axisShift[0]
       let shiftY = axisShift[1] - e.pageY
-      if (Math.abs(shiftX) > AxisMoveRadius) {
-        shiftX = shiftX < 0 ? -AxisMoveRadius : AxisMoveRadius
-      }
-      if (Math.abs(shiftY) > AxisMoveRadius) {
-        shiftY = shiftY < 0 ? -AxisMoveRadius : AxisMoveRadius
-      }
+
+      shiftX = normalizeShift(shiftX)
+      shiftY = normalizeShift(shiftY)
       // calculate distance between center of the circle and current cursor position
       const d = Math.sqrt(Math.pow(shiftX, 2) + Math.pow(shiftY, 2))
 
@@ -135,8 +142,8 @@ const Joystick = observer(() => {
       }
       setAxis((currentAxisState) => ({
         ...currentAxisState,
-        [buttonName === axisButtonL3 ? AxisLabel.LeftStickX : AxisLabel.RightStickX]: shiftX / AxisMoveRadius,
-        [buttonName === axisButtonL3 ? AxisLabel.LeftStickY : AxisLabel.RightStickY]: shiftY / AxisMoveRadius,
+        [getStickXLabel(buttonName)]: shiftX / AxisMoveRadius,
+        [getStickYLabel(buttonName)]: shiftY / AxisMoveRadius,
       }))
     }
   }
